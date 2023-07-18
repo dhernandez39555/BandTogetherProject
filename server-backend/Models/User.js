@@ -10,7 +10,11 @@ const User = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
+            required: true
+        },
+        bandName: {
+            type: String,
+            required: true
         },
         contactName: {
             type: String,
