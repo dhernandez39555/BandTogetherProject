@@ -13,10 +13,6 @@ const Message = new mongoose.Schema(
             ref: 'user',
             required: true
         },
-        subject: {
-            type: String,
-            required: true
-        },
         body: {
             type: String,
             required: true
