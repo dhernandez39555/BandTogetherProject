@@ -1,4 +1,5 @@
 const router=require("express").Router()
+
 //Import message and user models and track user
 
 router.get("/readAllFrom/:user_id", async (req,res)=>{
@@ -81,3 +82,4 @@ router.delete("/deleteAt/:_id", async (req,res)=>{
         // })
     }
 })
+module.exports=router
