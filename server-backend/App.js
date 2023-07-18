@@ -11,9 +11,13 @@ const JWT_KEY=process.env.JWT_KEY
 const HOST=process.env.HOST||"127.0.0.1"
 const PORT=process.env.PORT||4000
 
+const messageController=require("./Controllers/Message")
+
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
+
+app.use("/message",messageController)
 
 app.get("/", (req, res) => {
     const user = new User({
