@@ -12,12 +12,14 @@ const HOST=process.env.HOST||"127.0.0.1"
 const PORT=process.env.PORT||4000
 
 const authController = require("./Controllers/Auth")
+const postController = require("./Controllers/Post")
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
 app.use("/auth", authController)
+app.use("/post", postController)
 
 app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
