@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt")
 const SALT = Number(process.env.SALT)
 const JWT_KEY = process.env.JWT_KEY
 
-router.get("/register", async (req, res) => {
+router.post("/register", async (req, res) => {
     try {
     const { email, password, contactName, location, genre,
         additionGenre, bio, following, follower, friendList, 
