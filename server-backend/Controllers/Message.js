@@ -6,6 +6,7 @@ const User=require("../Models/User")
 //make currentUser have a value through token auth
 //get latest post in each convo
 
+
 router.get("/readLatestFrom/:contactName", async (req,res)=>{
     try{
         const { contactName }=req.params
