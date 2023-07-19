@@ -18,9 +18,6 @@ const Event = new mongoose.Schema (
         body: {
             type: String,
             required: true
-        },
-        likes:{
-            type: Number
         }
     },
     {timestamps: true }
