@@ -1,7 +1,10 @@
 const router=require("express").Router()
 const Message=require("../Models/Message")
+const User=require("../Models/User")
 
 //Import message and user models and track user
+//make currentUser have a value through token auth
+//
 
 router.get("/readAllFrom/:user_id", async (req,res)=>{
     try{
