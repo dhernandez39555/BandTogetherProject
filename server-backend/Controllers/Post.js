@@ -4,7 +4,7 @@ const Post = require("../Models/Post")
 router.post("/create", async (req, res) => {
     try {
         const { user, title, body, likes } = req.body 
-
+        
         if (!user || !title || !body) throw Error("Please, provide all necessary information.")
 
         const newPost = new Post({ user, title, body, likes })
@@ -44,7 +44,7 @@ router.put("/update/:id", async (req, res) => {
         const { user, title, body, likes } = req.body 
 
         const newPost = req.body 
-        
+
         if (!user || !title || !body) throw Error("Please, provide all necessary information.")
         const updatedPost = await Post.updateOne({_id}, { $set: newPost })
         if (updatedPost.matchedCount === 0) throw Error("Post not found")
