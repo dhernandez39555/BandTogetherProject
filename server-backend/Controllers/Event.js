@@ -81,3 +81,5 @@ router.delete("/:event_id", async (req,res) => {
         })
     }
 })
+
+module.exports = router 
