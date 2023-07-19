@@ -11,15 +11,20 @@ const JWT_KEY=process.env.JWT_KEY
 const HOST=process.env.HOST||"127.0.0.1"
 const PORT=process.env.PORT||4000
 
+
 const authController = require("./Controllers/Auth")
 const postController = require("./Controllers/Post")
+const messageController=require("./Controllers/Message")
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
+
 app.use("/auth", authController)
 app.use("/post", postController)
+app.use("/message",messageController)
+
 
 app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
