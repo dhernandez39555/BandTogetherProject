@@ -1,6 +1,6 @@
 const { mongoose } = require("../DBConn");
 const { ObjectId } = mongoose.Schema;
-//This is a test
+
 const Message = new mongoose.Schema(
     {
         sender: {
