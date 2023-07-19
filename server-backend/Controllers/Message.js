@@ -13,6 +13,15 @@ router.get("readAll", async (req,res)=>{
         
     }
 })
+router.get("/readLatestFrom/:contactName", async (req,res)=>{
+    try{
+        const { contactName }=req.params
+    } catch (err){
+        res.status(500).json({
+            message:err.message
+        })
+    }
+})
 
 router.get("/readAllFrom/:contactName", async (req,res)=>{
     try{
@@ -84,4 +93,4 @@ router.delete("/deleteAt/:body", async (req,res)=>{
         })
     }
 })
-module.exports=router
+module.exports = router;
