@@ -1,4 +1,4 @@
-const { mongoose } = require("../db");
+const { mongoose } = require("../DBConn");
 const { ObjectId } = mongoose.Schema;
 
 const Event = new mongoose.Schema (
