@@ -1,7 +1,22 @@
 const router = require("express").Router();
-const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 
+// * GET all users * //
+router.get("/all", async (req, res) => {
+    try {
+        const foundUsers = await User.find({});
+        if (foundUsers.length === 0) throw Error("Not users found");
+
+        res.status(200).json({
+            message: "Found Users",
+            foundUsers
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+});
 
 // * GET Current Logged In User by sessionValidation * //
 router.get("/", async (req, res) => {

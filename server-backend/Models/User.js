@@ -34,17 +34,15 @@ const User = new mongoose.Schema(
             type: String,
             required: true
         },
-        following: {
-            type: [ ObjectId ],
-            ref: 'user'
-        },
-        follower: {
-            type: [ ObjectId ],
-            ref: 'user'
-        },
         friendList: {
             type: [ ObjectId ],
-            ref: 'user'
+            ref: 'user',
+            default: []
+        },
+        messages: {
+            type: [ ObjectId ],
+            ref: 'message',
+            default: []
         },
         socials: {
             youtube: {
