@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
         throw Error("Please, provide all necessary information.")
 
     const newUser = new User({ email, password: bcrypt.hashSync(password, SALT), 
-        contactName, location, genre, additionGenre, bio, following, follower, 
+        contactName, bandName, location, genre, additionGenre, bio, following, follower, 
         friendList, socials })
     
     await newUser.save()
