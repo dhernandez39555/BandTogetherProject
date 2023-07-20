@@ -1,4 +1,5 @@
 import React, {useState} from 'react'; 
+import "./register.css"
 
 function Register() {
     const [ email, setEmail ] = useState("")
@@ -45,20 +46,40 @@ function Register() {
 
   return (
     <div id='registerDiv'>
-    <h1>Sign Up</h1>
     <form action="" className="form-wrapper">
-        
+        <h1>Sign Up</h1>
+        <div id="emailDiv">
+        <label htmlFor="emailInput">Email Address:</label>
         <input type="text" name="" id="emailInput" placeholder="Enter your email here."
             onChange={e => setEmail(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="passwordInput">Password:</label>
         <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
             onChange={e => setPassword(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="bandNameInput">Band Name:</label>
         <input type="text" name="" id="bandNameInput" placeholder="Enter your band's name here." 
             onChange={e => setBandName(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="contactNameInput">Contact Name:</label>
         <input type="text" name="" id="contactNameInput" placeholder="Enter your main contact's name here."
             onChange={e => setContactName(e.target.value)}/>
+        </div> 
+
+        <div>
+        <label htmlFor="locationInput">Location:</label>
         <input type="text" name="" id="locationInput" placeholder="Enter your location here."
             onChange={e => setLocation(e.target.value)}/>
+        </div>
+
         <div id='genreDropdown'>
+        <label htmlFor="genreInput">Genre:</label>
         <select value={genre} onChange={handleGenreChange} id="genreInput">
             <option value="">Select a genre.</option>
             <option value="rock">Rock</option>
@@ -66,7 +87,9 @@ function Register() {
             <option value="pop">Pop</option>
         </select>
         </div>
+
         <div id='additionGenreDropdown'>
+        <label htmlFor="additionalGenreInput">Genre:</label>
         <select value={additionGenre} onChange={handleAddGenreChange} id="additionGenreInput">
             <option value="">Select an additional genre.</option>
             <option value="rock">Rock</option>
@@ -74,16 +97,37 @@ function Register() {
             <option value="pop">Pop</option>
         </select>
         </div>
+
+        <div>
+        <label htmlFor="bioInput">Bio:</label>
         <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."
             onChange={e => setBio(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="youtubeInput">YouTube Link:</label>
         <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."
             onChange={e => setYoutube(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="spotifyInput">Spotify Link:</label>
         <input type="text" name="" id="spotifyInput" placeholder="Link to your Spotify page here."
             onChange={e => setSpotify(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="soundCloudInput">SoundCloud Link:</label>
         <input type="text" name="" id="soundCloudInput" placeholder="Link to your SoundCloud here."
             onChange={e => setSoundCloud(e.target.value)}/>
+        </div>
+
+        <div>
+        <label htmlFor="instagramInput">Instagram Link:</label>
         <input type="text" name="" id="instagramInput" placeholder="Link to your Instagram here."
             onChange={e => setInstagram(e.target.value)}/>
+        </div>
+
         <button type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
