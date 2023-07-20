@@ -7,15 +7,7 @@ const User=require("../Models/User")
 //get latest post in each convo
 
 
-router.get("/readLatestFrom/:contactName", async (req,res)=>{
-    try{
-        const { contactName }=req.params
-    } catch (err){
-        res.status(500).json({
-            message:err.message
-        })
-    }
-})
+//TODO need to add GET route for individual youngest messages by section
 
 router.get("/readAllFrom/:contactName", async (req,res)=>{
     try{
@@ -29,7 +21,7 @@ router.get("/readAllFrom/:contactName", async (req,res)=>{
         })
     }
 })
-
+//TODO add pushing into user model's array
 router.post("/makePostTo/:contactName", async (req,res)=>{
     try{
         const { contactName }=req.params
@@ -42,7 +34,10 @@ router.post("/makePostTo/:contactName", async (req,res)=>{
         const receiver=user_id
 
         const Message=new Message({sender,receiver,body})
-        await newMessage.save()
+        // const UserUpdate= await User.updateOne({sender:currentUser}, {$push:{message:Message}})
+        console.log(UserUpdate)
+        await Message.save()
+        
 
         res.status(200).json({
             message:"Message sent"
@@ -87,4 +82,4 @@ router.delete("/deleteAt/:body", async (req,res)=>{
         })
     }
 })
-module.exports=router
+module.exports = router;
