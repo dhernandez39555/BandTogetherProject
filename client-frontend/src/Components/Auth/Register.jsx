@@ -14,12 +14,12 @@ function Register() {
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
 
-    const handleGenreChange = () => {
-        console.log("Hi.")
+    const handleGenreChange = (e) => {
+        setGenre(e.target.value)
     }
 
-    const handleAddGenreChange = () => {
-        console.log("Hi.")
+    const handleAddGenreChange = (e) => {
+        setAdditionGenre(e.target.value)
     }
 
     const handleSubmit = e => {
@@ -55,18 +55,22 @@ function Register() {
             onChange={e => setContactName(e.target.value)}/>
         <input type="text" name="" id="locationInput" placeholder="Enter your location here."
             onChange={e => setLocation(e.target.value)}/>
+        <div id='genreDropdown'>
         <select value={genre} onChange={handleGenreChange} id="genreInput">
             <option value="">Select a genre.</option>
             <option value="rock">Rock</option>
             <option value="jazz">Jazz</option>
             <option value="pop">Pop</option>
         </select>
+        </div>
+        <div id='additionGenreDropdown'>
         <select value={additionGenre} onChange={handleAddGenreChange} id="additionGenreInput">
             <option value="">Select an additional genre.</option>
             <option value="rock">Rock</option>
             <option value="jazz">Jazz</option>
             <option value="pop">Pop</option>
         </select>
+        </div>
         <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."
             onChange={e => setBio(e.target.value)}/>
         <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."
