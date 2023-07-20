@@ -128,7 +128,7 @@ function Register() {
             onChange={e => setInstagram(e.target.value)}/>
         </div>
 
-        <button type="button" onClick={handleSubmit}>Submit</button>
+        <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
   )
