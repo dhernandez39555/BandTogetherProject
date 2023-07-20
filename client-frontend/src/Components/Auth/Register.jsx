@@ -9,7 +9,7 @@ function Register() {
     const [ genre, setGenre ] = useState("")
     const [ additionGenre, setAdditionGenre ] = useState("")
     const [ bio, setBio ] = useState("")
-    const [ youTube, setYouTube ] = useState("")
+    const [ youtube, setYoutube ] = useState("")
     const [ spotify, setSpotify ]= useState("")
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
@@ -27,8 +27,10 @@ function Register() {
 
         const url = "http://127.0.0.1:4000/auth/register"
 
+        const socials = { youtube, spotify, soundCloud, instagram }
+
         const body = { email, password, bandName, contactName, location, 
-        genre, additionGenre, bio}
+        genre, additionGenre, bio, socials} 
 
         fetch(url, {
             method: "POST", 
@@ -45,6 +47,7 @@ function Register() {
     <div id='registerDiv'>
     <h1>Sign Up</h1>
     <form action="" className="form-wrapper">
+        
         <input type="text" name="" id="emailInput" placeholder="Enter your email here."
             onChange={e => setEmail(e.target.value)}/>
         <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
@@ -74,7 +77,7 @@ function Register() {
         <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."
             onChange={e => setBio(e.target.value)}/>
         <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."
-            onChange={e => setYouTube(e.target.value)}/>
+            onChange={e => setYoutube(e.target.value)}/>
         <input type="text" name="" id="spotifyInput" placeholder="Link to your Spotify page here."
             onChange={e => setSpotify(e.target.value)}/>
         <input type="text" name="" id="soundCloudInput" placeholder="Link to your SoundCloud here."

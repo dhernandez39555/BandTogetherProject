@@ -43,7 +43,7 @@ const User = new mongoose.Schema(
             type: [ ObjectId ],
             ref: 'message',
             default: []
-        },
+        }, 
         socials: {
             youtube: {
                 type: String
