@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.preview-profile {
+    background-color: white;
+}
+
+.preview-profile > .genre {
+    float: right;
+}
+
+#meet-page {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+}
+
+#meet-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+#meet-btns > a {
+    position: relative;
+    border: 2px solid #000000;
+    color: black;
+    border-radius: 25px;
+    width: 180px;
+    height: 50px;
+    background-color: yellow;
+    text-decoration: none;
+}
+
+#meet-btns > a > span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
