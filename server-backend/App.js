@@ -16,6 +16,7 @@ const postController = require("./Controllers/Post")
 const messageController=require("./Controllers/Message")
 const eventController=require("./Controllers/Event")
 const userController=require("./Controllers/user")
+const nodemailerController=require("./Controllers/nodemailer")
 
 app.use(cors())
 app.use(express.json())
@@ -27,6 +28,7 @@ app.use("/post", postController)
 app.use("/message",messageController)
 app.use("/event", eventController)
 app.use("/user", userController)
+app.use('/email', nodemailerController)
 
 app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
