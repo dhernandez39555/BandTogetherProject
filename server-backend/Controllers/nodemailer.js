@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'myemail@gmail.com',
+        user: 'BandTogetherBTV@gmail.com',
         PASS: process.env.PASS,
     },
 });
@@ -17,7 +17,7 @@ router.post('/send-email', async (req,res) => {
     const subject = "Let's Band Together!!"
     try {
         await transporter.sendMail({
-            from: 'myemail@gmail.com',
+            from: 'BandTogetherBTV@gmail.com',
             to,
             subject,
             text,
