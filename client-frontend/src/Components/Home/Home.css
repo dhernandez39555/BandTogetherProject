@@ -1,0 +1,42 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #EEEDED;
+}
+#banner {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    
+}
+#banner-text {
+    margin-bottom: 0;
+
+}
+#banner-underline {
+    background-color: #FAE248;
+    height: 1.1vh;
+    margin-top: 0;
+    margin-bottom: 4vh;
+}
+#button-1 {
+    color: #FAE248;
+    background-color: #7E12b3;
+    border: 1px solid #FAE248;
+    padding-right: 0;
+    border-radius: 100%;
+    height: 9vh;
+    width: 9vh;
+}
+
+#top {
+    display: flex;
+    justify-content: space-around;
+}
+#middle {
+    display: flex;
+    justify-content: space-around;
+}
+#bottom {
+    display: flex;
+    justify-content: space-around;
+}
