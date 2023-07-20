@@ -25,9 +25,20 @@ function Register() {
     const handleSubmit = e => {
         e.preventDefault()
 
-        console.log(email, password, bandName, contactName, location, 
-        genre, additionGenre, bio, youTube, spotify, soundCloud,
-        instagram)
+        const url = "http://127.0.0.1:4000/auth/register"
+
+        const body = { email, password, bandName, contactName, location, 
+        genre, additionGenre, bio}
+
+        fetch(url, {
+            method: "POST", 
+            body: JSON.stringify(body),
+            headers: new Headers({
+                "Content-Type": "application/json"
+            })
+        })
+        .then(res => res.json())
+        .catch(err => console.log(err))
     }
 
   return (
