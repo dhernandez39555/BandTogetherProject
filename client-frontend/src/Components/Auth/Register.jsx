@@ -6,47 +6,69 @@ function Register() {
     const [ bandName, setBandName ] = useState("")
     const [ contactName, setContactName ] = useState("")
     const [ location, setLocation ] = useState("")
-    const [ genre, setGenre ] = useState(undefined)
-    const [ additionGenre, setAdditionGenre ] = useState(undefined)
+    const [ genre, setGenre ] = useState("")
+    const [ additionGenre, setAdditionGenre ] = useState("")
     const [ bio, setBio ] = useState("")
     const [ youTube, setYouTube ] = useState("")
     const [ spotify, setSpotify ]= useState("")
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
 
-    const handleOptionChange = () => {
+    const handleGenreChange = () => {
         console.log("Hi.")
-    } 
+    }
+
+    const handleAddGenreChange = () => {
+        console.log("Hi.")
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        console.log(email, password, bandName, contactName, location, 
+        genre, additionGenre, bio, youTube, spotify, soundCloud,
+        instagram)
+    }
 
   return (
-    <>
+    <div id='registerDiv'>
     <h1>Sign Up</h1>
     <form action="" className="form-wrapper">
-        <input type="text" name="" id="emailInput" placeholder="Enter your email here."/>
-        <input type="text" name="" id="passwordInput" placeholder="Enter your password here." />
-        <input type="text" name="" id="bandNameInput" placeholder="Enter your band's name here." />
-        <input type="text" name="" id="contactNameInput" placeholder="Enter your main contact's name here."/>
-        <input type="text" name="" id="locationInput" placeholder="Enter your location here."/>
-        <select value={genre} onChange={handleOptionChange} id="genreInput">
+        <input type="text" name="" id="emailInput" placeholder="Enter your email here."
+            onChange={e => setEmail(e.target.value)}/>
+        <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
+            onChange={e => setPassword(e.target.value)}/>
+        <input type="text" name="" id="bandNameInput" placeholder="Enter your band's name here." 
+            onChange={e => setBandName(e.target.value)}/>
+        <input type="text" name="" id="contactNameInput" placeholder="Enter your main contact's name here."
+            onChange={e => setContactName(e.target.value)}/>
+        <input type="text" name="" id="locationInput" placeholder="Enter your location here."
+            onChange={e => setLocation(e.target.value)}/>
+        <select value={genre} onChange={handleGenreChange} id="genreInput">
             <option value="">Select a genre.</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="rock">Rock</option>
+            <option value="jazz">Jazz</option>
+            <option value="pop">Pop</option>
         </select>
-        <select value={additionGenre} onChange={handleOptionChange} id="additionGenreInput">
+        <select value={additionGenre} onChange={handleAddGenreChange} id="additionGenreInput">
             <option value="">Select an additional genre.</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="rock">Rock</option>
+            <option value="jazz">Jazz</option>
+            <option value="pop">Pop</option>
         </select>
-        <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."/>
-        <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."/>
-        <input type="text" name="" id="spotifyInput" placeholder="Link to your Spotify page here."/>
-        <input type="text" name="" id="soundCloudInput" placeholder="Link to your SoundCloud here."/>
-        <input type="text" name="" id="instagramInput" placeholder="Link to your Instagram here."/>
-        <button type="button">Submit</button>
+        <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."
+            onChange={e => setBio(e.target.value)}/>
+        <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."
+            onChange={e => setYouTube(e.target.value)}/>
+        <input type="text" name="" id="spotifyInput" placeholder="Link to your Spotify page here."
+            onChange={e => setSpotify(e.target.value)}/>
+        <input type="text" name="" id="soundCloudInput" placeholder="Link to your SoundCloud here."
+            onChange={e => setSoundCloud(e.target.value)}/>
+        <input type="text" name="" id="instagramInput" placeholder="Link to your Instagram here."
+            onChange={e => setInstagram(e.target.value)}/>
+        <button type="button" onClick={handleSubmit}>Submit</button>
     </form>
-    </>
+    </div>
   )
 }
 
