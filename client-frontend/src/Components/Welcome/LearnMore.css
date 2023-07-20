@@ -1,0 +1,11 @@
+#signUpBtn{
+    background-color: yellow;
+    color:black;
+    border-radius: 100px;
+    border: 3px solid black;
+    display: flex;
+    padding:5px 35px;
+}
+#aboutBT{
+    background-color: rgb(180, 180, 180);
+}
