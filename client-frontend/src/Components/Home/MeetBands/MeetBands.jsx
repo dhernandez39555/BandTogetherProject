@@ -3,15 +3,24 @@ import './meetBands.css'
 import { Link } from 'react-router-dom'
 
 function MeetBands() {
-    const [ users, setUsers ] = useState([])
+    const [ users, setUsers ] = useState([]);
+
     useEffect(() => {
+
         const getUsers = async () => {
-            const res = await fetch("http://127.0.0.1:4000/user/all", { headers: new Headers({ "Content-Type": "application/json" }) });
+            const options = {
+                method: "GET",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "authorization": localStorage.getItem("token")
+                })
+            }
+            
+            const res = await fetch("http://127.0.0.1:4000/user/all", options);
             const data = await res.json();
 
             setUsers(data.foundUsers);
         }
-
         
         getUsers();
     }, []);
@@ -26,13 +35,13 @@ function MeetBands() {
                 ? <h1>Loading</h1>
                 : users.map((user, i) => {
                     return (
-                    <div className="preview-profile">
+                    <div key={i} className="preview-profile">
                         <h1>{user.bandName}</h1>
                         <p className="genre">{user.genre}</p>
                         <p>{user.bandName}</p>
                         <p>{user.bio}</p>
                         <div id="meet-btns">
-                            <Link to="/profile"><span>Profile</span></Link>
+                            <Link to={`/profile/${user._id}`}><span>Profile</span></Link>
                             <Link to="/message"><span>Message</span></Link>
                         </div>
                     </div>   
