@@ -1,0 +1,16 @@
+#contact-page {
+    display: flex;
+    flex-direction: column;
+}
+
+#contact-header {
+    background-color: aqua;
+}
+
+#add-contact-btn {
+    float: right;
+}
+
+#contact-item {
+
+}
