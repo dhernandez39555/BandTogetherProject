@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 
 function Showfinder() {
 
+  const sessionToken=localStorage.getItem("token")
   const [fetchResult,setFetchResult]=useState("")
   const [flag, setFlag]=useState(false)
   const [postBox,setPostBox]=useState(false)
@@ -17,14 +18,14 @@ function Showfinder() {
     fetch("http://localhost:4000/event/all",{
       method:"GET",
       headers:new Headers({
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        "authorization":sessionToken
       })
     })
     .then(res=>res.json())
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   }
-
   useEffect(()=>{
     fetchAllEvents()
   }, [flag])
@@ -36,6 +37,7 @@ function Showfinder() {
         {fetchResult.allEvents.map((result)=>(
           <div className="eventWrapper" key={result._id}>
             <h3 className='titleEach'>{result.title}</h3>
+            <h3 className='userEach'>{result.user}</h3>
             <h4 className='dateEach'>{result.eventDate}</h4>
             <h5 className='bodyEach'>{result.body}</h5>
           </div>
@@ -44,16 +46,17 @@ function Showfinder() {
   }
 
 //POST TIME
-  const fetchPostEvent=()=>{
+  function fetchPostEvent(){
+    console.log("prefetch")
     fetch("http://localhost:4000/event/",{
       method:"POST",
-      body:JSON.stringify(postBody),
-      headers:new Headers({
-        "Content-Type":"application/json"
-      })
+      headers: new Headers({
+        "Content-Type":"application/json",
+        "authorization":sessionToken
+      }),
+      body: JSON.stringify(postBody)
     })
     .then(res=>res.json())
-    .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
     setPostBody({
       title:"",
@@ -63,6 +66,13 @@ function Showfinder() {
     setFlag("post")
     closePostBox()
   }
+  const handleNewEvent=(e)=>{
+    const {name, value} = e.target;
+        setPostBody(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+  }
   const closePostBox=()=>{
     setPostBox(false)
     setPostBody({
@@ -70,6 +80,7 @@ function Showfinder() {
       eventDate:"",
       body:""
     })
+    setFlag("no")
   }
 
   return (
@@ -77,13 +88,13 @@ function Showfinder() {
       <Button variant="contained" onClick={()=>setPostBox(true)}>Click Me!</Button>
       {!postBox
         ?null
-        :<form>
-          <input type="text" value={postBody.title} onChange={e=>setPostBody(e.target.value)} placeholder='Enter event title'/>
-          <input type="text" value={postBody.body} onChange={e=>setPostBody(e.target.value)} placeholder='Enter event description'/>
-          <input type="text" value={postBody.eventDate} onChange={e=>setPostBody(e.target.value)} placeholder='Enter event date'/>
+        :<div>
+          <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter event title'/>
+          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
+          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
           <button onClick={fetchPostEvent}>Submit</button>
           <button onClick={closePostBox}>Cancel</button>
-        </form>}
+        </div>}
       {renderEvents()}
     </>
   )
