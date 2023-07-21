@@ -1,0 +1,12 @@
+#invite-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#email-input, #message-input {
+    display: flex;
+    flex-direction: column;
+}
+#email-body {
+    height: 30vh;
+}
