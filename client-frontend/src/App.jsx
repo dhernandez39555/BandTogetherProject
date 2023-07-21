@@ -45,7 +45,7 @@ function App() {
       <Route element={ <PrivateRoute /> }>
         <Route path='/' element={ <Home /> } />
         <Route path='/invite' element={ <Invite /> } />
-        <Route path='/profile' element={ <ReadProfile /> } />
+        <Route path='/profile/:user_id' element={ <ReadProfile /> } />
         <Route path='/profile/edit' element={ <EditProfile /> } />
         <Route path='/findshows' element={ <Showfinder /> } />
         <Route path='/inbox' element={ <Inbox /> } />
