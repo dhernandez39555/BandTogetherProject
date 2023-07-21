@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import AddFriendIcon from '@mui/icons-material/PersonAddOutlined';
 import MusicNoteIcon from '@mui/icons-material/MusicNoteOutlined';
@@ -11,6 +12,20 @@ import './Home.css'
 
 
 function Home() {
+const navigate = useNavigate();
+
+const getUserId = () => {
+    const sessionToken = localStorage.getItem('sessionToken');
+    const user = JSON.parse(sessionToken);
+    return user._id;
+}
+
+// useEffect(() => {
+//     const userId = getUserId();
+//     if (userId) {
+//         navigate('/profile/${userId')
+//     }
+// },[])
 
   return (
     <div>
@@ -27,7 +42,7 @@ function Home() {
                 id='button-1'
                 startIcon={<AddFriendIcon/>} 
                 aria-label='Meet Bands & Venues'
-                onClick={e=> {console.log('clicked')}}
+                onClick={() => navigate('/meetbands')}
                 />
                 <p>Meet Bands</p>
                 <p>& Venues</p>
@@ -37,6 +52,7 @@ function Home() {
                 id='button-1'
                 startIcon={<MusicNoteIcon/>} 
                 aria-label='Find-Shows'
+                onClick={() => navigate('/findshows')}
                 />
                 <p>Find Shows</p>
             </div>
@@ -48,14 +64,16 @@ function Home() {
                 id='button-1'
                 startIcon={<ContactIcon/>} 
                 aria-label='My Contacts'
+                onClick={() => navigate('/friends')}
                 />
-                <p>Find Shows</p>
+                <p>My Contacts</p>
             </div>
             <div id='messages'>
                 <Button
                 id='button-1'
                 startIcon={<MessageIcon/>}
                 aria-label='Messages'
+                onClick={() => navigate('/inbox')}
                 />
                 <p>Messages</p>
             </div>
@@ -66,6 +84,7 @@ function Home() {
                 id='button-1'
                 startIcon={<NewsIcon/>}
                 aria-label='Music News'
+                onClick={() => navigate('/news')}
                 />
                 <p>Music News</p>
             </div>
@@ -74,6 +93,16 @@ function Home() {
                 id='button-1'
                 startIcon={<ProfileIcon/>}
                 aria-label='My Profile'
+                onClick={() => {
+                    const userId = getUserId();
+
+                        // if(userId) {
+                        //     navigate(`/profile/user/${userId}`)
+                        // } else {
+                        //     alert(`Ah ah ah, you didn't say the magic word`)
+                        // }
+                        // todo in progress ^^
+                    }}
                 />
                 <p id='my-profile-text'>My Profile</p>
             </div>
