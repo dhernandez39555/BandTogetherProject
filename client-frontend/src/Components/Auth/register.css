@@ -1,0 +1,25 @@
+#registerDiv {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+input {
+    background-color: #e6e6e6;
+}
+
+label {
+    display: block;
+}
+
+button {
+    background-color: yellow;
+    height: 3em;
+    width: 10em;
+    border: 1px solid black; 
+    border-radius: 2em;
+}
+
+button:hover {
+    background-color: #b3b300;
+}

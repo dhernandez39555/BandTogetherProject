@@ -1,7 +1,6 @@
 import React from 'react'
 import './welcome.css'
 import { Link } from 'react-router-dom'
-import { Button, ButtonGroup } from '@mui/material'
 
 function Welcome() {
     return (
