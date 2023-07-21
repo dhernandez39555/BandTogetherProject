@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/User");
+const sessionValidation = require("../Middlewares/session")
 
 // * GET all users * //
 router.get("/all", async (req, res) => {
@@ -19,9 +20,9 @@ router.get("/all", async (req, res) => {
 });
 
 // * GET Current Logged In User by sessionValidation * //
-router.get("/", async (req, res) => {
+router.get("/", sessionValidation, async (req, res) => {
     try {
-        const foundUser = await User.findOne({ _id: req.user });
+        const foundUser = await User.findOne({ _id: req.user }).populate("friendList");
         if (!foundUser) throw Error("User not signed in.");
 
         res.status(200).json({
@@ -59,14 +60,14 @@ router.put("/", async (req, res) => {
         const {
             email,
             password,
+            bandName,
             contactName,
             location,
             genre,
             additionGenre,
             bio,
-            following,
-            follower,
             friendList,
+            messages,
             socials
         } = req.body;
 
@@ -75,14 +76,14 @@ router.put("/", async (req, res) => {
                 { $set: {
                     email,
                     password,
+                    bandName,
                     contactName,
                     location,
                     genre,
                     additionGenre,
                     bio,
-                    following,
-                    follower,
                     friendList,
+                    messages,
                     socials
                 } }
             );
