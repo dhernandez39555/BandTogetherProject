@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Login() {
+function Login({ updateLocalStorage }) {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
@@ -20,6 +20,7 @@ function Login() {
             })
         })
         .then(res => res.json())
+        .then(data => updateLocalStorage(data.token))
         .catch(err => console.log(err))
     }
 
