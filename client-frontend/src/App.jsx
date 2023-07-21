@@ -43,7 +43,7 @@ function App() {
 
       <Route path='/register' element={ <Register updateLocalStorage={updateLocalStorage}/> } />
       <Route path='/login' element={ <Login updateLocalStorage={updateLocalStorage}/> } />
-      {/* <Route element={ <PrivateRoute /> }> */}
+      <Route element={ <PrivateRoute /> }>
         <Route path='/' element={ <Home /> } />
         <Route path='/invite' element={ <Invite /> } />
         <Route path='/profile' element={ <ReadProfile /> } />
@@ -55,7 +55,7 @@ function App() {
         <Route path='/messaging' element={ <Direct /> } />
         <Route path='/meetbands' element={ <MeetBands /> } />
         <Route path='/news' element={ <News /> } />
-      {/* </Route> */}
+      </Route>
     </Routes>
   );
 }
