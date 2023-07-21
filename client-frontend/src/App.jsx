@@ -21,6 +21,7 @@ import MeetBands from './Components/Home/MeetBands/MeetBands';
 import News from './Components/Home/News/News';
 
 function App() {
+ 
   return (
     <Routes>
       <Route path='/welcome' element={ <Welcome /> } />
