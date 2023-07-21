@@ -13,7 +13,7 @@ router.post("/", async (req,res) => {
             body
         });
         await Event.populate(newEvent, { path:"user"});
-        await newMessage.save();
+        await newEvent.save();
         res.status(201).json({
             message: `Event Created`,
             newEvent
