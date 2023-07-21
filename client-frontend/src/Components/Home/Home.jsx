@@ -56,7 +56,8 @@ return (
                 id='button-1'
                 startIcon={<MusicNoteIcon/>} 
                 aria-label='Find-Shows'
-                onClick={() => navigate('/findshows')}
+                onClick={() => navigate(`/findshows`)
+                }
                 />
                 <p>Find Shows</p>
             </div>

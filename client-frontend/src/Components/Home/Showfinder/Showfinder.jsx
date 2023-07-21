@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '@mui/material';
 
 
+
 function Showfinder() {
 
   const sessionToken=localStorage.getItem("token")
@@ -61,7 +62,7 @@ function Showfinder() {
     setPostBody({
       title:"",
       eventDate:"",
-      body:""
+      body:"",
     })
     setFlag("post")
     closePostBox()

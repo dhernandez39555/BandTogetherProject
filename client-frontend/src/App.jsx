@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 import Welcome from './Components/Welcome/Welcome';
