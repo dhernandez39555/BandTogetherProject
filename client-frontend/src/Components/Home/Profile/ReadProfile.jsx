@@ -1,4 +1,4 @@
-/* import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 
 function ReadProfile() {
@@ -30,7 +30,10 @@ function ReadProfile() {
   }, [])
 
   const renderProfile = () => {
-    <h1>{profile.bandName}</h1>
+    console.log(profile)
+    return (
+      <h1>{profile.bandName}</h1>
+    )
   }
 
   return (
@@ -41,4 +44,4 @@ function ReadProfile() {
   )
 }
 
-export default ReadProfile */
+export default ReadProfile
