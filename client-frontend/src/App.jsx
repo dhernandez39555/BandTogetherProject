@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
@@ -21,13 +22,27 @@ import MeetBands from './Components/Home/MeetBands/MeetBands';
 import News from './Components/Home/News/News';
 
 function App() {
+
+  const [ sessionToken, setSessionToken ] = useState(undefined)
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setSessionToken(localStorage.getItem("token"))
+    }
+  })
+
+  const updateLocalStorage = newToken => {
+    localStorage.setItem("token", newToken)
+    setSessionToken(newToken)
+  }
+
   return (
     <Routes>
       <Route path='/welcome' element={ <Welcome /> } />
       <Route path='/learnmore' element={ <LearnMore /> } />
 
-      <Route path='/register' element={ <Register /> } />
-      <Route path='/login' element={ <Login /> } />
+      <Route path='/register' element={ <Register updateLocalStorage={updateLocalStorage}/> } />
+      <Route path='/login' element={ <Login updateLocalStorage={updateLocalStorage}/> } />
       {/* <Route element={ <PrivateRoute /> }> */}
         <Route path='/' element={ <Home /> } />
         <Route path='/invite' element={ <Invite /> } />
