@@ -17,6 +17,7 @@ const messageController=require("./Controllers/Message")
 const eventController=require("./Controllers/Event")
 const userController=require("./Controllers/user")
 const nodemailerController=require("./Controllers/nodemailer")
+const sessionValidation = require("./Middlewares/session")
 
 app.use(cors())
 app.use(express.json())
@@ -24,11 +25,11 @@ app.use(express.urlencoded({ extended:true }))
 
 
 app.use("/auth", authController)
-app.use("/post", postController)
-app.use("/message",messageController)
-app.use("/event", eventController)
-app.use("/user", userController)
-app.use('/email', nodemailerController)
+app.use("/post", sessionValidation, postController)
+app.use("/message", sessionValidation,messageController)
+app.use("/event", sessionValidation, eventController)
+app.use("/user", sessionValidation, userController)
+app.use('/email', sessionValidation, nodemailerController)
 
 app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
