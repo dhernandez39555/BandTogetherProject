@@ -40,7 +40,7 @@ function Contacts() {
                     : contacts.map((contact, i) => {
                         return (
                             <div key={i} id="contact-item">
-                                <AddCircleOutlineIcon />
+                                <AddCircleOutlineIcon id="contact-icon" />
                                 <h3>{contact.bandName}</h3>
                             </div>
                         )
