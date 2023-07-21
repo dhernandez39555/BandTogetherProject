@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const User = require("../Models/User");
-const sessionValidation = require("../Middlewares/session")
 
 // * GET all users * //
 router.get("/all", async (req, res) => {
@@ -20,7 +19,7 @@ router.get("/all", async (req, res) => {
 });
 
 // * GET Current Logged In User by sessionValidation * //
-router.get("/", sessionValidation, async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const foundUser = await User.findOne({ _id: req.user }).populate("friendList");
         if (!foundUser) throw Error("User not signed in.");
