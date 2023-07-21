@@ -27,6 +27,7 @@ console.log('req',req.body)
         });
         console.log('email sent successfuly')
         res.json({ success: true, message: 'email sent' });
+
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false, message: 'Message Failed to send'})
@@ -38,4 +39,3 @@ router.get('/test',(req,res) => {
 })
 
 module.exports = router
-
