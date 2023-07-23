@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import './contacts.css'
+import React, { useEffect, useState } from 'react';
+import './contacts.css';
 import CloseIcon from '@mui/icons-material/Close';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { IconButton, TextField } from '@mui/material';
@@ -54,7 +54,7 @@ function Contacts() {
                 setOpenForm(false);
             })
             .then(console.log(filteredContacts))
-            .catch(err => console.log(err.message))
+            .catch(err => console.log(err.message));
     }
 
     const filterContacts = e => {
