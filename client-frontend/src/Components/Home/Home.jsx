@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import jwtDecode from 'jwt-decode';
 import AddFriendIcon from '@mui/icons-material/PersonAddOutlined';
 import MusicNoteIcon from '@mui/icons-material/MusicNoteOutlined';
 import ContactIcon from '@mui/icons-material/PersonPinOutlined';
@@ -15,20 +16,23 @@ function Home() {
 const navigate = useNavigate();
 
 const getUserId = () => {
-    const sessionToken = localStorage.getItem('sessionToken');
-    const user = JSON.parse(sessionToken);
-    return user._id;
+    const sessionToken = localStorage.getItem('token');
+    if (sessionToken) {
+        try {
+            const decodedToken = jwtDecode(sessionToken)
+            console.log(decodedToken._id)
+            return decodedToken._id 
+        } catch (error) {
+            console.log(`error decoding`,error)
+        }
+    }
+
+    return null;
 }
+console.log(getUserId())
 
-// useEffect(() => {
-//     const userId = getUserId();
-//     if (userId) {
-//         navigate('/profile/${userId')
-//     }
-// },[])
-
-  return (
-    <div>
+return (
+    <div id='all-Home'>
         <div id='banner'>
             <h1 id='banner-text'>BandTogether</h1>
             <div id='banner-underline'></div>
@@ -93,15 +97,15 @@ const getUserId = () => {
                 id='button-1'
                 startIcon={<ProfileIcon/>}
                 aria-label='My Profile'
-                onClick={() => {
+                onClick={() => { 
                     const userId = getUserId();
 
-                        // if(userId) {
-                        //     navigate(`/profile/user/${userId}`)
-                        // } else {
-                        //     alert(`Ah ah ah, you didn't say the magic word`)
-                        // }
-                        // todo in progress ^^
+                        if(userId) {
+                            navigate(`/profile/${userId}`)
+                        } else {
+                            alert(`Ah ah ah, you didn't say the magic word`)
+                        }
+                        
                     }}
                 />
                 <p id='my-profile-text'>My Profile</p>
