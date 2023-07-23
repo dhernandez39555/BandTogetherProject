@@ -20,6 +20,8 @@ import NewMessage from './Components/Home/Friends/Messaging/NewMessage';
 import Direct from './Components/Home/Friends/Messaging/Direct';
 import MeetBands from './Components/Home/MeetBands/MeetBands';
 import News from './Components/Home/News/News';
+import Header from './Components/Home/Nav/Header'
+import Footer from './Components/Home/Nav/Footer'
 
 function App() {
 
@@ -37,6 +39,8 @@ function App() {
   }
 
   return (
+    <>
+    <Header />
     <Routes>
       <Route path='/welcome' element={ <Welcome /> } />
       <Route path='/learnmore' element={ <LearnMore /> } />
@@ -57,6 +61,8 @@ function App() {
         <Route path='/news' element={ <News /> } />
       </Route>
     </Routes>
+    <Footer/>
+    </>
   );
 }
 
