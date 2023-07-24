@@ -1,5 +1,6 @@
 import React, {useState} from 'react'; 
 import "./register.css"
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 
 function Register({ updateLocalStorage }) {
     const [ email, setEmail ] = useState("")
@@ -49,6 +50,8 @@ function Register({ updateLocalStorage }) {
     <div id='registerDiv'>
     <form action="" className="form-wrapper">
         <h1>Sign Up</h1>
+        <AddAPhotoOutlinedIcon/> 
+        <input type="file" name="" id="" />
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
         <input type="text" name="" id="emailInput" placeholder="Enter your email here."
