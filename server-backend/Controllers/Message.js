@@ -8,7 +8,39 @@ const User=require("../Models/User")
 //! Message model and User.messages do the same thing!\\
 
 
-//TODO need to add GET route for individual youngest messages by section
+//TODO need to add GET route for individual youngest messages by section]
+
+router.get("/all", async (req, res) => {
+    try {
+        const user_id = req.user._id;
+        const allMessages = await Message.find({ 
+            $or: [
+                { sender: user_id }, 
+                { receiver: user_id }
+            ]
+        })
+        .sort({ createdAt: -1 })
+        .populate("sender receiver")
+        .exec();
+
+        
+        const sortedMessages = allMessages.reduce((groupMessages, message) => {
+            const otherUser = message.sender._id.equals(user_id) ? message.receiver : message.sender;
+            if (groupMessages[otherUser._id] == null) groupMessages[otherUser._id] = [];
+            groupMessages[otherUser._id].push(message);
+            return groupMessages
+        }, {});
+
+        res.status(200).json({
+            message: "all messages",
+            sortedMessages
+        })
+    } catch (err){
+        res.status(500).json({
+            message:err.message
+        })
+    }
+})
 
 router.get("/readAllFrom/:_id", async (req,res)=>{
     try{
@@ -30,16 +62,14 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
 router.post("/makePostTo/:_id", async (req,res)=>{
     try{
         const { _id }=req.params
-        const { body, sender, receiver }=req.body
+        const { body }=req.body
         !body?Error("No Message Content Found"):null
 
         const findOne=await User.findOne({_id})
         !findOne?Error("No users by that name exist"):null
 
-        const newMessage=new Message({sender,receiver,body})
-        await User.findByIdAndUpdate(_id, { $push:{messages:newMessage}})
+        const newMessage=new Message({sender: req.user._id, receiver: _id, body})
         await newMessage.save()
-        
 
         res.status(200).json({
             message:"Message sent"
