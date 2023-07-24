@@ -36,14 +36,15 @@ function ReadProfile() {
           <h1>{profile.bandName}</h1>
           <p>{profile.bio}</p>
           {profile.socials.soundCloud && <ReactPlayer url={profile.socials.soundCloud} />}
-          {profile.socials.youtube && <ReactPlayer url={profile.socials.youtube}/>}
+          {profile.socials.youtube && <ReactPlayer url={profile.socials.youtube} />}
+          {profile.socials.spotify && <ReactPlayer url={profile.socials.spotify}/>} 
         </>
       );
     } else {
       return <div>Loading...</div>;
     }
   };
-
+  
   return (
     <div>
     {renderProfile()}
