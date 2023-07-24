@@ -59,7 +59,8 @@ function App() {
         </Route>
         <Route path='/' element={ <Home /> } />
         <Route path='/newmessage' element={ <NewMessage /> } />
-        <Route path='/messaging' element={ <Direct /> } />
+        <Route path='/newmessage/:otherUser_id' element={ <NewMessage /> } />
+        <Route path='/messaging/:otherUser_id' element={ <Direct /> } />
       </Route>
     </Routes>
     </>

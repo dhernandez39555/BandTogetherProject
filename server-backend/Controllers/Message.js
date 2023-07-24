@@ -49,8 +49,9 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
             $or: 
             [{sender:_id}, 
             {receiver:_id}]
-        })
+        }).populate("sender receiver", { password: 0 })
         findAll===0?Error("You do not have any messages from that user"):null
+        
         res.status(200).json(findAll)
     } catch (err){
         res.status(500).json({
