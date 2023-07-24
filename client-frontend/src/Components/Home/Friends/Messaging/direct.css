@@ -21,7 +21,7 @@
 
 #direct-list {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 
 #direct-back-btn {
@@ -35,7 +35,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: sticky;
+    top: 0;
     height: 70px;
     background-color: #FAE248;
     margin-bottom: 1em;
