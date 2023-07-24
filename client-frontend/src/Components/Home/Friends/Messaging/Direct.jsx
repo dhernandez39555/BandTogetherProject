@@ -12,7 +12,8 @@ function Direct() {
 
   const { otherUser_id } = useParams();
   const [ directs, setDirects ] = useState([]);
-  const prevDate = useRef("");
+  const prevDate = useRef(new Date("January 1, 1970"));
+  const [ message, setMessage ] = useState("");
 
   useEffect(() => {
     const options = {
@@ -24,19 +25,32 @@ function Direct() {
 
     fetch(`http://127.0.0.1:4000/message/readAllFrom/${otherUser_id}`, options)
       .then(res => res.json())
-      .then(data => {
-        setDirects(data);
-        prevDate.current = new Date(data[0].createdAt);
-      })
+      .then(data => setDirects(data))
       .catch(err => err.message)
   }, [])
 
-  const getDate = date => {
+  const sendMessage = () => {
+    const options = {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "authorization": localStorage.getItem("token")
+      }),
+      body: JSON.stringify({ body: message })
+    }
+
+    fetch(`http://127.0.0.1:4000/message/makePostTo/${otherUser_id}`, options)
+      .then(res => res.json())
+      .then(data => setDirects([...directs, data.newMessage]))
+      .catch(err => err.message)
+  }
+
+  const getDate = (date, i) => {
     const newDate = new Date(date);
     if (prevDate.current.getDate() === newDate.getDate()) return null;
-    const prevDateStr = `${prevDate.current.getMonth() + 1}/${prevDate.current.getDate()}/${prevDate.current.getFullYear()}`
+    const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
     prevDate.current = newDate;
-    return (<div id="datestamp"><div className="line"></div><p>{prevDateStr}</p><div className="line"></div></div>)
+    return (<div id="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
   }
 
   const getTime = date => {
@@ -64,9 +78,10 @@ function Direct() {
         : directs.length === 0
         ? null
         : <div id="direct-list">
-            {directs.map(direct =>
+            {directs.map((direct, i) =>
             <>
-            <div className="direct-item">
+            {getDate(direct.createdAt, i)}
+            <div className="direct-item" key={i}>
               <ControlPointIcon />
               <div className="direct-text">
                 <div className="direct-top">
@@ -76,7 +91,6 @@ function Direct() {
                 <p>{direct.body}</p>
               </div>
             </div>
-            {getDate(direct.createdAt)}
             </>
         )}</div>
       }
@@ -87,7 +101,8 @@ function Direct() {
             id="direct-input"
             label="Write a message..."
             variant="outlined"
-            
+            onChange={e => setMessage(e.target.value)}
+            onKeyDown={ e => e.key === "Enter" ? sendMessage() : null }
             fullWidth={true}
           ></TextField>
           <KeyboardVoiceOutlinedIcon htmlColor='#7E12B3' fontSize="large" />

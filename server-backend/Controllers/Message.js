@@ -49,8 +49,12 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
             $or: 
             [{sender:_id}, 
             {receiver:_id}]
-        }).populate("sender receiver", { password: 0 })
+        })
+        .sort({ createdAt: 1 })
+        .populate("sender receiver", { password: 0 })
         findAll===0?Error("You do not have any messages from that user"):null
+
+        console.log(findAll);
         
         res.status(200).json(findAll)
     } catch (err){
@@ -69,11 +73,15 @@ router.post("/makePostTo/:_id", async (req,res)=>{
         const findOne=await User.findOne({_id})
         !findOne?Error("No users by that name exist"):null
 
-        const newMessage=new Message({sender: req.user._id, receiver: _id, body})
+        const newMessage=await new Message({sender: req.user._id, receiver: _id, body})
+            .populate("sender receiver", { password: 0 });
+        
+        console.log(newMessage);
         await newMessage.save()
 
         res.status(200).json({
-            message:"Message sent"
+            message:"Message sent",
+            newMessage
         })
     } catch (err){
         res.status(500).json({
