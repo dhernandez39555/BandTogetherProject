@@ -98,7 +98,7 @@ function Register({ updateLocalStorage }) {
         setProfilePicture(base64)
         console.log(base64)
     }
-
+    
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
