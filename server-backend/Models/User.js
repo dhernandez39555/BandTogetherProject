@@ -3,6 +3,9 @@ const { ObjectId } = mongoose.Schema;
 
 const User = new mongoose.Schema(
     {
+        profilePicture: {
+            type: String
+        },
         email: {
             type: String,
             required: true,

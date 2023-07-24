@@ -35,3 +35,4 @@ app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
     dbConnect()
 })
+
