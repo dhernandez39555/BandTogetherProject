@@ -32,13 +32,15 @@ function ReadProfile() {
   const renderProfile = () => {
     console.log(profile)
     return (
+      <>
       <h1>{profile.bandName}</h1>
+      <p>{profile.bio}</p>
+      </>
     )
   }
 
   return (
     <div>
-    {params.user_id}
     {renderProfile()}
     </div>
   )
