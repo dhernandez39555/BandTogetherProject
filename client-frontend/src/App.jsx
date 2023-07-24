@@ -21,6 +21,8 @@ import NewMessage from './Components/Home/Friends/Messaging/NewMessage';
 import Direct from './Components/Home/Friends/Messaging/Direct';
 import MeetBands from './Components/Home/MeetBands/MeetBands';
 import News from './Components/Home/News/News';
+import Header from './Components/Home/Nav/Header'
+import Footer from './Components/Home/Nav/Footer'
 
 function App() {
 
@@ -38,25 +40,29 @@ function App() {
   }
 
   return (
+    <>
     <Routes>
       <Route path='/welcome' element={ <Welcome /> } />
       <Route path='/learnmore' element={ <LearnMore /> } />
       <Route path='/register' element={ <Register updateLocalStorage={updateLocalStorage}/> } />
       <Route path='/login' element={ <Login updateLocalStorage={updateLocalStorage}/> } />
       <Route element={ <PrivateRoute /> }>
+        <Route element={ <><Header /><Footer /></> }>
+          <Route path='/invite' element={ <Invite /> } />
+          <Route path='/profile/:user_id' element={ <ReadProfile /> } />
+          <Route path='/profile/edit' element={ <EditProfile /> } />
+          <Route path='/findshows' element={ <Showfinder /> } />
+          <Route path='/inbox' element={ <Inbox /> } />
+          <Route path='/meetbands' element={ <MeetBands /> } />
+          <Route path='/friends' element={ <Contacts /> } />
+          <Route path='/news' element={ <News /> } />
+        </Route>
         <Route path='/' element={ <Home /> } />
-        <Route path='/invite' element={ <Invite /> } />
-        <Route path='/profile/:user_id' element={ <ReadProfile /> } />
-        <Route path='/profile/edit' element={ <EditProfile /> } />
-        <Route path='/findshows' element={ <Showfinder /> } />
-        <Route path='/inbox' element={ <Inbox /> } />
-        <Route path='/friends' element={ <Contacts /> } />
         <Route path='/newmessage' element={ <NewMessage /> } />
         <Route path='/messaging' element={ <Direct /> } />
-        <Route path='/meetbands' element={ <MeetBands /> } />
-        <Route path='/news' element={ <News /> } />
       </Route>
     </Routes>
+    </>
   );
 }
 
