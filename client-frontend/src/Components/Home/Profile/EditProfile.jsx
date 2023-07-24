@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-// todo problem with backend get currently logged in user due to session validation? maybe change decoding sessionToken to middleware?
+
 function EditProfile() {
 
   const [ user, setUser ] = useState({});
