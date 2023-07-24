@@ -32,7 +32,7 @@ const getUserId = () => {
 console.log(getUserId())
 
 return (
-    <div>
+    <div id='all-Home'>
         <div id='banner'>
             <h1 id='banner-text'>BandTogether</h1>
             <div id='banner-underline'></div>
@@ -56,7 +56,7 @@ return (
                 id='button-1'
                 startIcon={<MusicNoteIcon/>} 
                 aria-label='Find-Shows'
-                onClick={() => navigate('/findshows')}
+                onClick={() => navigate(`/findshows`)}
                 />
                 <p>Find Shows</p>
             </div>
