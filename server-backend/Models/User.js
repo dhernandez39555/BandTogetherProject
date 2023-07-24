@@ -24,6 +24,12 @@ const User = new mongoose.Schema(
             type: String,
             required: true
         },
+        latitude: {
+            type: Number
+        },
+        longitude: {
+            type: Number
+        },
         genre: {
             type: String
         },

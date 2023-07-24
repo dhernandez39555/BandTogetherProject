@@ -87,7 +87,7 @@ function Showfinder() {
     })
     setCount(prevCount=> prevCount+1)
   }
-
+//"eqeqeqeqeqe"
   return (
     <>
       <Button variant="contained" onClick={()=>setPostBox(true)}>Click Me!</Button>

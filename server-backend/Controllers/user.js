@@ -53,38 +53,7 @@ router.get("/:user_id", async (req, res) => {
     }
 });
 
-// * UPDATE add contact to current user * //
-router.put("/addcontact", async (req, res) => {
-    try {
-        const { email } = req.body;
-        const popFriends = await req.user.populate("friendList");
-        const currentFriends = popFriends.friendList;
-
-        const foundEmail = currentFriends.filter(friend => friend.email === email)[0];
-        if (foundEmail) throw Error(`${email} is already added`);
-
-        const foundUser = await User.findOne({ email: email });
-        if (!foundUser) throw Error(`${email} does not have an account`);
-        console.log(foundUser);
-
-        const updateStatus = await User.updateOne(
-                { _id: req.user._id }, 
-                { $push: { friendList: foundUser._id } }
-            );
-
-        if (updateStatus.matchedCount == 0) throw Error(`${req.user._id} does not exist. No update was performed.`);
-        res.status(200).json({
-            message: `${req.user._id} was updated`,
-            newContact: foundUser
-        });
-    } catch (err) {
-        res.status(500).json({
-            error: err.message
-        });
-    }
-});
-
-// * UPDATE the current user * //
+// * UPDATE Current A User by user_id * //
 router.put("/", async (req, res) => {
     try {
         const {
@@ -96,6 +65,8 @@ router.put("/", async (req, res) => {
             genre,
             additionGenre,
             bio,
+            friendList,
+            messages,
             socials
         } = req.body;
 
@@ -110,6 +81,8 @@ router.put("/", async (req, res) => {
                     genre,
                     additionGenre,
                     bio,
+                    friendList,
+                    messages,
                     socials
                 } }
             );
