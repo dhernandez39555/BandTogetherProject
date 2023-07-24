@@ -20,8 +20,6 @@ function Contacts() {
             })
         }
 
-        console.log("fetched");
-
         fetch("http://127.0.0.1:4000/user", options)
             .then(res => res.json())
             .then(data => {

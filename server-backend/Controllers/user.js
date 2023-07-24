@@ -96,7 +96,6 @@ router.put("/", async (req, res) => {
             genre,
             additionGenre,
             bio,
-            messages,
             socials
         } = req.body;
 
@@ -111,7 +110,6 @@ router.put("/", async (req, res) => {
                     genre,
                     additionGenre,
                     bio,
-                    messages,
                     socials
                 } }
             );
