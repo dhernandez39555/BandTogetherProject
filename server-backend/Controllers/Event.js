@@ -5,14 +5,14 @@ const Event = require("../Models/Event");
 router.post("/", async (req,res) => {
     try {
         const { eventDate, title, body } = req.body;
-        const _id = req.user._id;
-        const newEvent = new Event({
-            user: _id,
+        const newEvent = await new Event({
+            user: req.user,
             eventDate,
             title,
             body
-        });
-        await Event.populate(newEvent, { path:"user"});
+        }).populate("user")
+        console.log(newEvent)
+        // console.log(await newEvent)
         await newEvent.save();
         res.status(201).json({
             message: `Event Created`,

@@ -24,29 +24,29 @@ function Login({ updateLocalStorage }) {
         .catch(err => console.log(err))
     }
 
-  return (
-    <div>
-        <h1>BandTogether</h1>
-        <h2>Build relationships.</h2>
-        <h2>Book shows.</h2>
-        <form action="" className="form-wrapper">
-            <div id='emailDiv'>
-                <label htmlFor="emailInput">Email:</label>
-                <input type="text" id="emailInput" placeholder="Enter your email here."
-                    onChange={e => setEmail(e.target.value)}/>
-            </div>
-            <div id='passwordDiv'>
-                <label htmlFor="passwordInput">Password:</label>
-                <input type="text" id="passwordInput" placeholder="Enter your password here."
-                    onChange={e => setPassword(e.target.value)}/>
-            </div>
-            <button type="button" id='loginButton' 
-                onClick={handleLogin}
-            >Log In</button>
-        </form>
-        <p>BandTogether is a networking platform for Vermont's local music scene.</p>
-        <p>See you at the next show.</p>
-    </div>
+    return (
+        <div>
+            <h1>BandTogether</h1>
+            <h2>Build relationships.</h2>
+            <h2>Book shows.</h2>
+            <form action="" className="form-wrapper">
+                <div id='emailDiv'>
+                    <label htmlFor="emailInput">Email:</label>
+                    <input type="text" id="emailInput" placeholder="Enter your email here."
+                        onChange={e => setEmail(e.target.value)}/>
+                </div>
+                <div id='passwordDiv'>
+                    <label htmlFor="passwordInput">Password:</label>
+                    <input type="text" id="passwordInput" placeholder="Enter your password here."
+                        onChange={e => setPassword(e.target.value)}/>
+                </div>
+                <button type="button" id='loginButton' 
+                    onClick={handleLogin}
+                >Log In</button>
+            </form>
+            <p>BandTogether is a networking platform for Vermont's local music scene.</p>
+            <p>See you at the next show.</p>
+        </div>
   )
 }
 

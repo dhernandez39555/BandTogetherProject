@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Button, private_createTypography } from '@mui/material';
+import { Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import { IconButton, TextField } from '@mui/material';
 
 
 
@@ -34,14 +37,13 @@ function Showfinder() {
   }, [count])
 
   const renderEvents=()=>{
-    console.log(fetchResult)
     return fetchResult.length===0||!fetchResult
       ?<p>No Events Found</p>
       : <div className="renderContainer">
         {fetchResult.allEvents.map((result)=>(
           <div className="eventWrapper" key={result._id}>
             <h3 className='titleEach'>{result.title}</h3>
-            <h3 className='userEach'>{result.user}</h3>
+            <h3 className='userEach'>{result.user?result.user.bandName:"User is null or undefined"}</h3>
             <h4 className='dateEach'>{result.eventDate}</h4>
             <h5 className='bodyEach'>{result.body}</h5>
           </div>

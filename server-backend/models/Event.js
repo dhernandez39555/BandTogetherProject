@@ -9,6 +9,7 @@ const Event = new mongoose.Schema (
         },
         user:{
             type: ObjectId,
+            ref:"user",
             required: true
         },
         title:{
