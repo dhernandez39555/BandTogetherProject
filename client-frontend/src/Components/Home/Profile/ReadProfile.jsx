@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
+import ReactPlayer from "react-player"
 
 function ReadProfile() {
 
@@ -26,15 +27,15 @@ function ReadProfile() {
 
   useEffect(() => {
     fetchProfile()
-    console.log(" use effect ran")
   }, [])
 
   const renderProfile = () => {
-    console.log(profile)
+    console.log(profile.socials.soundCloud)
     return (
       <>
       <h1>{profile.bandName}</h1>
       <p>{profile.bio}</p>
+      <ReactPlayer url={profile.socials.soundCloud}/> 
       </>
     )
   }
