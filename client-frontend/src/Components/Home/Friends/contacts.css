@@ -4,13 +4,57 @@
 }
 
 #contact-header {
-    background-color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 70px;
+    border-bottom: 1px solid black;
+}
+
+#contact-header > h1 {
+    text-align: center;
+    font-size: 3em;
+}
+
+#open-form-btn {
+    height: 3em;
+    width: 3em;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
 }
 
 #add-contact-btn {
+    height: 3em;
+    width: 3em;
     float: right;
 }
 
-#contact-item {
-
+#contact-icon {
+    float: left;
 }
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    height: 70px;
+    border-bottom: 1px solid black;
+}
+
+#contact-form-wrap {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+#contact-form-input {
+    font-size: 2em;
+}
+
+#contact-form {
+    position: relative;
+}
+
