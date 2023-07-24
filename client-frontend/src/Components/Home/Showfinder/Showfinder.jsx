@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import { IconButton, TextField } from '@mui/material';
 
 
 
@@ -7,7 +10,7 @@ function Showfinder() {
 
   const sessionToken=localStorage.getItem("token")
   const [fetchResult,setFetchResult]=useState("")
-  const [flag, setFlag]=useState(false)
+  const [count, setCount]=useState(0)
   const [postBox,setPostBox]=useState(false)
   const [postBody, setPostBody]=useState({
     title:"",
@@ -27,9 +30,11 @@ function Showfinder() {
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   }
+  
   useEffect(()=>{
     fetchAllEvents()
-  }, [flag])
+    console.log(count)
+  }, [count])
 
   const renderEvents=()=>{
     return fetchResult.length===0||!fetchResult
@@ -38,7 +43,7 @@ function Showfinder() {
         {fetchResult.allEvents.map((result)=>(
           <div className="eventWrapper" key={result._id}>
             <h3 className='titleEach'>{result.title}</h3>
-            <h3 className='userEach'>{result.user}</h3>
+            <h3 className='userEach'>{result.user?result.user.bandName:"User is null or undefined"}</h3>
             <h4 className='dateEach'>{result.eventDate}</h4>
             <h5 className='bodyEach'>{result.body}</h5>
           </div>
@@ -63,7 +68,7 @@ function Showfinder() {
       eventDate:"",
       body:"",
     })
-    setFlag("post")
+    setCount(prevCount=> prevCount+1)
     closePostBox()
   }
   const handleNewEvent=(e)=>{
@@ -80,7 +85,7 @@ function Showfinder() {
       eventDate:"",
       body:""
     })
-    setFlag("no")
+    setCount(prevCount=> prevCount+1)
   }
 
   return (
