@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from '@mui/material';
+import { Button, private_createTypography } from '@mui/material';
 
 
 
@@ -7,7 +7,7 @@ function Showfinder() {
 
   const sessionToken=localStorage.getItem("token")
   const [fetchResult,setFetchResult]=useState("")
-  const [flag, setFlag]=useState(false)
+  const [count, setCount]=useState(0)
   const [postBox,setPostBox]=useState(false)
   const [postBody, setPostBody]=useState({
     title:"",
@@ -27,11 +27,14 @@ function Showfinder() {
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   }
+  
   useEffect(()=>{
     fetchAllEvents()
-  }, [flag])
+    console.log(count)
+  }, [count])
 
   const renderEvents=()=>{
+    console.log(fetchResult)
     return fetchResult.length===0||!fetchResult
       ?<p>No Events Found</p>
       : <div className="renderContainer">
@@ -48,7 +51,6 @@ function Showfinder() {
 
 //POST TIME
   function fetchPostEvent(){
-    console.log("prefetch")
     fetch("http://localhost:4000/event/",{
       method:"POST",
       headers: new Headers({
@@ -64,7 +66,7 @@ function Showfinder() {
       eventDate:"",
       body:"",
     })
-    setFlag("post")
+    setCount(prevCount=> prevCount+1)
     closePostBox()
   }
   const handleNewEvent=(e)=>{
@@ -81,7 +83,7 @@ function Showfinder() {
       eventDate:"",
       body:""
     })
-    setFlag("no")
+    setCount(prevCount=> prevCount+1)
   }
 
   return (
