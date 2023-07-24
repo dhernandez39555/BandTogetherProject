@@ -70,7 +70,7 @@ router.put("/", async (req, res) => {
             socials
         } = req.body;
 
-        const updateStatus = await Room.updateOne(
+        const updateStatus = await User.updateOne(
                 { _id: req.user._id }, 
                 { $set: {
                     email,
