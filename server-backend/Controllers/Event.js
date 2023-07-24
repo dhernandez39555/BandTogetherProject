@@ -58,7 +58,7 @@ router.put("/:event_id", async (req, res) => {
         const { event_id } = req.params;
         const { eventDate, title, body, genre } = req.body;
 
-        const findEvent = await Event.findOne({ _id: message_id });
+        const findEvent = await Event.findOne({ _id: event_id });
         if (!findEvent) throw Error("no event found");
 
         const updateStatus = await Event.updateOne({_id: event_id}, { $set: { eventDate, title, body, genre } });
