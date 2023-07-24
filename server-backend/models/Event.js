@@ -9,6 +9,7 @@ const Event = new mongoose.Schema (
         },
         user:{
             type: ObjectId,
+            ref:"user",
             required: true
         },
         title:{
@@ -18,6 +19,10 @@ const Event = new mongoose.Schema (
         body: {
             type: String,
             required: true
+        },
+        genre:{
+            type:String,
+            required:true
         }
     },
     {timestamps: true }

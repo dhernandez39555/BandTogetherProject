@@ -1,0 +1,27 @@
+#message-list {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    gap: 4em;
+    border-bottom: 1px solid black;
+}
+
+.message-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-text > p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+}

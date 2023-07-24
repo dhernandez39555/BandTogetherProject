@@ -9,6 +9,8 @@ function Register({ updateLocalStorage }) {
     const [ bandName, setBandName ] = useState("")
     const [ contactName, setContactName ] = useState("")
     const [ location, setLocation ] = useState("")
+    const [ latitude, setLatitude ] = useState("")
+    const [ longitude, setLongitude ] = useState("")
     const [ genre, setGenre ] = useState("")
     const [ additionGenre, setAdditionGenre ] = useState("")
     const [ bio, setBio ] = useState("")
@@ -17,6 +19,36 @@ function Register({ updateLocalStorage }) {
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
 
+    useEffect(() => {
+        if('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords
+                    setLatitude(latitude)
+                    setLongitude(longitude)
+                    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+
+                    fetch(url)
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const { city, country, state, postcode } = data.address;
+                            const formatLocation = `${city}, ${state}, ${country}` 
+                            setLocation(formatLocation)
+                        })
+                        .catch((err) => {
+                            console.log("Error location cannot be found", err);
+                        })
+                }
+
+            )
+        }
+    }, [])
+
+    const handleLocationChange = e => {
+        setLocation(e.target.value)
+    }
+
+    
     const handleGenreChange = (e) => {
         setGenre(e.target.value)
     }
@@ -32,8 +64,8 @@ function Register({ updateLocalStorage }) {
 
         const socials = { youtube, spotify, soundCloud, instagram }
 
-        const body = { email, password, bandName, contactName, location, 
-        genre, additionGenre, bio, socials} 
+        const body = { email, password, bandName, contactName, 
+        location, latitude, longitude, genre, additionGenre, bio, socials} 
 
         fetch(url, {
             method: "POST", 
@@ -82,8 +114,22 @@ function Register({ updateLocalStorage }) {
 
         <div>
         <label htmlFor="locationInput">Location:</label>
-        <input type="text" name="" id="locationInput" placeholder="Enter your location here."
-            onChange={e => setLocation(e.target.value)}/>
+            {location ? (
+                <input 
+                type="text"
+                name="location" 
+                id="locationInput" 
+                value={location}
+                placeholder="Enter your location here."
+                onChange={handleLocationChange}/>
+            ) : (
+                <input
+                    type='text'
+                    id='locationInput'
+                    name='location'
+                    placeholder='Enter your location here'
+                    onChange={handleLocationChange}/>
+            )}
         </div>
 
         <div id='genreDropdown'>
