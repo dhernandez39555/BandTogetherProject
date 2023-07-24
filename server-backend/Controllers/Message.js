@@ -51,6 +51,8 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
             {receiver:_id}]
         })
         findAll===0?Error("You do not have any messages from that user"):null
+        findAll.forEach(find => find.status = find.sender._id.equals(req.user._id) ? )
+        
         res.status(200).json(findAll)
     } catch (err){
         res.status(500).json({
