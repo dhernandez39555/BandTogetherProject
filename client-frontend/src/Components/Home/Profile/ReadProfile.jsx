@@ -30,15 +30,18 @@ function ReadProfile() {
   }, [])
 
   const renderProfile = () => {
-    console.log(profile.socials.soundCloud)
-    return (
-      <>
-      <h1>{profile.bandName}</h1>
-      <p>{profile.bio}</p>
-      <ReactPlayer url={profile.socials.soundCloud}/> 
-      </>
-    )
-  }
+    if (profile.socials) {
+      return (
+        <>
+          <h1>{profile.bandName}</h1>
+          <p>{profile.bio}</p>
+          {profile.socials.soundCloud && <ReactPlayer url={profile.socials.soundCloud} />}
+        </>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
+  };
 
   return (
     <div>
