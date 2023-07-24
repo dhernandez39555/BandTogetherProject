@@ -1,5 +1,6 @@
 import React, {useState} from 'react'; 
-import "./register.css"
+import { Navigate } from 'react-router-dom';
+import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 
 function Register({ updateLocalStorage }) {
@@ -47,6 +48,9 @@ function Register({ updateLocalStorage }) {
     }
 
   return (
+    <>
+    { localStorage.getItem("token") ? <Navigate to="/" /> : 
+
     <div id='registerDiv'>
     <form action="" className="form-wrapper">
         <h1>Sign Up</h1>
@@ -60,7 +64,7 @@ function Register({ updateLocalStorage }) {
 
         <div>
         <label htmlFor="passwordInput">Password:</label>
-        <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
+        <input type="password" name="" id="passwordInput" placeholder="Enter your password here." 
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
@@ -135,6 +139,8 @@ function Register({ updateLocalStorage }) {
         <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
+    }
+    </> 
   )
 }
 
