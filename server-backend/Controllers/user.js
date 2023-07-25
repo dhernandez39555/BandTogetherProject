@@ -131,7 +131,7 @@ router.put("/", async (req, res) => {
 // * DELETE Current User by sessionValidation * //
 router.delete("/", async (req, res) => {
     try {
-        const deleteUser = await Post.deleteOne(req.user._id);
+        const deleteUser = await User.deleteOne(req.user._id);
 
         res.status(200).json({
             message: "User deleted",
