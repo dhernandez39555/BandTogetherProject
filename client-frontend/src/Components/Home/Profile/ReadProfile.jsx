@@ -28,7 +28,7 @@ function ReadProfile() {
   useEffect(() => {
     fetchProfile()
   }, [])
-
+   
   const renderProfile = () => {
     if (profile.socials) {
       return (
