@@ -1,12 +1,14 @@
 #all-home {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    background-color: #EEEDED;
+    margin: 3vh 10vw;
 }
 #banner {
-    margin-bottom: 0;
+    margin: 0;
     padding-bottom: 0;
-    
+    font-family: Arial, Helvetica, sans-serif;
+    width: 75vw;
 }
 #banner-text {
     margin-bottom: 0;
@@ -18,6 +20,11 @@
     margin-top: 0;
     margin-bottom: 4vh;
 }
+#eighth-note {
+    height: 3.5vh;
+    float: right;
+    filter: invert(23%) sepia(94%) saturate(1629%) hue-rotate(263deg) brightness(83%) contrast(128%)
+}
 #button-1 {
     color: #FAE248;
     background-color: #7E12b3;
@@ -26,6 +33,10 @@
     border-radius: 100%;
     height: 9vh;
     width: 9vh;
+}
+
+#button-1 .MuiSvgIcon-root {
+    font-size: 275%;
 }
 
 #top {
