@@ -31,9 +31,17 @@ function ReadProfile() {
   useEffect(() => {
     fetchProfile()
   }, [params])
-   
+  
   const renderProfile = () => {
+
+    
     if (profile.socials) {
+
+      const spotifyInitial = `${profile.socials.spotify}` 
+      const parts = spotifyInitial.split('/')
+      const trackIndex = parts.indexOf('track')
+      const spotifyShortened = parts[trackIndex + 1]
+
       return (
         <div id='profileDiv'>
           <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
@@ -43,22 +51,22 @@ function ReadProfile() {
         <div id='socialMediaSpan'>
 
           <span id="instagramSpan" >
-          <img className='socialIcons' src="/assets/instagram.png" alt="" srcset="" 
+          <img className='socialIcons' src="/assets/instagram.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.instagram}`}}/>
           </span>
 
           <span id="soundCloudSpan">
-          <img className='socialIcons' src="/assets/soundcloud.png" alt="" srcset="" 
+          <img className='socialIcons' src="/assets/soundcloud.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.soundCloud}`}}/>
           </span>
 
           <span id="spotifySpan">
-          <img className='socialIcons' src="/assets/spotify.png" alt="" srcset="" 
+          <img className='socialIcons' src="/assets/spotify.png" alt="" srcSet=""
             onClick={(e) => {window.location.href = `${profile.socials.spotify}`}}/>
           </span>
 
           <span id="youtubeSpan">
-          <img className='socialIcons' src="/assets/youtube.png" alt="" srcset="" 
+          <img className='socialIcons' src="/assets/youtube.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.youtube}`}}/>
           </span> 
         </div>
@@ -70,6 +78,7 @@ function ReadProfile() {
           {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} />}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} />}
 
+          <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
         </div>
       );
