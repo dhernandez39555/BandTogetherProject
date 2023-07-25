@@ -29,7 +29,6 @@ function Showfinder() {
   }
   //Below are triggers for rendering
   const [showModal, setShowModal] = useState(false);
-  const [flag, setFlag]=useState(0)
   const [postBox,setPostBox]=useState(false)
   //Below are for HTTP requests
   const [idUrl,setIdUrl]=useState("")
@@ -38,7 +37,10 @@ function Showfinder() {
     title:"",
     body:"",
     eventDate:"",
-    genre:""
+    genre:"",
+    user:{
+      bandName:""
+    }
   })
 
 //Overall Render function
@@ -46,7 +48,7 @@ function Showfinder() {
     return fetchResult.length===0||!fetchResult
       ?<p>Loading Events...</p>
       : <div className="renderContainer">
-        {fetchResult.allEvents.map((result)=>(
+        {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
             <h2 className='titleEach'>Title: {result.title}</h2>
             <h4 className='userEach'>Band: {result.user.bandName}</h4>
@@ -76,7 +78,7 @@ function Showfinder() {
       })
     })
     .then(res=>res.json())
-    .then(data=>{console.log(data);setFetchResult(data)})
+    .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   }
   
@@ -103,8 +105,6 @@ function Showfinder() {
     .then(res=>res.json())
     .catch(err=>console.log(err))
     closePostBox()
-    setFlag(Math.random()*255)
-    console.log(flag)
   }
   const closePostBox=()=>{
     setPostBox(false)
@@ -112,8 +112,10 @@ function Showfinder() {
       title:"",
       body:"",
       eventDate:"",
-      genre:""
-      
+      genre:"",
+      user:{
+        bandName:""
+      }
     })
   }
   //Shared PUT and POST functions
@@ -147,8 +149,6 @@ function Showfinder() {
       console.log(err)
     }
     setIdUrl("")
-    setFlag(Math.random()*255)
-    console.log(flag)
   }
   //need fx to check if event poster is current user
   //cndt'l off of above to render buttons 'edit'+'delete'
@@ -167,7 +167,6 @@ function Showfinder() {
     .then(res=>res.json())
     .catch(err=>console.log(err))
     setIdUrl("")
-    setFlag(Math.random()*255)
   }
   
   //PUT+DELETE functions
@@ -176,7 +175,10 @@ function Showfinder() {
       title:"",
       body:"",
       eventDate:"",
-      genre:""
+      genre:"",
+      user:{
+        bandName:""
+      }
     })
     setShowModal(false)
   }
@@ -186,7 +188,7 @@ function Showfinder() {
   //!UseEffect -> not re-rendering after second render
   useEffect(()=>{
       fetchAllEvents()
-  }, [flag])
+  })
   //RETURN
   return (
     <>
