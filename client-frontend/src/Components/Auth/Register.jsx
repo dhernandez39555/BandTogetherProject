@@ -1,12 +1,18 @@
-import React, {useState} from 'react'; 
-import "./register.css"
+import React, {useEffect, useState} from 'react'; 
+import { Navigate } from 'react-router-dom';
+import "./register.css"; 
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+// import imageCompression from 'browser-image-compression';
 
 function Register({ updateLocalStorage }) {
+    const [profilePicture, setProfilePicture] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ bandName, setBandName ] = useState("")
     const [ contactName, setContactName ] = useState("")
     const [ location, setLocation ] = useState("")
+    const [ latitude, setLatitude ] = useState("")
+    const [ longitude, setLongitude ] = useState("")
     const [ genre, setGenre ] = useState("")
     const [ additionGenre, setAdditionGenre ] = useState("")
     const [ bio, setBio ] = useState("")
@@ -14,6 +20,35 @@ function Register({ updateLocalStorage }) {
     const [ spotify, setSpotify ]= useState("")
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
+    
+    useEffect(() => {
+        if('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords
+                    setLatitude(latitude)
+                    setLongitude(longitude)
+                    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+
+                    fetch(url)
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const { city, country, state, postcode } = data.address;
+                            const formatLocation = `${city}, ${state}, ${country}` 
+                            setLocation(formatLocation)
+                        })
+                        .catch((err) => {
+                            console.log("Error location cannot be found", err);
+                        })
+                }
+
+            )
+        }
+    }, [])
+
+    const handleLocationChange = e => {
+        setLocation(e.target.value)
+    }
 
     const handleGenreChange = (e) => {
         setGenre(e.target.value)
@@ -30,9 +65,9 @@ function Register({ updateLocalStorage }) {
 
         const socials = { youtube, spotify, soundCloud, instagram }
 
-        const body = { email, password, bandName, contactName, location, 
-        genre, additionGenre, bio, socials} 
-
+        const body = { profilePicture, email, password, bandName, contactName, 
+        location, latitude, longitude, genre, additionGenre, bio, socials} 
+        
         fetch(url, {
             method: "POST", 
             body: JSON.stringify(body),
@@ -44,11 +79,61 @@ function Register({ updateLocalStorage }) {
         .then(data => updateLocalStorage(data.token))
         .catch(err => console.log(err))
     }
+    
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        }
+        fileReader.onerror = (error) => {
+            reject(error) 
+        }
+        })
+    }
+    
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await  convertToBase64(file)
+        setProfilePicture(base64)
+        console.log(base64)
+    }
 
+/*     const handleFileUpload = async (e) => {
+        const imageFile = e.target.files[0];
+        const options = {
+            maxSizeMB: 1, 
+            maxWidthOrHeight: 1920
+        }
+        const file = await imageCompression(imageFile, options)
+        const base64 = await  convertToBase64(file)
+        setProfilePicture(base64)
+        console.log(base64)
+    } */
+ 
   return (
+    <>
+    { localStorage.getItem("token") ? <Navigate to="/" /> : 
+
     <div id='registerDiv'>
     <form action="" className="form-wrapper">
         <h1>Sign Up</h1>
+
+        {profilePicture === "" ? 
+            <label htmlFor="file-upload">
+                <AddAPhotoOutlinedIcon/> 
+            </label>
+        : 
+        <div>
+        <p>Photo has been uploaded.</p>
+        <img src={profilePicture} alt="" srcSet="" style={{width: 50, height: 50, borderRadius:100}}/>
+        </div>
+        }
+
+        <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
+            onChange={(e) => handleFileUpload(e)}/>
+
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
         <input type="text" name="" id="emailInput" placeholder="Enter your email here."
@@ -57,7 +142,7 @@ function Register({ updateLocalStorage }) {
 
         <div>
         <label htmlFor="passwordInput">Password:</label>
-        <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
+        <input type="password" name="" id="passwordInput" placeholder="Enter your password here." 
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
@@ -75,8 +160,22 @@ function Register({ updateLocalStorage }) {
 
         <div>
         <label htmlFor="locationInput">Location:</label>
-        <input type="text" name="" id="locationInput" placeholder="Enter your location here."
-            onChange={e => setLocation(e.target.value)}/>
+            {location ? (
+                <input 
+                type="text"
+                name="location" 
+                id="locationInput" 
+                value={location}
+                placeholder="Enter your location here."
+                onChange={handleLocationChange}/>
+            ) : (
+                <input
+                    type='text'
+                    id='locationInput'
+                    name='location'
+                    placeholder='Enter your location here'
+                    onChange={handleLocationChange}/>
+            )}
         </div>
 
         <div id='genreDropdown'>
@@ -132,6 +231,8 @@ function Register({ updateLocalStorage }) {
         <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
+    }
+    </> 
   )
 }
 

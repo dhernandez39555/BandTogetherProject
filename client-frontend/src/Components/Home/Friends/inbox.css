@@ -1,20 +1,52 @@
-#message-list {
+#inbox-page {
     display: flex;
     flex-direction: column;
+    background-color: #EEEDED;
+}
+
+#message-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 70px;
     height: 70px;
+    background-color: #FAE248;
+    border-bottom: 1px solid black;
+}
+
+.message-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+#message-header > h1 {
+    text-align: center;
+    font-size: 3em;
+}
+
+#new-message-btn {
+    height: 3em;
+    width: 3em;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
 }
 
 .message-item {
     display: flex;
     align-items: center;
+    background-color: white;
     padding: 1em;
-    gap: 4em;
+    gap: 1em;
     border-bottom: 1px solid black;
 }
 
 .message-text {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .message-text > p {

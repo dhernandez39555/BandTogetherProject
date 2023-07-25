@@ -7,17 +7,17 @@ const JWT_KEY = process.env.JWT_KEY
 
 router.post("/register", async (req, res) => {
     try {
-    const { email, password, bandName, contactName, location, genre,
+    const { profilePicture, email, password, bandName, contactName, location, latitude, longitude, genre,
         additionGenre, bio, following, follower, friendList, 
-        socials } = req.body 
+        socials } = req.body
     
     if (!email || !password || !bandName || !contactName || !location || !bio) 
         throw Error("Please, provide all necessary information.")
 
-    const newUser = new User({ email, password: bcrypt.hashSync(password, SALT), 
-        contactName, bandName, location, genre, additionGenre, bio, following, follower, 
+    const newUser = new User({ profilePicture, email, password: bcrypt.hashSync(password, SALT), 
+        contactName, bandName, location, latitude, longitude, genre, additionGenre, bio, following, follower, 
         friendList, socials })
-    
+        
     await newUser.save()
 
     const token = jwt.sign(
