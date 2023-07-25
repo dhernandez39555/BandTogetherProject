@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Navigate } from 'react-router-dom';
 import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+// import imageCompression from 'browser-image-compression';
 
 function Register({ updateLocalStorage }) {
     const [profilePicture, setProfilePicture] = useState("")
@@ -98,7 +99,19 @@ function Register({ updateLocalStorage }) {
         setProfilePicture(base64)
         console.log(base64)
     }
-    
+
+/*     const handleFileUpload = async (e) => {
+        const imageFile = e.target.files[0];
+        const options = {
+            maxSizeMB: 1, 
+            maxWidthOrHeight: 1920
+        }
+        const file = await imageCompression(imageFile, options)
+        const base64 = await  convertToBase64(file)
+        setProfilePicture(base64)
+        console.log(base64)
+    } */
+ 
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
@@ -114,7 +127,7 @@ function Register({ updateLocalStorage }) {
         : 
         <div>
         <p>Photo has been uploaded.</p>
-        <img src={profilePicture} alt="" srcset="" style={{width: 50, height: 50, borderRadius:100}}/>
+        <img src={profilePicture} alt="" srcSet="" style={{width: 50, height: 50, borderRadius:100}}/>
         </div>
         }
 

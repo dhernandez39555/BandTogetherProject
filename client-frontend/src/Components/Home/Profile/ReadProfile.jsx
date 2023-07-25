@@ -35,6 +35,7 @@ function ReadProfile() {
         <>
           <h1>{profile.bandName}</h1>
           <p>{profile.bio}</p>
+          <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
           {profile.socials.soundCloud && <ReactPlayer url={profile.socials.soundCloud} />}
           {profile.socials.youtube && <ReactPlayer url={profile.socials.youtube} />}
         </>
