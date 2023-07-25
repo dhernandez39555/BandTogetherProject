@@ -25,7 +25,10 @@ function Direct() {
 
     fetch(`http://127.0.0.1:4000/message/readAllFrom/${otherUser_id}`, options)
       .then(res => res.json())
-      .then(data => setDirects(data))
+      .then(data => {
+        console.log(data);
+        setDirects(data)
+      })
       .catch(err => err.message)
   }, [])
 
@@ -45,12 +48,12 @@ function Direct() {
       .catch(err => err.message)
   }
 
-  const getDate = (date, i) => {
+  const getDate = (date) => {
     const newDate = new Date(date);
     if (prevDate.current.getDate() === newDate.getDate()) return null;
     const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
     prevDate.current = newDate;
-    return (<div id="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
+    return (<div className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
   }
 
   const getTime = date => {
@@ -80,13 +83,15 @@ function Direct() {
         : <div id="direct-list">
             {directs.map((direct, i) =>
             <>
-            {getDate(direct.createdAt, i)}
+            { direct.createdAt
+              ? getDate(direct.createdAt)
+              : <div className="datestamp"><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
             <div className="direct-item" key={i}>
-              <ControlPointIcon />
+              <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
               <div className="direct-text">
                 <div className="direct-top">
                   <h3>{direct.sender.bandName}</h3>
-                  <p>{getTime(direct.createdAt)}</p>
+                  <p>{ direct.createdAt ? getTime(direct.createdAt) : null }</p>
                 </div>
                 <p>{direct.body}</p>
               </div>
