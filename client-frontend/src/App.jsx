@@ -9,6 +9,7 @@ import LearnMore from './Components/Welcome/LearnMore';
  
 import Register from './Components/Auth/Register';
 import Login from './Components/Auth/Login';
+import Logout from './Components/Auth/Logout';
 
 import Home from './Components/Home/Home';
 import Invite from './Components/Home/Invite';
@@ -46,6 +47,7 @@ function App() {
       <Route path='/learnmore' element={ <LearnMore /> } />
       <Route path='/register' element={ <Register updateLocalStorage={updateLocalStorage}/> } />
       <Route path='/login' element={ <Login updateLocalStorage={updateLocalStorage}/> } />
+      <Route path='/logout' element={ <Logout/> } />
       <Route element={ <PrivateRoute /> }>
         <Route element={ <><Header /><Footer /><div id="bottom-spacer"></div></> }>
           <Route path='/invite' element={ <Invite /> } />
