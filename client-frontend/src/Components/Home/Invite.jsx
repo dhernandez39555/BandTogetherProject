@@ -40,22 +40,22 @@ function Invite() {
             console.log(`error`,error)
         })
     }
-  return (
+return (
     <div id='invite-component'>
         <h1 id='banner'>Invite a Friend</h1>
         <form id='email-form' onSubmit={handleSubmit}>
             <label id='email-input'>
                 Email Address:
-                <input type="email" value={email} onChange={handleEmail} placeholder='Enter Friends Email address'/>
+                <input type="email" value={email} onChange={handleEmail} placeholder='Enter friends email address here'/>
             </label>
             <label id='message-input'>
                 Message:
-                <textarea id='email-body' value={message} onChange={handleMessage}></textarea>
+                <textarea id='email-body' placeholder='Enter message here' value={message} onChange={handleMessage}></textarea>
             </label>
-            <button type='submit'>Send</button>
+            <button id='invite-button' type='submit'>Send</button>
         </form>
     </div>
-  )
+)
 }
 
 export default Invite

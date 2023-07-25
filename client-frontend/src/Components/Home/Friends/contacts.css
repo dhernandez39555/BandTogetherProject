@@ -32,16 +32,20 @@
     float: right;
 }
 
-#contact-icon {
-    float: left;
-}
-
 .contact-item {
     display: flex;
     align-items: center;
     gap: 1em;
     height: 70px;
     border-bottom: 1px solid black;
+}
+
+.contact-item > img {
+    float: left;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    margin-left: 1em;
 }
 
 #contact-form-wrap {
@@ -56,5 +60,13 @@
 
 #contact-form {
     position: relative;
+}
+
+#contact-icon {
+    float: left;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    margin-left: 1em;
 }
 
