@@ -2,11 +2,26 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 2vh 10vw;
+}
+#banner {
+    font-family: inherit;
+    align-self: center;
 }
 #email-input, #message-input {
     display: flex;
     flex-direction: column;
 }
+#email-input {
+    margin-top: 2vh;
+}
+#message-input {
+    margin-top: 1vh;
+}
 #email-body {
-    height: 30vh;
+    height: 20vh;
+    margin-bottom: 2vh;
+}
+#invite-button {
+    
 }

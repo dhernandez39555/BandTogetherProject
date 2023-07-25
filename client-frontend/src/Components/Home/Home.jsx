@@ -8,6 +8,7 @@ import ContactIcon from '@mui/icons-material/PersonPinOutlined';
 import MessageIcon from '@mui/icons-material/MailOutline';
 import NewsIcon from '@mui/icons-material/Feed';
 import ProfileIcon from '@mui/icons-material/PersonOutline';
+import note from '../assets/8thnote.png'
 import './Home.css'
 
 
@@ -32,10 +33,10 @@ const getUserId = () => {
 console.log(getUserId())
 
 return (
-    <div id='all-Home'>
+    <div id='all-home'>
         <div id='banner'>
             <h1 id='banner-text'>BandTogether</h1>
-            <div id='banner-underline'></div>
+            <div id='banner-underline'><img id='eighth-note' src={note}/></div>
             
         </div>
 
