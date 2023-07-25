@@ -55,14 +55,11 @@
     transform: translate(-50%, -50%);
 }
 
-.title-icon:first-of-type {
-    transform: rotate(180deg) translate(-10px, 15px);
-}
-
-.title-icon {
+#title-icon {
+    height: 40px;
+    width: 40px;
     float: right;
-    color: #7E12B3;
-    transform: rotate(180deg) translate(-25px, 10px);
+    transform: translate(0, -10px);
 }
 
 #title-underline {
@@ -72,10 +69,6 @@
 
 #welcome-info {
     background-color: #e6e6e6;
-    /* position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0; */
 }
 
 #welcome-wrap {

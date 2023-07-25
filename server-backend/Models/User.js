@@ -6,6 +6,9 @@ const User = new mongoose.Schema(
         profilePicture: {
             type: String
         },
+        coverPhoto: {
+            type: String
+        },
         email: {
             type: String,
             required: true,
