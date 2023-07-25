@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { Navigate } from 'react-router-dom';
 import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
-// import imageCompression from 'browser-image-compression';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 function Register({ updateLocalStorage }) {
     const [profilePicture, setProfilePicture] = useState("")
+    const [coverPhoto, setCoverPhoto] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ bandName, setBandName ] = useState("")
@@ -65,7 +66,7 @@ function Register({ updateLocalStorage }) {
 
         const socials = { youtube, spotify, soundCloud, instagram }
 
-        const body = { profilePicture, email, password, bandName, contactName, 
+        const body = { profilePicture, coverPhoto, email, password, bandName, contactName, 
         location, latitude, longitude, genre, additionGenre, bio, socials} 
         
         fetch(url, {
@@ -97,21 +98,14 @@ function Register({ updateLocalStorage }) {
         const file = e.target.files[0];
         const base64 = await  convertToBase64(file)
         setProfilePicture(base64)
-        console.log(base64)
     }
 
-/*     const handleFileUpload = async (e) => {
-        const imageFile = e.target.files[0];
-        const options = {
-            maxSizeMB: 1, 
-            maxWidthOrHeight: 1920
-        }
-        const file = await imageCompression(imageFile, options)
-        const base64 = await  convertToBase64(file)
-        setProfilePicture(base64)
-        console.log(base64)
-    } */
- 
+    const handleCoverUpload = async (e) => {
+        const file = e.target.files[0];
+        const coverBase64 = await convertToBase64(file)
+        setCoverPhoto(coverBase64) 
+    }
+
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
@@ -122,17 +116,33 @@ function Register({ updateLocalStorage }) {
 
         {profilePicture === "" ? 
             <label htmlFor="file-upload">
+                <p>Profile</p>
                 <AddAPhotoOutlinedIcon/> 
             </label>
         : 
         <div>
-        <p>Photo has been uploaded.</p>
+        <p>Profile has been uploaded.</p>
         <img src={profilePicture} alt="" srcSet="" style={{width: 50, height: 50, borderRadius:100}}/>
         </div>
         }
 
         <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
             onChange={(e) => handleFileUpload(e)}/>
+
+        {coverPhoto === "" ?
+            <label htmlFor="cover-upload">
+                <p>Cover</p>
+                <AddPhotoAlternateIcon/> 
+            </label>
+            : 
+            <div>
+                <p>Cover photo has been uploaded.</p>
+                <img src={coverPhoto} style={{width: 500, height: 100}}/>
+            </div>
+        }
+
+        <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
+            onChange={(e) => handleCoverUpload(e)}/>
 
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>

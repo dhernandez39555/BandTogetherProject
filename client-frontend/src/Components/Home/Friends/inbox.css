@@ -43,6 +43,13 @@
     border-bottom: 1px solid black;
 }
 
+.message-item > img {
+    float: left;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+}
+
 .message-text {
     display: flex;
     flex-direction: column;
@@ -56,4 +63,24 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-clamp: 2;
+}
+
+#message-form-wrap {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+#message-form-input {
+    font-size: 2em;
+}
+
+#message-form {
+    position: relative;
+}
+
+#go-direct-btn {
+    height: 3em;
+    width: 3em;
+    float: right;
 }

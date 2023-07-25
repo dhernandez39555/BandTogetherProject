@@ -8,6 +8,7 @@ import ContactIcon from '@mui/icons-material/PersonPinOutlined';
 import MessageIcon from '@mui/icons-material/MailOutline';
 import NewsIcon from '@mui/icons-material/Feed';
 import ProfileIcon from '@mui/icons-material/PersonOutline';
+import note from '../assets/8thnote.png'
 import './Home.css'
 
 
@@ -20,7 +21,6 @@ const getUserId = () => {
     if (sessionToken) {
         try {
             const decodedToken = jwtDecode(sessionToken)
-            console.log(decodedToken._id)
             return decodedToken._id 
         } catch (error) {
             console.log(`error decoding`,error)
@@ -29,13 +29,12 @@ const getUserId = () => {
 
     return null;
 }
-console.log(getUserId())
 
 return (
-    <div id='all-Home'>
+    <div id='all-home'>
         <div id='banner'>
             <h1 id='banner-text'>BandTogether</h1>
-            <div id='banner-underline'></div>
+            <div id='banner-underline'><img id='eighth-note' src={note}/></div>
             
         </div>
 
@@ -83,7 +82,7 @@ return (
             </div>
         </div>
         <div id='bottom'>
-            <div id='News'>
+            <div id='news'>
                 <Button
                 id='button-1'
                 startIcon={<NewsIcon/>}
@@ -92,7 +91,7 @@ return (
                 />
                 <p>Music News</p>
             </div>
-            <div id='my profile'>
+            <div id='my-profile'>
                 <Button
                 id='button-1'
                 startIcon={<ProfileIcon/>}
