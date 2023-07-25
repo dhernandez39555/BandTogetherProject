@@ -1,13 +1,15 @@
 #inbox-page {
     display: flex;
     flex-direction: column;
+    background-color: #EEEDED;
 }
 
 #message-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: sticky;
+    top: 70px;
     height: 70px;
     background-color: #FAE248;
     border-bottom: 1px solid black;
@@ -35,6 +37,7 @@
 .message-item {
     display: flex;
     align-items: center;
+    background-color: white;
     padding: 1em;
     gap: 1em;
     border-bottom: 1px solid black;
