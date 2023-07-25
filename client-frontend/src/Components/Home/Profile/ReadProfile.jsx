@@ -12,7 +12,7 @@ function ReadProfile() {
   const [ profile, setProfile ] = useState({})
 
   const sessionToken = localStorage.getItem('token');
-
+  
   const params = useParams();
 
   const fetchProfile = () => {
@@ -45,6 +45,7 @@ function ReadProfile() {
 
       return (
         <div id='profileDiv'>
+          <img src={`${profile.coverPhoto}`}/>
           <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
           <h1>{profile.bandName}</h1>
           <p>{profile.bio}</p> 
@@ -75,11 +76,13 @@ function ReadProfile() {
           <div id='editProfileDiv'>
           <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
           </div>
-          
+
           {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} />}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} />}
-
-          <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          {profile.socials.spotify && <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} 
+            width="100%" height="352" frameBorder="0" allowFullScreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"></iframe>} 
 
         </div>
       );
