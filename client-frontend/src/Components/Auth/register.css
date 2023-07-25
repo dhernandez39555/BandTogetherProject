@@ -8,6 +8,10 @@
     display: none;
 }
 
+#cover-upload{
+    display: none; 
+}
+
 input {
     background-color: #e6e6e6;
 }

@@ -53,6 +53,36 @@ router.get("/:user_id", async (req, res) => {
     }
 });
 
+// * UPDATE add contact to current user * //
+router.put("/addcontact", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const popFriends = await req.user.populate("friendList");
+        const currentFriends = popFriends.friendList;
+        
+        const foundEmail = currentFriends.filter(friend => friend.email === email)[0];
+        if (foundEmail) throw Error(`${email} is already added`);
+        
+        const foundUser = await User.findOne({ email: email });
+        if (!foundUser) throw Error(`${email} does not have an account`);
+
+        const updateStatus = await User.updateOne(
+                { _id: req.user._id }, 
+                { $push: { friendList: foundUser._id } }
+            );
+
+        if (updateStatus.matchedCount == 0) throw Error(`${req.user._id} does not exist. No update was performed.`);
+        res.status(200).json({
+            message: `${req.user._id} was updated`,
+            newContact: foundUser
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+
 // * UPDATE Current A User by user_id * //
 router.put("/", async (req, res) => {
     try {
@@ -106,6 +136,26 @@ router.delete("/", async (req, res) => {
         res.status(200).json({
             message: "User deleted",
             payload: deleteUser
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+
+// * GET user by email * //
+router.get("/checkEmail/:otherUser_email", async (req, res) => {
+    try {
+        const { otherUser_email } = req.params;
+
+        const foundUser_id = await User.exists({ email: otherUser_email });
+        console.log(foundUser_id);
+        if (!foundUser_id) throw Error("User does not exist");
+
+        res.status(200).json({
+            message: "User Exist",
+            foundUser_id
         });
     } catch (err) {
         res.status(500).json({

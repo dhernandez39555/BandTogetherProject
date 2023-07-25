@@ -64,14 +64,14 @@
     color: lightgray;
 }
 
-#datestamp {
+.datestamp {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-#datestamp > p {
+.datestamp > p {
     color: lightgray;
 }
 
@@ -89,8 +89,17 @@
     gap: 1em;
 }
 
+.direct-item > img {
+    float: left;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+}
+
 .direct-text {
     display: flex;
     flex-direction: column;
     width: 100%
 }
+
+
