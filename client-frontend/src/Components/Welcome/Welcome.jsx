@@ -2,14 +2,14 @@ import React from 'react'
 import './welcome.css'
 import { Link } from 'react-router-dom'
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import note from "../assets/8thnote.png";
 
 function Welcome() {
     return (
         <main id="welcome-page">
             <div id="welcome-container">
                 <h1>BandTogether</h1>
-                <MusicNoteIcon className="title-icon" fontSize="large" />
-                <MusicNoteIcon className="title-icon" fontSize="large" />
+                <img id="title-icon" src={note} alt="note" />
                 <div id="title-underline"></div>
                 <h2>Build relationships.<br/>Book show.</h2>
                 <div id="welcome-btns">
