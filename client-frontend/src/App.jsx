@@ -6,7 +6,7 @@ import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 import Welcome from './Components/Welcome/Welcome';
 import LearnMore from './Components/Welcome/LearnMore';
-
+ 
 import Register from './Components/Auth/Register';
 import Login from './Components/Auth/Login';
 
