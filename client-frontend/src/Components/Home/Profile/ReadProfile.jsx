@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 import "./readProfile.css"
 import { useHref, useParams } from 'react-router-dom'
 // import ReactPlayer from "react-player"
@@ -6,6 +7,7 @@ import YouTubePlayer from 'react-player/youtube'
 import SoundCloudPlayer from 'react-player/soundcloud'
 
 function ReadProfile() {
+  const navigate = useNavigate()
 
   const [ profile, setProfile ] = useState({})
 
@@ -34,7 +36,6 @@ function ReadProfile() {
   
   const renderProfile = () => {
 
-    
     if (profile.socials) {
 
       const spotifyInitial = `${profile.socials.spotify}` 
@@ -72,9 +73,9 @@ function ReadProfile() {
         </div>
 
           <div id='editProfileDiv'>
-          <button type='button'>Edit Profile</button>
+          <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
           </div>
-
+          
           {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} />}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} />}
 
