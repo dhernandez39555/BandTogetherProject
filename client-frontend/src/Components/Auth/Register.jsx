@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react'; 
-import "./register.css"
+import { Navigate } from 'react-router-dom';
+import "./register.css"; 
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+// import imageCompression from 'browser-image-compression';
 
 function Register({ updateLocalStorage }) {
+    const [profilePicture, setProfilePicture] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ bandName, setBandName ] = useState("")
@@ -16,7 +20,7 @@ function Register({ updateLocalStorage }) {
     const [ spotify, setSpotify ]= useState("")
     const [ soundCloud, setSoundCloud ] = useState("")
     const [ instagram, setInstagram ] = useState("")
-
+    
     useEffect(() => {
         if('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -46,7 +50,6 @@ function Register({ updateLocalStorage }) {
         setLocation(e.target.value)
     }
 
-    
     const handleGenreChange = (e) => {
         setGenre(e.target.value)
     }
@@ -62,9 +65,9 @@ function Register({ updateLocalStorage }) {
 
         const socials = { youtube, spotify, soundCloud, instagram }
 
-        const body = { email, password, bandName, contactName, 
+        const body = { profilePicture, email, password, bandName, contactName, 
         location, latitude, longitude, genre, additionGenre, bio, socials} 
-
+        
         fetch(url, {
             method: "POST", 
             body: JSON.stringify(body),
@@ -76,11 +79,61 @@ function Register({ updateLocalStorage }) {
         .then(data => updateLocalStorage(data.token))
         .catch(err => console.log(err))
     }
+    
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        }
+        fileReader.onerror = (error) => {
+            reject(error) 
+        }
+        })
+    }
+    
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await  convertToBase64(file)
+        setProfilePicture(base64)
+        console.log(base64)
+    }
 
+/*     const handleFileUpload = async (e) => {
+        const imageFile = e.target.files[0];
+        const options = {
+            maxSizeMB: 1, 
+            maxWidthOrHeight: 1920
+        }
+        const file = await imageCompression(imageFile, options)
+        const base64 = await  convertToBase64(file)
+        setProfilePicture(base64)
+        console.log(base64)
+    } */
+ 
   return (
+    <>
+    { localStorage.getItem("token") ? <Navigate to="/" /> : 
+
     <div id='registerDiv'>
     <form action="" className="form-wrapper">
         <h1>Sign Up</h1>
+
+        {profilePicture === "" ? 
+            <label htmlFor="file-upload">
+                <AddAPhotoOutlinedIcon/> 
+            </label>
+        : 
+        <div>
+        <p>Photo has been uploaded.</p>
+        <img src={profilePicture} alt="" srcSet="" style={{width: 50, height: 50, borderRadius:100}}/>
+        </div>
+        }
+
+        <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
+            onChange={(e) => handleFileUpload(e)}/>
+
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
         <input type="text" name="" id="emailInput" placeholder="Enter your email here."
@@ -89,7 +142,7 @@ function Register({ updateLocalStorage }) {
 
         <div>
         <label htmlFor="passwordInput">Password:</label>
-        <input type="text" name="" id="passwordInput" placeholder="Enter your password here." 
+        <input type="password" name="" id="passwordInput" placeholder="Enter your password here." 
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
@@ -178,6 +231,8 @@ function Register({ updateLocalStorage }) {
         <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
+    }
+    </> 
   )
 }
 

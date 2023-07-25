@@ -6,7 +6,7 @@ import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 import Welcome from './Components/Welcome/Welcome';
 import LearnMore from './Components/Welcome/LearnMore';
-
+ 
 import Register from './Components/Auth/Register';
 import Login from './Components/Auth/Login';
 
@@ -59,7 +59,8 @@ function App() {
         </Route>
         <Route path='/' element={ <Home /> } />
         <Route path='/newmessage' element={ <NewMessage /> } />
-        <Route path='/messaging' element={ <Direct /> } />
+        <Route path='/newmessage/:otherUser_id' element={ <NewMessage /> } />
+        <Route path='/messaging/:otherUser_id' element={ <Direct /> } />
       </Route>
     </Routes>
     </>
