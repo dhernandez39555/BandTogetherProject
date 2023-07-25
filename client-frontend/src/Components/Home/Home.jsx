@@ -21,7 +21,6 @@ const getUserId = () => {
     if (sessionToken) {
         try {
             const decodedToken = jwtDecode(sessionToken)
-            console.log(decodedToken._id)
             return decodedToken._id 
         } catch (error) {
             console.log(`error decoding`,error)
@@ -30,7 +29,6 @@ const getUserId = () => {
 
     return null;
 }
-console.log(getUserId())
 
 return (
     <div id='all-home'>
@@ -84,7 +82,7 @@ return (
             </div>
         </div>
         <div id='bottom'>
-            <div id='News'>
+            <div id='news'>
                 <Button
                 id='button-1'
                 startIcon={<NewsIcon/>}
@@ -93,7 +91,7 @@ return (
                 />
                 <p>Music News</p>
             </div>
-            <div id='my profile'>
+            <div id='my-profile'>
                 <Button
                 id='button-1'
                 startIcon={<ProfileIcon/>}
