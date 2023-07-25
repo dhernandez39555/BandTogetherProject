@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import ReactPlayer from "react-player"
+import "./readProfile.css"
+import { useHref, useParams } from 'react-router-dom'
+// import ReactPlayer from "react-player"
+import YouTubePlayer from 'react-player/youtube'
+import SoundCloudPlayer from 'react-player/soundcloud'
 
 function ReadProfile() {
 
@@ -27,18 +30,48 @@ function ReadProfile() {
 
   useEffect(() => {
     fetchProfile()
-  }, [])
+  }, [params])
    
   const renderProfile = () => {
     if (profile.socials) {
       return (
-        <>
-          <h1>{profile.bandName}</h1>
-          <p>{profile.bio}</p>
+        <div id='profileDiv'>
           <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
-          {profile.socials.soundCloud && <ReactPlayer url={profile.socials.soundCloud} />}
-          {profile.socials.youtube && <ReactPlayer url={profile.socials.youtube} />}
-        </>
+          <h1>{profile.bandName}</h1>
+          <p>{profile.bio}</p> 
+
+        <div id='socialMediaSpan'>
+
+          <span id="instagramSpan" >
+          <img className='socialIcons' src="/assets/instagram.png" alt="" srcset="" 
+            onClick={(e) => {window.location.href = `${profile.socials.instagram}`}}/>
+          </span>
+
+          <span id="soundCloudSpan">
+          <img className='socialIcons' src="/assets/soundcloud.png" alt="" srcset="" 
+            onClick={(e) => {window.location.href = `${profile.socials.soundCloud}`}}/>
+          </span>
+
+          <span id="spotifySpan">
+          <img className='socialIcons' src="/assets/spotify.png" alt="" srcset="" 
+            onClick={(e) => {window.location.href = `${profile.socials.spotify}`}}/>
+          </span>
+
+          <span id="youtubeSpan">
+          <img className='socialIcons' src="/assets/youtube.png" alt="" srcset="" 
+            onClick={(e) => {window.location.href = `${profile.socials.youtube}`}}/>
+          </span> 
+        </div>
+
+          <div id='editProfileDiv'>
+          <button type='button'>Edit Profile</button>
+          </div>
+
+          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} />}
+          {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} />}
+
+
+        </div>
       );
     } else {
       return <div>Loading...</div>;
