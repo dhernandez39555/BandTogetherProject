@@ -97,21 +97,8 @@ function Register({ updateLocalStorage }) {
         const file = e.target.files[0];
         const base64 = await  convertToBase64(file)
         setProfilePicture(base64)
-        console.log(base64)
     }
 
-/*     const handleFileUpload = async (e) => {
-        const imageFile = e.target.files[0];
-        const options = {
-            maxSizeMB: 1, 
-            maxWidthOrHeight: 1920
-        }
-        const file = await imageCompression(imageFile, options)
-        const base64 = await  convertToBase64(file)
-        setProfilePicture(base64)
-        console.log(base64)
-    } */
- 
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 

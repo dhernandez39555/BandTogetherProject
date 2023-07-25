@@ -20,7 +20,6 @@ const getUserId = () => {
     if (sessionToken) {
         try {
             const decodedToken = jwtDecode(sessionToken)
-            console.log(decodedToken._id)
             return decodedToken._id 
         } catch (error) {
             console.log(`error decoding`,error)
@@ -29,7 +28,6 @@ const getUserId = () => {
 
     return null;
 }
-console.log(getUserId())
 
 return (
     <div id='all-Home'>
