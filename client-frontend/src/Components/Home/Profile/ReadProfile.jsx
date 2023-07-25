@@ -76,9 +76,11 @@ function ReadProfile() {
           <div id='editProfileDiv'>
           <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
           </div>
-
-          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} />}
-          {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} />}
+          
+          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} 
+            width="100%"/>}
+          {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} 
+            width="100%"/>}
           {profile.socials.spotify && <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} 
             width="100%" height="352" frameBorder="0" allowFullScreen="" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
