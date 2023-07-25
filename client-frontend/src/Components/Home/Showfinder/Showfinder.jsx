@@ -88,7 +88,7 @@ function Showfinder() {
   }
   //TODO: change below to go to specific message
   const messageNav=(_id)=>{
-    navigate(`/messaging`)
+    navigate(`/messaging/${_id}`)
   }
   
   //POST functions
