@@ -72,25 +72,11 @@ function Showfinder() {
         ))}
       </div>
   }
-  //GET+Render functions
-  function fetchAllEvents(){
-    fetch("http://localhost:4000/event/all",{
-      method:"GET",
-      headers:new Headers({
-        "Content-Type":"application/json",
-        "authorization":sessionToken
-      })
-    })
-    .then(res=>res.json())
-    .then(data=>setFetchResult(data))
-    .catch(err=>console.log(err))
-  }
-  
+  //External Nav functions  
   
   const profileNav=(_id)=>{
     navigate(`/profile/${_id}`)
   }
-  //TODO: change below to go to specific message
   const messageNav=(_id)=>{
     navigate(`/messaging/${_id}`)
   }
@@ -191,8 +177,17 @@ function Showfinder() {
   }
   //!UseEffect -> not re-rendering after second render
   useEffect(()=>{
-      setTimeout(()=>fetchAllEvents(),3000)
-  })
+    fetch("http://localhost:4000/event/all",{
+      method:"GET",
+      headers:new Headers({
+        "Content-Type":"application/json",
+        "authorization":sessionToken
+      })
+    })
+    .then(res=>res.json())
+    .then(data=>setFetchResult(data))
+    .catch(err=>console.log(err))
+  },[])
   //RETURN
   return (
     <>

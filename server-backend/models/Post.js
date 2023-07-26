@@ -4,7 +4,8 @@ const { ObjectId } = mongoose.Schema;
 const Post = new mongoose.Schema (
     {
         user:{
-            type: String,
+            type: ObjectId,
+            ref:"user",
             required: true
         },
         title:{

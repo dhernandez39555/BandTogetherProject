@@ -9,7 +9,6 @@ router.post("/create", async (req,res) => {
             title,
             body
         }).populate("user")
-        console.log(newPost)
         await newPost.save();
         res.status(201).json({
             message: `Event Created`,
@@ -24,7 +23,7 @@ router.post("/create", async (req,res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const findAllPosts = await Post.find({}).populate("user",{ password:0, profilePicture:0 })
+        const findAllPosts = await Post.find({}).populate("user",{ password:0 })
         if (findAllPosts.length === 0) throw Error("No posts found.")
         res.status(200).json(findAllPosts)
     } catch(err) {
