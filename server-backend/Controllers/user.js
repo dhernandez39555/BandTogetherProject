@@ -87,6 +87,8 @@ router.put("/addcontact", async (req, res) => {
 router.put("/", async (req, res) => {
     try {
         const {
+            profilePicture,
+            coverPhoto,
             email,
             password,
             bandName,
@@ -103,6 +105,8 @@ router.put("/", async (req, res) => {
         const updateStatus = await User.updateOne(
                 { _id: req.user._id }, 
                 { $set: {
+                    profilePicture,
+                    coverPhoto,
                     email,
                     password,
                     bandName,

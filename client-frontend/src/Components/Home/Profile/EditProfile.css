@@ -5,6 +5,9 @@
     width: 100%;
     margin: 5px;
 }
+#profile-upload {
+    display: none;
+}
 #form-inputs {
     width: 75%
 }
