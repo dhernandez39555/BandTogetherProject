@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import './EditProfile.css'
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 function EditProfile() {
-
+  
   const [ user, setUser ] = useState({});
+  const [ userData, setUserData ] = useState(false)
   const [ updatedUser, setUpdatedUser ] = useState({
+    profilePicture:"",
+    coverPhoto:"",
     email:"",
     password:"",
     bandName:"",
@@ -14,15 +21,17 @@ function EditProfile() {
     additionGenre:"",
     bio:"",
     socials:{
-    youtube:"",
-    spotify:"",
-    soundCloud:"",
-    instagram:""
-  }
-
+      youtube:"",
+      spotify:"",
+      soundCloud:"",
+      instagram:""
+    },
+    
   });
+  const [redirectToProfile, setRedirectToProfile] = useState(false);
   const [ message, setMessage ] = useState('');
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     fetch('http://127.0.0.1:4000/user/', {
       headers: new Headers({
@@ -39,8 +48,9 @@ function EditProfile() {
       .then((data) => {
         console.log('User data received:', data);
         if (data.foundUser) {
-          setUser(data.foundUser);
-          setUpdatedUser(data.foundUser);
+            setUser(data.foundUser);
+            setUpdatedUser(data.foundUser)
+            setUserData(true);
         } else {
           throw new Error('User not found');
         }
@@ -52,11 +62,21 @@ function EditProfile() {
   
   const handleUpdate = (e) => {
     const { name, value } = e.target;
+    if(['youtube','spotify','soundCloud','instagram'].includes(name)) {
+      setUpdatedUser({
+        ...updatedUser,
+        socials: {
+          ...updatedUser.socials,
+          [name]: value,
+        }
+      })
+    } else {
     setUpdatedUser({
       ...updatedUser,
-      [name]:value,
+      [name]: value,
     })
-  };
+  }
+};
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -70,9 +90,11 @@ function EditProfile() {
       body: JSON.stringify(updatedUser),
     })
     .then((res) => res.json())
-    .then(() => {
+    .then((data) => {
       setMessage('Profile Updated successfully')
-      setUser(updatedUser);
+      setUser(data.updatedUser);
+      const userId = getUserId();
+      setRedirectToProfile(true)
     })
     .catch((err) => {
       setMessage('Error updating profile')
@@ -80,12 +102,111 @@ function EditProfile() {
     })
   };
 
+  function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+    fileReader.onload = () => {
+        resolve(fileReader.result)
+    }
+    fileReader.onerror = (error) => {
+        reject(error) 
+    }
+    })
+}
+
+const handleUpdateFile = async (e) => {
+  const file = e.target.files[0];
+  const base64 = await convertToBase64(file);
+
+    const name = e.target.name;
+    setUpdatedUser({
+      ...updatedUser,
+      [name]: base64,
+    });
+    if(name === 'profilePicture') {
+      setUser({
+        ...user,
+        profilePicture: base64,
+      })
+    } else if(name === 'coverPhoto') {
+      setUser({
+        ...user,
+        coverPhoto: base64,
+      })
+    }
+};
+const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
+
+const getUserId = () => {
+  if (!sessionToken) return null;
+  try {
+      const decodedToken = jwtDecode(sessionToken);
+      return decodedToken._id;
+  } catch (err) {
+      console.log(`err decoding`, err);
+  }
+} 
+
+useEffect(() => {
+  if (redirectToProfile) {
+    const userId = getUserId();
+    navigate(`/profile/${userId}`)
+  }
+}, [redirectToProfile, navigate])
 
   return (
     <div id='edit-profile'>
       <div id='registerDiv'>
     <form action="" id="form-inputs">
         <h1 id='banner'>Edit Profile</h1>
+      
+        <label htmlFor='profile-upload'>
+          <p>Profile</p>
+          <AddAPhotoOutlinedIcon/>
+        </label>
+      <input
+        type="file"
+        name='profilePicture'
+        id='profile-upload'
+        accept='.jpeg, .jpg, .png'
+        onChange={handleUpdateFile}
+        />
+
+      {user?.profilePicture && (
+        <div>
+          <p>Current Profile Photo:</p>
+          <img 
+            src={user.profilePicture}
+            alt='Profile'
+            style={{ width:50,height:50,borderRadius:100 }}
+            loading='lazy'
+          />
+        </div>
+      )}
+      
+      <label htmlFor='cover-upload'>
+        <p>Cover</p>
+        <AddPhotoAlternateIcon/>
+      </label>
+      <input 
+        type='file'
+        name='coverPhoto'
+        id='cover-upload'
+        accept='.jpeg, .jpg, .png'
+        onChange={handleUpdateFile}
+      />
+      {user?.coverPhoto && (
+        <div>
+          <p>Current Cover Photo:</p>
+          <img  
+            src={user.coverPhoto}
+            alt='Cover'
+            style={{ width: 500, height: 100 }}
+            loading='lazy'
+          />
+        </div>
+      )}
 
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
@@ -151,7 +272,7 @@ function EditProfile() {
         <div id='additionGenreDropdown'>
         <label htmlFor="additionalGenreInput">Genre:</label>
         <select 
-        value={updatedUser.additionGenre} 
+        value={updatedUser.additionalGenre} 
         name='additionalGenre'
         onChange={handleUpdate} 
         id="additionGenreInput">
@@ -190,7 +311,7 @@ function EditProfile() {
         type="text" 
         name="spotify" 
         id="spotifyInput" placeholder="Link to your Spotify page here."
-        value={updatedUser.spotify}
+        value={updatedUser.socials.spotify}
         onChange={handleUpdate}
         />
         </div>

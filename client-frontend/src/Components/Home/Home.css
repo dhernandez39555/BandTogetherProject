@@ -23,7 +23,6 @@
 #eighth-note {
     height: 4vh;
     float: right;
-    filter: invert(23%) sepia(94%) saturate(1629%) hue-rotate(263deg) brightness(83%) contrast(128%)
 }
 #button-1 {
     color: #FAE248;
@@ -49,9 +48,11 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    text-align: center;
     align-items: center;
     width: 40%;
 }
+
 p {
     font-size: 3vh;
 }

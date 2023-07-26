@@ -107,7 +107,7 @@ return (
                         
                     }}
                 />
-                <p id='my-profile-text'>My Profile</p>
+                <p>My Profile</p>
             </div>
         </div>
 
