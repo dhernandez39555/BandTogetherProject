@@ -96,7 +96,9 @@ function Inbox() {
         Object.keys(messages).map((item, i) => {
           return (
           <div key={i} className="message-item">
-            <img src={messages[item][0].sender._id === item ? messages[item][0].sender.profilePicture || "/blank.png" : messages[item][0].receiver.profilePicture || "/blank.png" } alt="profile pic" />
+            <div className="message-img-container">
+              <img src={messages[item][0].sender._id === item ? messages[item][0].sender.profilePicture || "/blank.png" : messages[item][0].receiver.profilePicture || "/blank.png" } alt="profile pic" />
+            </div>
             <div className="message-text" onClick={ e => openDirect(item) }>
               <div className='message-top'>
                 <h3>{messages[item][0].sender._id === item ? messages[item][0].sender.bandName : messages[item][0].receiver.bandName}</h3>

@@ -179,7 +179,6 @@ function Showfinder() {
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   },[])
-
   return (
     <>
       <div id='eventBtnWrapper'>

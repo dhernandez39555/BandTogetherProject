@@ -44,13 +44,6 @@
     border-bottom: 1px solid black;
 }
 
-.message-item > img {
-    float: left;
-    height: 50px;
-    width: 50px;
-    border-radius: 100%;
-}
-
 .message-text {
     display: flex;
     flex-direction: column;
@@ -85,4 +78,21 @@
     height: 3em;
     width: 3em;
     float: right;
+}
+
+.message-img-container {
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    background-color: #7325ac;
+    overflow: hidden;
+    text-align: center;
+    z-index: 5;
+}
+
+.message-img-container > img {
+    object-fit: contain;
+    height: 100%;
+    z-index: 5;
 }

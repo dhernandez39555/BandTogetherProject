@@ -135,60 +135,7 @@ function News() {
     .catch(err=>console.log(err))
   },[])
   return (
-    <>
-      <button onClick={()=>{
-          setPostBox(!postBox);
-          setPostBody({
-            title:"",
-            body:"",
-            user:{
-              bandName:""
-            }
-          })
-        }
-      }>Add a post!</button>
-      {!postBox
-        ? null
-        :<div>
-          <input type="text" name="title" value={postBody.title} onChange={e=>handleNewPost(e)} placeholder='Enter post title'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewPost(e)} placeholder='Enter event description'/>
-          <button onClick={e=>{fetchPost()}}>Submit</button>
-          <button onClick={closePostBox}>Cancel</button>
-        </div>
-      }
-      {!modal
-        ?null
-        :<div>
-          <input 
-            type="text" 
-            name="title" 
-            value={postBody.title} 
-            onChange={e=>handleNewPost(e)} 
-            placeholder='Enter updated post title'/>
-          <input 
-            type="text" 
-            name='title' 
-            value={postBody.body} 
-            onChange={e=>handleNewPost(e)}
-            placeholder='Enter updated post content'/>
-          <button 
-            onClick={e=>fetchUpdate()}>Submit</button>
-          <button 
-            onClick={()=>{
-              setModal(false);
-              setPostBody({
-                title:"",
-                body:"",
-                user:{
-                  bandName:""
-                }
-              })
-            }
-          }>Close</button>
-        </div>
-      }
-      {renderResult()}
-    </>
+    <div>News</div>
   )
 }
 
