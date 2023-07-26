@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom' 
+import { Navigate, useNavigate } from 'react-router-dom' 
+import "./login.css"
+import { TextField } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'; 
+import note from "../assets/8thnote.png"
 
 function Login({ updateLocalStorage }) {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+
+    const navigate = useNavigate()
 
     const handleLogin = e => {
         e.preventDefault()
@@ -33,23 +39,48 @@ function Login({ updateLocalStorage }) {
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
 
         <div>
-        <h1>BandTogether</h1>
-        <h2>Build relationships.</h2>
-        <h2>Book shows.</h2>
-        <form action="" className="form-wrapper">
+            
+        <ArrowBackIosIcon fontSize='large' id="backArrow"
+            onClick={() => navigate(`/welcome`)}/>
+
+        <div id="logo-container">
+            <h1>BandTogether</h1>
+            <img id="title-icon" src={note} alt="note" />
+            <div id="title-underline"></div>
+            <h2>Build relationships.<br/>Book shows.</h2>
+        </div> 
+
+        <form action="" className="form-wrapper" id='loginForm'>
+            
             <div id='emailDiv'>
-                <label htmlFor="emailInput">Email:</label>
-                <input type="text" id="emailInput" placeholder="Enter your email here."
-                    onChange={e => setEmail(e.target.value)}/>
+                <TextField
+                required={true}
+                fullWidth={true}
+                type="text"
+                id="emailInput"
+                label="Email"
+                placeholder='Enter your email here.'
+                onChange={e => setEmail(e.target.value)}/>
             </div>
+
             <div id='passwordDiv'>
-                <label htmlFor="passwordInput">Password:</label>
-                <input type="password" id="passwordInput" placeholder="Enter your password here."
-                    onChange={e => setPassword(e.target.value)}/>
+                {/* <label htmlFor="passwordInput">Password:</label> */}
+                <TextField 
+                required={true}
+                fullWidth={true}
+                type ="password"
+                id="passwordInput"
+                label="Password"
+                placeholder="Enter your password here."
+                onChange={e => setPassword(e.target.value)}/> 
             </div>
+
+            <div id="loginButtonDiv">
             <button type="button" id='loginButton' 
                 onClick={handleLogin}
             >Log In</button>
+            </div>
+
         </form>
         <p>BandTogether is a networking platform for Vermont's local music scene.</p>
         <p>See you at the next show.</p>
