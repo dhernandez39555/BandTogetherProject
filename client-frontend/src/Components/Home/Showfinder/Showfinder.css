@@ -1,0 +1,26 @@
+body{
+    background-color: rgba(130, 127, 124, 0.511);
+}
+#eventBtnWrapper{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.renderContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.eventWrapper{
+    border-radius: 1px;
+    background-color:white;
+    margin: 15px;
+}
+#bandDateGenreWrapper{
+    display: flex;
+    justify-content: space-around;
+}
+.titleEach{
+    color: blueviolet;
+}
