@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
 }
-
 .renderContainer{
     display: flex;
     align-items: center;
@@ -12,12 +11,23 @@
 .eventWrapper{
     border-radius: 1px;
     background-color:white;
-    margin: 15px;
+    margin: 15px 100px 15px 100px;
+
 }
 #bandDateGenreWrapper{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 .titleEach{
     color: blueviolet;
+}
+.bodyEach{
+    flex-wrap: wrap;
+}
+.options,.externalNav{
+    display: flex;
+    justify-content: center;
+}
+.userEach,.genreEach,.dateEach{
+    font-size: small;
 }

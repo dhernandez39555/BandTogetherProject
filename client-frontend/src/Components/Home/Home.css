@@ -28,7 +28,7 @@
 #button-1 {
     color: #FAE248;
     background-color: #7E12b3;
-    border: 3px solid #FAE248;
+    border: 3px solid #fae248;
     padding-right: 0;
     border-radius: 100%;
     height: 12vh;
@@ -51,9 +51,6 @@
     justify-content: flex-start;
     align-items: center;
     width: 40%;
-}
-p {
-    font-size: 3vh;
 }
 #top, #middle, #bottom {
     display: flex;
