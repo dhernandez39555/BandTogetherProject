@@ -141,7 +141,7 @@ function Register({ updateLocalStorage }) {
         </div>
 
         <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
-            onChange={(e) => handleCoverUpload(e)} hiddenLabel />
+            onChange={(e) => handleCoverUpload(e)} />
 
         <div id="emailDiv">
         {/* <label htmlFor="emailInput">Email Address:</label> */}
