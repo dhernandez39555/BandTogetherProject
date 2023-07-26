@@ -55,10 +55,13 @@ function ReadProfile() {
 
       return (
         <div id='profileDiv'>
-          <img src={`${profile.coverPhoto}`}/>
-          <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
+          <div id='photosDiv'>
+            <img src={`${profile.coverPhoto}`} id='coverPhotoImage'/>
+            <img src={`${profile.profilePicture}`} id='profilePhotoImage'/>
+          </div>
+
           <h1>{profile.bandName}</h1>
-          <p>{profile.bio}</p> 
+          <p>{profile.bio}</p>
 
         <div id='socialMediaSpan'>
 

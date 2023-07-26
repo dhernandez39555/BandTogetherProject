@@ -2,6 +2,24 @@
     background-color: #7E12b3;
 }
 
+#messageProfileDiv {
+    background-color: #7E12b3;
+}
+
+#coverPhotoImage {
+    width: 100%;
+    max-height: 10em;
+}
+
+#profilePhotoImage {
+    height: 7em;
+    width: 7em;
+    border-radius: 100%; 
+    position: relative;
+    bottom: 4em;
+    left: 3em;
+}
+
 .socialIcons {
     height: 5em;
     width: 5em; 
