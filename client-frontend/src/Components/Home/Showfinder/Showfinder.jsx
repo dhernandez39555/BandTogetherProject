@@ -55,12 +55,10 @@ function Showfinder() {
             <h2 className='titleEach'>{result.title}</h2>
             <div id='bandDateGenreWrapper'>
               <h4 className='userEach'>{result.user.bandName}</h4>
-              <p>||</p>
               <h4 className='dateEach'>{result.eventDate}</h4>
-              <p>||</p>
               <h4 className="genreEach">{result.genre}</h4>
             </div>
-            <p className='bodyEach'>{result.body}</p>
+            <h6 className='bodyEach'>{result.body}</h6>
             {result.user._id===getUserId()
               ?<div className='options'>
                 <button className='editBtn' onClick={e=>{setIdUrl(result._id);openModal()}}>Edit</button>
@@ -84,7 +82,7 @@ function Showfinder() {
       })
     })
     .then(res=>res.json())
-    .then(data=>{console.log(data);setFetchResult(data)})
+    .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   }
   
