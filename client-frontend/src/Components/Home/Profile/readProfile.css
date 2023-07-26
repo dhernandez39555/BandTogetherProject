@@ -31,11 +31,13 @@
 #editProfileButton {
     width: 70%; 
     height: 3em;
+    border: 2px solid black; 
 }
 
 #messageButton {
     width: 70%;
     height: 3em; 
+    border: 2px solid black;
 }
 
 #socialMediaDiv {
