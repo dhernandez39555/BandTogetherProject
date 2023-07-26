@@ -47,14 +47,28 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
         const { _id }=req.params
         const findAll=await Message.find({ 
             $or: 
-            [{sender:_id}, 
-            {receiver:_id}]
+            [{sender: req.user._id}, 
+            {receiver: req.user._id}]
         })
-        findAll===0?Error("You do not have any messages from that user"):null
-        res.status(200).json(findAll)
+        .sort({ createdAt: 1 })
+        .populate("sender receiver", { password: 0 })
+
+        const filteredMessages = findAll.filter(find => find.sender._id.equals(_id) || find.receiver._id.equals(_id))
+        // filteredMessages===0?Error("You do not have any messages from that user"):null
+
+        if (filteredMessages.length === 0) {
+            const newMessage = await new Message({
+                sender: req.user._id,
+                receiver: _id,
+                body: "started conversation"
+            }).populate("sender receiver", { password: 0 });
+            filteredMessages.push(newMessage);
+        }
+        
+        res.status(200).json(filteredMessages)
     } catch (err){
         res.status(500).json({
-            message:err
+            message: err.message
         })
     }
 })
@@ -68,11 +82,14 @@ router.post("/makePostTo/:_id", async (req,res)=>{
         const findOne=await User.findOne({_id})
         !findOne?Error("No users by that name exist"):null
 
-        const newMessage=new Message({sender: req.user._id, receiver: _id, body})
+        const newMessage=await new Message({sender: req.user._id, receiver: _id, body})
+            .populate("sender receiver", { password: 0 });
+        
         await newMessage.save()
 
         res.status(200).json({
-            message:"Message sent"
+            message:"Message sent",
+            newMessage
         })
     } catch (err){
         res.status(500).json({

@@ -25,6 +25,43 @@ router.post("/", async (req,res) => {
         });
     }
 })
+router.get("/all", async (req,res)=>{
+    try{
+        const allEvents=await Event.find({}).populate("user",{password:0})
+        allEvents.length===0||!allEvents?Error("no events found"):null
+        res.status(200).json(allEvents)
+    } catch(err){
+        res.status(500).json({
+            message:err.message
+        })
+    }
+})
+
+router.get("/all", async (req,res)=>{
+    try{
+        const allEvents=await Event.find({}).populate("user",{password:0})
+        res.status(200).json({
+            allEvents
+        })
+    } catch(err){
+        res.status(500).json({
+            message:err.message
+        })
+    }
+})
+
+router.get("/all", async (req,res)=>{
+    try{
+        const allEvents=await Event.find({}).populate("user",{password:0})
+        res.status(200).json({
+            allEvents
+        })
+    } catch(err){
+        res.status(500).json({
+            message:err.message
+        })
+    }
+})
 
 router.get("/all", async (req,res)=>{
     try{

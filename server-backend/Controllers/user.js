@@ -59,13 +59,12 @@ router.put("/addcontact", async (req, res) => {
         const { email } = req.body;
         const popFriends = await req.user.populate("friendList");
         const currentFriends = popFriends.friendList;
-
+        
         const foundEmail = currentFriends.filter(friend => friend.email === email)[0];
         if (foundEmail) throw Error(`${email} is already added`);
-
+        
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) throw Error(`${email} does not have an account`);
-        console.log(foundUser);
 
         const updateStatus = await User.updateOne(
                 { _id: req.user._id }, 
@@ -84,7 +83,7 @@ router.put("/addcontact", async (req, res) => {
     }
 });
 
-// * UPDATE the current user * //
+// * UPDATE Current A User by user_id * //
 router.put("/", async (req, res) => {
     try {
         const {
@@ -96,6 +95,8 @@ router.put("/", async (req, res) => {
             genre,
             additionGenre,
             bio,
+            friendList,
+            messages,
             socials
         } = req.body;
 
@@ -110,6 +111,8 @@ router.put("/", async (req, res) => {
                     genre,
                     additionGenre,
                     bio,
+                    friendList,
+                    messages,
                     socials
                 } }
             );
@@ -128,11 +131,31 @@ router.put("/", async (req, res) => {
 // * DELETE Current User by sessionValidation * //
 router.delete("/", async (req, res) => {
     try {
-        const deleteUser = await Post.deleteOne(req.user._id);
+        const deleteUser = await User.deleteOne(req.user._id);
 
         res.status(200).json({
             message: "User deleted",
             payload: deleteUser
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+
+// * GET user by email * //
+router.get("/checkEmail/:otherUser_email", async (req, res) => {
+    try {
+        const { otherUser_email } = req.params;
+
+        const foundUser_id = await User.exists({ email: otherUser_email });
+        console.log(foundUser_id);
+        if (!foundUser_id) throw Error("User does not exist");
+
+        res.status(200).json({
+            message: "User Exist",
+            foundUser_id
         });
     } catch (err) {
         res.status(500).json({

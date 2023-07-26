@@ -4,6 +4,14 @@
     text-align: center;
 }
 
+#file-upload{ 
+    display: none;
+}
+
+#cover-upload{
+    display: none; 
+}
+
 input {
     background-color: #e6e6e6;
 }
@@ -22,4 +30,15 @@ button {
 
 button:hover {
     background-color: #b3b300;
+}
+
+#addAPhotoDiv {
+    background-color: #e6e6e6;
+    height: 5em;
+    width: 5em; 
+    border: 1px solid black;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }

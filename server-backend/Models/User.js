@@ -3,6 +3,12 @@ const { ObjectId } = mongoose.Schema;
 
 const User = new mongoose.Schema(
     {
+        profilePicture: {
+            type: String
+        },
+        coverPhoto: {
+            type: String
+        },
         email: {
             type: String,
             required: true,
@@ -23,6 +29,12 @@ const User = new mongoose.Schema(
         location: {
             type: String,
             required: true
+        },
+        latitude: {
+            type: Number
+        },
+        longitude: {
+            type: Number
         },
         genre: {
             type: String

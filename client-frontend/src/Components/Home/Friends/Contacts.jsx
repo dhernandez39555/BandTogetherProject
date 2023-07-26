@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './contacts.css';
 import CloseIcon from '@mui/icons-material/Close';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { IconButton, TextField } from '@mui/material';
 
 function Contacts() {
+    const navigate = useNavigate();
     const [ contacts, setContacts ] = useState([]);
     const [ filteredContacts, setFilteredContacts ] = useState([]);
     const [ openForm, setOpenForm] = useState(false);
@@ -34,6 +36,7 @@ function Contacts() {
     }
 
     const addContact = () => {
+        console.log(newContact);
         const options = {
             method: "PUT",
             headers: new Headers({
@@ -61,6 +64,10 @@ function Contacts() {
         const filteredNames = names.filter(b => b.includes(e.target.value.toLowerCase()));
         const newNames = contacts.filter(contact => filteredNames.includes(contact.bandName.toLowerCase()));
         setFilteredContacts(newNames);
+    }
+
+    const openProfile = otherUser_id => {
+        navigate(`/profile/${otherUser_id}`);
     }
 
     return (
@@ -99,8 +106,8 @@ function Contacts() {
                     ? <h1>Error while loading, please refresh</h1>
                     : filteredContacts.map((contact, i) => {
                         return (
-                            <div key={i} className="contact-item">
-                                <ControlPointIcon id="contact-icon" />
+                            <div key={i} onClick={e => openProfile(contact._id)} className="contact-item">
+                                <img src={contact.profilePicture ? contact.profilePicture : "/blank.png"} alt="profile-pic" />
                                 <h3>{contact.bandName}</h3>
                             </div>
                         )

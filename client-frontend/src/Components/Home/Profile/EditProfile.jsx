@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-// todo problem with backend get currently logged in user due to session validation? maybe change decoding sessionToken to middleware?
+import './EditProfile.css'
+
 function EditProfile() {
 
   const [ user, setUser ] = useState({});
@@ -81,10 +82,10 @@ function EditProfile() {
 
 
   return (
-    <div>
+    <div id='edit-profile'>
       <div id='registerDiv'>
-    <form action="" className="form-wrapper">
-        <h1>Edit Profile</h1>
+    <form action="" id="form-inputs">
+        <h1 id='banner'>Edit Profile</h1>
 
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
@@ -163,7 +164,7 @@ function EditProfile() {
 
         <div>
         <label htmlFor="bioInput">Bio:</label>
-        <input 
+        <textarea 
         type="text" 
         name="bio" 
         id="bioInput" placeholder="Enter your short bio here."
@@ -216,7 +217,7 @@ function EditProfile() {
         />
         </div>
 
-        <button id="submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
+        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
         {message && <div>{message}</div>}
     </form>
     </div>
