@@ -22,6 +22,7 @@
     width: 100%;
     background-color: lightgray;
     margin: 0 auto;
+    border: 1px solid black; 
 }
 
 #preview-cover > img {
@@ -33,12 +34,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid black;
     border-radius: 100%;
     overflow: hidden;
     height: 80px;
     width: 80px;
     background-color: lightgray;
     margin: 0 auto;
+    position: relative;
+    bottom: 2em;
+}
+
+#AddProfileIcon {
+    color: black; 
 }
 
 #preview-profile-pic > img {
