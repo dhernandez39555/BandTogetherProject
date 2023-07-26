@@ -98,13 +98,14 @@ function ReadProfile() {
           </span> 
         </div>
 
-          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} id="YouTubePlayer"/>}
+          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} id="YouTubePlayer"
+            width="100%"/>}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} 
-            style={{width: "50%"}}/>}
+            width="100%"/>}
           {profile.socials.spotify && <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} 
             height="352" frameBorder="0" allowFullScreen="" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy" ></iframe>}
+            loading="lazy" width="100%"></iframe>}
 
         </div>
       );
