@@ -38,7 +38,7 @@ function Login({ updateLocalStorage }) {
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
 
-        <div>
+        <div id='loginPageDiv'>
             
         <ArrowBackIosIcon fontSize='large' id="backArrow"
             onClick={() => navigate(`/welcome`)}/>
