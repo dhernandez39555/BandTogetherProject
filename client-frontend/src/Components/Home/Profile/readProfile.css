@@ -16,6 +16,8 @@
     position: relative; 
     bottom: 4em; 
     left: 3em; 
+    max-width: 75%;
+    word-wrap: break-word;
 }
 
 #editProfileDiv {
