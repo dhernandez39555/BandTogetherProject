@@ -28,6 +28,16 @@
     align-items: center;
 }
 
+#editProfileButton {
+    width: 70%; 
+    height: 3em;
+}
+
+#messageButton {
+    width: 70%;
+    height: 3em; 
+}
+
 #socialMediaDiv {
     display: flex;
     justify-content: center;

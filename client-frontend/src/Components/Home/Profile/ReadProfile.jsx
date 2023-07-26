@@ -67,10 +67,12 @@ function ReadProfile() {
 
             {params.user_id===getUserId()
               ? <div id='editProfileDiv'>
-                <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+                <button type='button' id='editProfileButton' 
+                onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
                 </div> 
               : <div id='editProfileDiv'> 
-                <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+                <button type='button' id='messageButton'
+                onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
                 </button>
                 </div>
             }

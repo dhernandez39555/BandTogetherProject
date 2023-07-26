@@ -11,8 +11,6 @@ import ProfileIcon from '@mui/icons-material/PersonOutline';
 import note from '../assets/8thnote.png'
 import './Home.css'
 
-
-
 function Home() {
 const navigate = useNavigate();
 
