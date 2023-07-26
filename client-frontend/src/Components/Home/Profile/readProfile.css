@@ -1,27 +1,46 @@
-#editProfileDiv {
-    background-color: #7E12b3;
-}
-
-#messageProfileDiv {
-    background-color: #7E12b3;
-}
-
 #coverPhotoImage {
     width: 100%;
     max-height: 10em;
 }
 
 #profilePhotoImage {
-    height: 7em;
-    width: 7em;
+    max-height: 7em;
+    max-width: 7em;
     border-radius: 100%; 
     position: relative;
     bottom: 4em;
     left: 3em;
 }
 
-.socialIcons {
-    height: 5em;
-    width: 5em; 
-    margin: 2em
+#bandNameBioDiv {
+    position: relative; 
+    bottom: 4em; 
+    left: 3em; 
 }
+
+#editProfileDiv {
+    background-color: #7E12b3;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#socialMediaDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.socialIcons {
+    height: 4em;
+    width: 4em; 
+    margin: .8em
+}
+
+iframe {
+    width: 95%; 
+}
+
+
+
+

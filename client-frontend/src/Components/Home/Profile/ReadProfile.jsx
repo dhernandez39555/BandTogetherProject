@@ -60,10 +60,22 @@ function ReadProfile() {
             <img src={`${profile.profilePicture}`} id='profilePhotoImage'/>
           </div>
 
-          <h1>{profile.bandName}</h1>
-          <p>{profile.bio}</p>
+          <div id='bandNameBioDiv'>
+            <h1>{profile.bandName}</h1>
+            <p>{profile.bio}</p>
+          </div>
 
-        <div id='socialMediaSpan'>
+            {params.user_id===getUserId()
+              ? <div id='editProfileDiv'>
+                <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+                </div> 
+              : <div id='editProfileDiv'> 
+                <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+                </button>
+                </div>
+            }
+
+        <div id='socialMediaDiv'>
 
           <span id="instagramSpan" >
           <img className='socialIcons' src="/assets/instagram.png" alt="" srcSet="" 
@@ -86,24 +98,13 @@ function ReadProfile() {
           </span> 
         </div>
 
-          {params.user_id===getUserId()
-            ? <div id='editProfileDiv'>
-              <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
-              </div> 
-            : <div id='messageProfileDiv'> 
-              <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
-              </button>
-              </div>
-          }
-
-          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} 
-            width="50%"/>}
+          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} id="YouTubePlayer"/>}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} 
-            width="50%"/>}
+            style={{width: "50%"}}/>}
           {profile.socials.spotify && <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} 
-            width="50%" height="352" frameBorder="0" allowFullScreen="" 
+            height="352" frameBorder="0" allowFullScreen="" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"></iframe>} 
+            loading="lazy" ></iframe>}
 
         </div>
       );
