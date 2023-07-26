@@ -60,9 +60,7 @@ function App() {
           <Route path='/news' element={ <News /> } />
         </Route>
         <Route path='/' element={ <Home /> } />
-        <Route path='/newmessage' element={ <NewMessage /> } />
-        <Route path='/newmessage/:otherUser_id' element={ <NewMessage /> } />
-        <Route path='/messaging/:otherUser_id' element={ <Direct /> } />
+        <Route path='/messaging/:otherUser_id' element={ <><Direct /><div id="bottom-spacer"></div></> } />
       </Route>
     </Routes>
     </>
