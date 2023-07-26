@@ -114,34 +114,33 @@ function Register({ updateLocalStorage }) {
     <div id='registerDiv'>
     <form className="form-wrapper">
         <h1>Sign Up</h1>
-
-        <p>Profile</p>
-        <div id="preview-profile-pic">
-            {profilePicture === "" ?
-                <label htmlFor="file-upload">
-                    <AddAPhotoOutlinedIcon/>
-                </label>
-            : 
-            <img src={profilePicture} alt="profile-picture" />
-            }
+        
+            <div id="preview-cover">
+                {coverPhoto === "" ?
+                    <label htmlFor="cover-upload">
+                        <AddPhotoAlternateIcon id="addCoverIcon" fontSize='medium'/>
+                    </label>
+                    :
+                    <img src={coverPhoto} alt="cover-photo" />
+                }
+            </div>
+            
+            <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
+                onChange={(e) => handleCoverUpload(e)} />
+        
+            <div id="preview-profile-pic">
+                {profilePicture === "" ?
+                    <label htmlFor="file-upload">
+                        <AddAPhotoOutlinedIcon id="AddProfileIcon" fontSize='large'/>
+                        </label>
+                : <img src={profilePicture} alt="profile-picture" />
+                }
         </div>
 
         <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
             onChange={(e) => handleFileUpload(e)} />
 
-        <p>Cover</p>
-        <div id="preview-cover">
-            {coverPhoto === "" ?
-                <label htmlFor="cover-upload">
-                    <AddPhotoAlternateIcon/>
-                </label>
-                :
-                <img src={coverPhoto} alt="cover-photo" />
-            }
-        </div>
-
-        <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
-            onChange={(e) => handleCoverUpload(e)} />
+        
 
         <div id="emailDiv">
         {/* <label htmlFor="emailInput">Email Address:</label> */}
@@ -151,45 +150,49 @@ function Register({ updateLocalStorage }) {
             type="text"
             id="emailInput"
             label="Email"
+            placeholder='Enter your email here.'
             onChange={e => setEmail(e.target.value)}/>
         </div>
-
+        
         <div>
-        <label htmlFor="passwordInput">Password:</label>
+        {/* <label htmlFor="passwordInput">Password:</label> */}
         <TextField
             required={true}
             fullWidth={true}
             inputProps={{ minLength: 8 }}
             type="password"
             id="passwordInput"
+            label="Password"
             placeholder="Enter your password here." 
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="bandNameInput">Band Name:</label>
+        {/* <label htmlFor="bandNameInput">Band Name:</label> */}
         <TextField
             required={true}
             fullWidth={true}
             type="text"
             id="bandNameInput" 
+            label="Band Name"
             placeholder="Enter your band's name here." 
             onChange={e => setBandName(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="contactNameInput">Contact Name:</label>
+        {/* <label htmlFor="contactNameInput">Contact Name:</label> */}
         <TextField
             required={true}
             fullWidth={true}
             type="text"
             id="contactNameInput"
+            label="Contact Name"
             placeholder="Enter your main contact's name here."
             onChange={e => setContactName(e.target.value)}/>
         </div> 
 
         <div>
-        <label htmlFor="locationInput">Location:</label>
+        {/* <label htmlFor="locationInput">Location:</label> */}
             {location ? (
                 <TextField 
                 fullWidth={true}
@@ -209,9 +212,9 @@ function Register({ updateLocalStorage }) {
                     onChange={handleLocationChange}/>
             )}
         </div>
-
+  
         <div id='genreDropdown'>
-        <label htmlFor="genreInput">Genre:</label>
+        {/* <label htmlFor="genreInput">Genre:</label> */}
         <TextField
             select={true}
             required={true}

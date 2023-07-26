@@ -61,8 +61,8 @@ function Showfinder() {
             <h5 className='bodyEach'>{result.body}</h5>
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={e=>{setIdUrl(result._id);openModal()}}>Edit</button>
-                <button className='deleteBtn' onClick={e=>{setIdUrl(result._id);deleteEvent(result._id)}}>Delete</button>
+                <button className='editBtn' onClick={e=>{setIdUrl(result._id);setShowModal(!showModal)}}>Edit</button>
+                <button className='deleteBtn' onClick={e=>{deleteEvent(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
                 <button className='profileBtn' onClick={e=>profileNav(result.user._id)}>Profile</button>
@@ -116,12 +116,22 @@ function Showfinder() {
       [name]: value
     }));
   }
-  
   //PUT functions
-  
   const handleUpdate= async()=>{
     updateEvent()
     closeModal()
+  }
+  const closeModal=()=>{
+    setPostBody({
+      title:"",
+      body:"",
+      eventDate:"",
+      genre:"",
+      user:{
+        bandName:""
+      }
+    })
+    setShowModal(false)
   }
   const updateEvent=()=>{
     try{
@@ -144,8 +154,7 @@ function Showfinder() {
   //cndt'l off of above to render buttons 'edit'+'delete'
   //add functionality to bring up modal prompt for edit and prompt for deletion certainty
   
-  //DELETE functions
-  
+  //DELETE function
   const deleteEvent=(id)=>{
     fetch(`http://localhost:4000/event/${id}`,{
       method:"DELETE",
@@ -156,26 +165,8 @@ function Showfinder() {
     })
     .then(res=>res.json())
     .catch(err=>console.log(err))
-    setIdUrl("")
   }
-  
-  //PUT+DELETE functions
-  const closeModal=()=>{
-    setPostBody({
-      title:"",
-      body:"",
-      eventDate:"",
-      genre:"",
-      user:{
-        bandName:""
-      }
-    })
-    setShowModal(false)
-  }
-  const openModal=()=>{
-    setShowModal(true)
-  }
-  //!UseEffect -> not re-rendering after second render
+
   useEffect(()=>{
     fetch("http://localhost:4000/event/all",{
       method:"GET",
@@ -188,7 +179,6 @@ function Showfinder() {
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   },[])
-  //RETURN
   return (
     <>
       <div id='eventBtnWrapper'>
