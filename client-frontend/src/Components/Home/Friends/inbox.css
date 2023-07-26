@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     background-color: #EEEDED;
+    width: 100vw;
 }
 
 #message-header {
@@ -54,11 +55,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    overflow: hidden;
 }
 
 .message-text > p {
     text-overflow: ellipsis;
-    overflow: hidden;
+    white-space: pre-wrap;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;

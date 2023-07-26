@@ -47,9 +47,7 @@ function Sidebar() {
   return (
     <Menu
       width={'30%'}
-      disableOverlayClick
       right 
-      noOverlay
       isOpen={ isOpen } 
       noTransition 
       onOpen={handleIsOpen} 
