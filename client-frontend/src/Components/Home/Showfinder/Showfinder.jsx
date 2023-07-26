@@ -58,7 +58,7 @@ function Showfinder() {
               <h4 className='dateEach'>{result.eventDate}</h4>
               <h4 className="genreEach">{result.genre}</h4>
             </div>
-            <h6 className='bodyEach'>{result.body}</h6>
+            <h5 className='bodyEach'>{result.body}</h5>
             {result.user._id===getUserId()
               ?<div className='options'>
                 <button className='editBtn' onClick={e=>{setIdUrl(result._id);openModal()}}>Edit</button>
@@ -72,25 +72,11 @@ function Showfinder() {
         ))}
       </div>
   }
-  //GET+Render functions
-  function fetchAllEvents(){
-    fetch("http://localhost:4000/event/all",{
-      method:"GET",
-      headers:new Headers({
-        "Content-Type":"application/json",
-        "authorization":sessionToken
-      })
-    })
-    .then(res=>res.json())
-    .then(data=>setFetchResult(data))
-    .catch(err=>console.log(err))
-  }
-  
+  //External Nav functions  
   
   const profileNav=(_id)=>{
     navigate(`/profile/${_id}`)
   }
-  //TODO: change below to go to specific message
   const messageNav=(_id)=>{
     navigate(`/messaging/${_id}`)
   }
@@ -191,8 +177,17 @@ function Showfinder() {
   }
   //!UseEffect -> not re-rendering after second render
   useEffect(()=>{
-      fetchAllEvents()
-  })
+    fetch("http://localhost:4000/event/all",{
+      method:"GET",
+      headers:new Headers({
+        "Content-Type":"application/json",
+        "authorization":sessionToken
+      })
+    })
+    .then(res=>res.json())
+    .then(data=>setFetchResult(data))
+    .catch(err=>console.log(err))
+  },[])
   //RETURN
   return (
     <>
@@ -203,18 +198,18 @@ function Showfinder() {
         ?null
         :<div>
           <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter event title'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
           <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter event genre'/>
+          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
+          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
           <button onClick={e=>{fetchPostEvent()}}>Submit</button>
           <button onClick={closePostBox}>Cancel</button>
         </div>}
       {showModal
         ?<div className='modal'>
           <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter new event title'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
           <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter new event genre'/>
+          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
+          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
           <button onClick={e=>handleUpdate()}>Submit</button>
           <button onClick={e=>closeModal()}>Cancel</button>
         </div>
