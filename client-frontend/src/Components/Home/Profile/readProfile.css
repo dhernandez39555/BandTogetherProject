@@ -6,6 +6,8 @@
 #profilePhotoImage {
     max-height: 7em;
     max-width: 7em;
+    height: 7em;
+    width: 7em;
     border-radius: 100%; 
     position: relative;
     bottom: 4em;
