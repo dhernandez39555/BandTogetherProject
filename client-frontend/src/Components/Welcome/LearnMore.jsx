@@ -1,8 +1,12 @@
 import React from 'react'
 import { Button } from "@mui/material"
 import "./LearnMore.css"
+import { useNavigate } from 'react-router-dom'
 
 function LearnMore() {
+
+  const navigate=useNavigate()
+
   return (
     <div>
         <h1>Band Together</h1>
@@ -19,7 +23,7 @@ function LearnMore() {
             id='signUpBtn'
             variant="contained"
             size="large"
-            onClick={()=>console.log("Clicked, make sure to add a route to the sign-up page here.")}
+            onClick={()=>navigate('/welcome')}
         >Sign Up
         </Button>
     </div>

@@ -114,7 +114,7 @@ function MeetBands() {
                         }
                         <div id="meet-btns">
                             <Link to={`/profile/${user._id}`}><span>Profile</span></Link>
-                            <Link to="/message"><span>Message</span></Link>
+                            <Link to={`/messaging/${user._id}`}><span>Message</span></Link>
                         </div>
                     </div>   
                     )

@@ -6,6 +6,8 @@ import { IconButton, TextField } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
+import "./Showfinder.css"
+
 //TODO: Send messaging to its corresponding route and fix useEffect rendering to properly re-render fetchAllEvents
 
 function Showfinder() {
@@ -50,11 +52,13 @@ function Showfinder() {
       : <div className="renderContainer">
         {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
-            <h2 className='titleEach'>Title: {result.title}</h2>
-            <h4 className='userEach'>Band: {result.user.bandName}</h4>
-            <h4 className="genreEach">Genre: {result.genre}</h4>
-            <h5 className='bodyEach'>Body: {result.body}</h5>
-            <h4 className='dateEach'>Date: {result.eventDate}</h4>
+            <h2 className='titleEach'>{result.title}</h2>
+            <div id='bandDateGenreWrapper'>
+              <h4 className='userEach'>{result.user.bandName}</h4>
+              <h4 className='dateEach'>{result.eventDate}</h4>
+              <h4 className="genreEach">{result.genre}</h4>
+            </div>
+            <h6 className='bodyEach'>{result.body}</h6>
             {result.user._id===getUserId()
               ?<div className='options'>
                 <button className='editBtn' onClick={e=>{setIdUrl(result._id);openModal()}}>Edit</button>
@@ -192,7 +196,9 @@ function Showfinder() {
   //RETURN
   return (
     <>
-      <button onClick={()=>setPostBox(!postBox)}>Add an event!</button>
+      <div id='eventBtnWrapper'>
+        <button onClick={()=>setPostBox(!postBox)} id='newEventBtn'>Add an event!</button>
+      </div>
       {!postBox
         ?null
         :<div>

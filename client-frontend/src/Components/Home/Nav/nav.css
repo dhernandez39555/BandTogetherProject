@@ -27,7 +27,7 @@
 .bm-menu{
     display: flex;
     justify-content: center;
-    background-color: rgba(180,180,180,4);
+    background-color: rgb(180,180,180);
 }
 .bm-burger-button {
     position: fixed;
