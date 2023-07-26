@@ -4,6 +4,7 @@
 
 #backArrow {
     color: #7E12b3; 
+    cursor: pointer;
 }
 
 #loginForm {
@@ -17,6 +18,7 @@
 #loginButtonDiv {
     display: flex;
     justify-content: center;
+    cursor: pointer; 
 }
 
 #loginButton {

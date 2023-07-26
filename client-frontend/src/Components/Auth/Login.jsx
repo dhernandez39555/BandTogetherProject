@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom' 
+import { Navigate, useNavigate } from 'react-router-dom' 
 import "./login.css"
 import { TextField } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'; 
@@ -9,6 +9,8 @@ function Login({ updateLocalStorage }) {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+
+    const navigate = useNavigate()
 
     const handleLogin = e => {
         e.preventDefault()
@@ -37,8 +39,9 @@ function Login({ updateLocalStorage }) {
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
 
         <div>
-        
-        <ArrowBackIosIcon fontSize='large' id="backArrow"/>
+            
+        <ArrowBackIosIcon fontSize='large' id="backArrow"
+            onClick={() => navigate(`/welcome`)}/>
 
         <div id="logo-container">
             <h1>BandTogether</h1>
