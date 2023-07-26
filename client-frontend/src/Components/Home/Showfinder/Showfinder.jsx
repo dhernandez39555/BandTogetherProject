@@ -6,7 +6,7 @@ import { IconButton, TextField } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
-// import "./Showfinder.css"
+import "./Showfinder.css"
 
 //TODO: Send messaging to its corresponding route and fix useEffect rendering to properly re-render fetchAllEvents
 
