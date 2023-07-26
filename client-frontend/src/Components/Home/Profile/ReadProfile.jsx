@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import "./readProfile.css"
 import { useHref, useParams } from 'react-router-dom'
 // import ReactPlayer from "react-player"
 import YouTubePlayer from 'react-player/youtube'
 import SoundCloudPlayer from 'react-player/soundcloud'
+import jwtDecode from 'jwt-decode' 
 
 function ReadProfile() {
   const navigate = useNavigate()
@@ -12,7 +13,16 @@ function ReadProfile() {
   const [ profile, setProfile ] = useState({})
 
   const sessionToken = localStorage.getItem('token');
-  
+
+  const getUserId = () => {
+        try {
+            const decodedToken = jwtDecode(sessionToken)
+            return decodedToken._id 
+        } catch (error) {
+            console.log(`error decoding`,error)
+        }
+    }
+    
   const params = useParams();
 
   const fetchProfile = () => {
@@ -73,9 +83,14 @@ function ReadProfile() {
           </span> 
         </div>
 
-          <div id='editProfileDiv'>
-          <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
-          </div>
+          {params.user_id===getUserId()
+            ? <div id='editProfileDiv'>
+              <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+              </div> 
+            : <div id='messageProfileDiv'> 
+              <button type='button'> Message</button>
+              </div>
+          }
 
           {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} 
             width="50%"/>}
