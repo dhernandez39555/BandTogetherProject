@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { TextField, Select, MenuItem, FormControl } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material';
 
 function Register({ updateLocalStorage }) {
     const [profilePicture, setProfilePicture] = useState("")
@@ -159,6 +159,7 @@ function Register({ updateLocalStorage }) {
         <TextField
             required={true}
             fullWidth={true}
+            inputProps={{ minLength: 8 }}
             type="password"
             id="passwordInput"
             placeholder="Enter your password here." 
@@ -211,7 +212,8 @@ function Register({ updateLocalStorage }) {
 
         <div id='genreDropdown'>
         <label htmlFor="genreInput">Genre:</label>
-        <Select
+        <TextField
+            select={true}
             required={true}
             fullWidth={true}
             id="genreInput"
@@ -223,23 +225,24 @@ function Register({ updateLocalStorage }) {
             <MenuItem value={"rock"}>Rock</MenuItem>
             <MenuItem value={"jazz"}>Jazz</MenuItem>
             <MenuItem value={"pop"}>Pop</MenuItem>
-        </Select>
+        </TextField>
         </div>
 
         <div id='additionGenreDropdown'>
         <label htmlFor="additionalGenreInput">Genre:</label>
-        <Select
+        <TextField
+            select={true}
             fullWidth={true}
             id="additionGenreInput"
             value={additionGenre}
-            label="additionalGenreInput"
+            label="Additional Genre"
             onChange={handleAddGenreChange}
         >
             <MenuItem value=""></MenuItem>
             <MenuItem value={"rock"}>Rock</MenuItem>
             <MenuItem value={"jazz"}>Jazz</MenuItem>
             <MenuItem value={"pop"}>Pop</MenuItem>
-        </Select>
+        </TextField>
         </div>
 
         <div>
