@@ -17,7 +17,45 @@ function Direct() {
   const messageInput = useRef("");
   const [ message, setMessage ] = useState("");
   const [ picture, setPicture ] = useState("");
+  const [ socket, setSocket ] = useState(null);
+  const messageContainerRef = useRef(null)
 
+  //todo ------------
+  useEffect(() => {
+    const ws = new WebSocket('ws://http://127.0.0.1:8000')
+    setSocket(ws)
+    return () => {
+      ws.close();
+    }
+  },[])
+
+  useEffect(() => {
+    const handleReceiveMessage = e => {
+      const receivedMessage = e.data;
+    }
+    if(socket) {
+      socket.addEventListener('message', handleReceiveMessage)
+    }
+    return () => {
+      if(socket) {
+        socket.removeEventListener('message', handleReceiveMessage)
+      }
+    }
+  }, [socket])
+
+  const sendingMessage = (message) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(message);
+    }
+  }
+
+  useEffect(() => { 
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight);
+      console.log('hank')
+    }
+  }, [directs])
+ //todo -----------------
   useEffect(() => {
     const options = {
       headers: new Headers({
@@ -117,7 +155,7 @@ function Direct() {
         ? <h1>loading</h1>
         : directs.length === 0
         ? null
-        : <div id="direct-list">
+        : <div id="direct-list" ref={messageContainerRef}>
             {directs.map((direct, i) =>
             <>
             { direct.createdAt

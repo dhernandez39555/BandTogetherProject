@@ -6,10 +6,15 @@ const bcrypt=require("bcrypt")
 const { dbConnect } = require("./DBConn")
 const JWT=require("jsonwebtoken")
 const cors=require("cors")
+const http = require('http').createServer(app)
+const WebSocket = require('ws');
+const runWebSocket = require('./Utilities/websocket')
 
 const JWT_KEY=process.env.JWT_KEY
 const HOST=process.env.HOST||"127.0.0.1"
 const PORT=process.env.PORT||4000
+
+runWebSocket(http);
 
 const authController = require("./Controllers/Auth")
 const postController = require("./Controllers/Post")
@@ -18,6 +23,7 @@ const eventController=require("./Controllers/Event")
 const userController=require("./Controllers/user")
 const nodemailerController=require("./Controllers/nodemailer")
 const sessionValidation = require("./Middlewares/session")
+
 
 app.use(cors())
 app.use(express.json({ limit: '10mb' }));
@@ -34,4 +40,3 @@ app.listen(PORT,HOST, ()=>{
     console.log(`[server] is listening on ${HOST}:${PORT}`)
     dbConnect()
 })
-
