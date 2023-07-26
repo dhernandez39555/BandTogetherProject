@@ -67,37 +67,48 @@ function ReadProfile() {
 
             {params.user_id===getUserId()
               ? <div id='editProfileDiv'>
-                <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+                <button type='button' id='editProfileButton' 
+                onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
                 </div> 
               : <div id='editProfileDiv'> 
-                <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+                <button type='button' id='messageButton'
+                onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
                 </button>
                 </div>
             }
 
         <div id='socialMediaDiv'>
 
+        {profile.socials.instagram &&
           <span id="instagramSpan" >
           <img className='socialIcons' src="/assets/instagram.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.instagram}`}}/>
           </span>
+        }
 
+        {profile.socials.soundCloud && 
           <span id="soundCloudSpan">
           <img className='socialIcons' src="/assets/soundcloud.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.soundCloud}`}}/>
           </span>
+        } 
 
+        {profile.socials.spotify &&
           <span id="spotifySpan">
           <img className='socialIcons' src="/assets/spotify.png" alt="" srcSet=""
             onClick={(e) => {window.location.href = `${profile.socials.spotify}`}}/>
           </span>
+        } 
 
+        {profile.socials.youtube &&
           <span id="youtubeSpan">
           <img className='socialIcons' src="/assets/youtube.png" alt="" srcSet="" 
             onClick={(e) => {window.location.href = `${profile.socials.youtube}`}}/>
-          </span> 
-        </div>
+          </span>
+        }
 
+        </div> 
+        
           {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} id="YouTubePlayer"
             width="100%"/>}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} 
@@ -120,5 +131,6 @@ function ReadProfile() {
     </div>
   )
 }
+
 
 export default ReadProfile

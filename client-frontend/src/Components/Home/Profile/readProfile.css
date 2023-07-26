@@ -16,6 +16,8 @@
     position: relative; 
     bottom: 4em; 
     left: 3em; 
+    max-width: 75%;
+    word-wrap: break-word;
 }
 
 #editProfileDiv {
@@ -24,6 +26,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#editProfileButton {
+    width: 70%; 
+    height: 3em;
+    border: 2px solid black; 
+}
+
+#messageButton {
+    width: 70%;
+    height: 3em; 
+    border: 2px solid black;
 }
 
 #socialMediaDiv {
