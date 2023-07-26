@@ -212,7 +212,7 @@ function Register({ updateLocalStorage }) {
                     onChange={handleLocationChange}/>
             )}
         </div>
-
+  
         <div id='genreDropdown'>
         {/* <label htmlFor="genreInput">Genre:</label> */}
         <TextField
