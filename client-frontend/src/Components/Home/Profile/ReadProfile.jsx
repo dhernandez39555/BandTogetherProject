@@ -88,7 +88,8 @@ function ReadProfile() {
               <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
               </div> 
             : <div id='messageProfileDiv'> 
-              <button type='button'> Message</button>
+              <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+              </button>
               </div>
           }
 
