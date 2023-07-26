@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import "./readProfile.css"
 import { useHref, useParams } from 'react-router-dom'
 // import ReactPlayer from "react-player"
 import YouTubePlayer from 'react-player/youtube'
 import SoundCloudPlayer from 'react-player/soundcloud'
+import jwtDecode from 'jwt-decode' 
 
 function ReadProfile() {
   const navigate = useNavigate()
@@ -12,7 +13,16 @@ function ReadProfile() {
   const [ profile, setProfile ] = useState({})
 
   const sessionToken = localStorage.getItem('token');
-  
+
+  const getUserId = () => {
+        try {
+            const decodedToken = jwtDecode(sessionToken)
+            return decodedToken._id 
+        } catch (error) {
+            console.log(`error decoding`,error)
+        }
+    }
+    
   const params = useParams();
 
   const fetchProfile = () => {
@@ -45,12 +55,27 @@ function ReadProfile() {
 
       return (
         <div id='profileDiv'>
-          <img src={`${profile.coverPhoto}`}/>
-          <img src={`${profile.profilePicture}`} style={{maxWidth:200, maxHeight:200}}/>
-          <h1>{profile.bandName}</h1>
-          <p>{profile.bio}</p> 
+          <div id='photosDiv'>
+            <img src={`${profile.coverPhoto}`} id='coverPhotoImage'/>
+            <img src={`${profile.profilePicture}`} id='profilePhotoImage'/>
+          </div>
 
-        <div id='socialMediaSpan'>
+          <div id='bandNameBioDiv'>
+            <h1>{profile.bandName}</h1>
+            <p>{profile.bio}</p>
+          </div>
+
+            {params.user_id===getUserId()
+              ? <div id='editProfileDiv'>
+                <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+                </div> 
+              : <div id='editProfileDiv'> 
+                <button type='button' onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+                </button>
+                </div>
+            }
+
+        <div id='socialMediaDiv'>
 
           <span id="instagramSpan" >
           <img className='socialIcons' src="/assets/instagram.png" alt="" srcSet="" 
@@ -73,18 +98,14 @@ function ReadProfile() {
           </span> 
         </div>
 
-          <div id='editProfileDiv'>
-          <button type='button' onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
-          </div>
-
-          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} 
-            width="50%"/>}
+          {profile.socials.youtube && <YouTubePlayer url={profile.socials.youtube} id="YouTubePlayer"
+            width="100%"/>}
           {profile.socials.soundCloud && <SoundCloudPlayer url={profile.socials.soundCloud} 
-            width="50%"/>}
+            width="100%"/>}
           {profile.socials.spotify && <iframe src={`https://open.spotify.com/embed/track/${spotifyShortened}`} 
-            width="50%" height="352" frameBorder="0" allowFullScreen="" 
+            height="352" frameBorder="0" allowFullScreen="" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"></iframe>} 
+            loading="lazy" width="100%"></iframe>}
 
         </div>
       );
