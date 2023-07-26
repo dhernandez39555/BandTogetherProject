@@ -71,9 +71,11 @@ function Direct() {
 
   const getTime = date => {
     const newDate = new Date(date);
-    const isPM = newDate.getHours() > 12;
-    const hours = isPM ? newDate.getHours() - 12 : newDate.getHours();
-    return `${hours}:${newDate.getMinutes()}${isPM ? "pm" : "am" }`
+    const militaryHour = newDate.getHours()
+    const hours = militaryHour < 12 ? militaryHour + 1 : (militaryHour % 12) || 12;
+    const minutes = newDate.getMinutes();
+    const amOrPm = militaryHour >= 12 ? 'pm' : 'am';
+    return `${hours}:${minutes}${amOrPm}`
   }
 
   const convertToBase64 = file => {
@@ -124,7 +126,9 @@ function Direct() {
               ? getDate(direct.createdAt)
               : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
             <div className="direct-item" key={i}>
-              <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              <div className="direct-img-container">
+                <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              </div>
               <div className="direct-text">
                 <div className="direct-top">
                   <h3>{direct.sender.bandName}</h3>
