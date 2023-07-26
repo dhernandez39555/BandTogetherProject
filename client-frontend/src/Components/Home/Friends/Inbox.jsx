@@ -102,7 +102,10 @@ function Inbox() {
                 <h3>{messages[item][0].sender._id === item ? messages[item][0].sender.bandName : messages[item][0].receiver.bandName}</h3>
                 <h3>{getDate(messages[item][0].createdAt)}</h3>
               </div>
-              <p>{messages[item][0].body}</p>
+              <p>{
+                messages[item][0].body.split(":")[0] === "data" && messages[item][0].body.split(":")[1].slice(0, 5) === "image"
+                  ? "image" : messages[item][0].body
+              }</p>
             </div>
           </div>
           )
