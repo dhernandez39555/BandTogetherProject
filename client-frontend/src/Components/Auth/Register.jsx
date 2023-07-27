@@ -334,8 +334,12 @@ function Register({ updateLocalStorage }) {
             onChange={e => setInstagram(e.target.value)}/>
         </div>
 
-        <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
+        <div id="submitButtonDiv">
+            <button id="registerSubmitButton" type="button" onClick={handleSubmit}>Submit</button>
+        </div>
+
     </form>
+    
     </div>
     }
     </> 
