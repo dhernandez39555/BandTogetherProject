@@ -25,7 +25,7 @@ function Direct() {
         "authorization": localStorage.getItem("token")
       })
     }
-
+    console.log("before");
     fetch(`http://127.0.0.1:4000/message/readAllFrom/${otherUser_id}`, options)
       .then(res => res.json())
       .then(data => {
@@ -34,10 +34,6 @@ function Direct() {
       })
       .catch(err => err.message)
   }, [])
-
-  useEffect(() => {
-    prevDate.current = new Date("January 1, 1970");
-  }, [directs] )
 
   const sendMessage = () => {
     if (!(message !== "" || picture !== "")) return;
@@ -59,6 +55,7 @@ function Direct() {
     
     setMessage("");
     setPicture("");
+    prevDate.current = new Date("January 1, 1970");
   }
 
   const getDate = (date) => {
@@ -96,10 +93,12 @@ function Direct() {
     const base64 = await convertToBase64(file);
     setMessage("");
     setPicture(base64);
+    prevDate.current = new Date("January 1, 1970");
   }
 
   const removeImg = () => {
     setPicture("");
+    prevDate.current = new Date("January 1, 1970");
   }
   
   return (

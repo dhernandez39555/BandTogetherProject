@@ -73,10 +73,15 @@
     font-weight: 900;
 }
 
+#filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
 #preview-cover > img {
     width: 100%;
 }
-
 
 #meet-page {
     background-color: lightgray;

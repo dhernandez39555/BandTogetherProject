@@ -14,6 +14,7 @@ function MeetBands() {
     const [ genreFilter, setGenreFilter ] = useState("")
 
     useEffect(() => {
+        console.log("us effect");
         const getUsers = async () => {
             const options = {
                 method: 'GET',
@@ -57,9 +58,11 @@ function MeetBands() {
                         }
                         return a.distance - b.distance;
                     })
-        
+
+                    
                     setUsers(sortedUsers);
-                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => user.distance < locationFilter));
+                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < locationFilter));
+                    window.scrollY = 300;
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
@@ -91,23 +94,23 @@ function MeetBands() {
     const convertKmToMiles = (km) => {
         const milesInKm = 0.621371;
         return km * milesInKm;
-    };
+    }
 
     const changeFilter = () => {
-        if (isNaN(Number(locationFilter))) return;
         let sortedUsers = users.slice(0, 4);
-        if (locationFilter !== "") sortedUsers = users.filter(user => user.distance < Number(locationFilter)).slice(0, 4);
+        if (isNaN(Number(locationFilter))) setFilterUsers(sortedUsers);
+        if (locationFilter !== "") sortedUsers = users.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(locationFilter)).slice(0, 4);
         if (genreFilter !== "") sortedUsers = users.filter(user => user.genre === genreFilter).slice(0, 4);
         setFilterUsers(sortedUsers);
     }
 
     const changeLocationFilter = e => {
-        setLocationFilter(e.target.value);
+        setLocationFilter(prev => prev = e.target.value);
         changeFilter();
     }
 
     const changeGenreFilter = e => {
-        setGenreFilter(e.target.value);
+        setGenreFilter(prev => prev = e.target.value);
         changeFilter();
     }
 
@@ -119,7 +122,6 @@ function MeetBands() {
                 ? <h1>Loading</h1>
                 : <>
                 <div id="filter-form">
-                    { locationFilter !== "" && genreFilter !== "" ? <FilterListIcon onClick={e => changeFilter()} /> : <FilterListOffIcon onClick="" />}
                     <TextField
                         label="Miles"
                         value={locationFilter}
