@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import './direct.css';
 import { useParams, Link } from 'react-router-dom';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
@@ -20,7 +20,22 @@ function Direct() {
   const [ socket, setSocket ] = useState(null);
   const messageContainerRef = useRef(null)
 
-  //todo ------------
+  //function to scroll the message container to bottom
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight)
+    }
+  }
+
+  //calls the scroll to bottom function when page loads
+  useLayoutEffect(() => {
+    scrollToBottom();
+  },[])
+
+  useLayoutEffect(() => {
+    scrollToBottom()
+  },[directs])
+
   useEffect(() => {
     const ws = new WebSocket('ws://127.0.0.1:8000')
     setSocket(ws)
@@ -30,9 +45,25 @@ function Direct() {
   },[])
 
   useEffect(() => {
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  },[])
+
+
+  useEffect(() => {
     const handleReceiveMessage = e => {
       const receivedMessage = JSON.parse(e.data);
       setDirects((prevDirects) => [...prevDirects,receivedMessage])
+
+      if(Notification.permission === 'granted') {
+        const notification = new Notification('New Message', {
+          body: 'New Message in BandTogether!'
+        })
+          notification.onclick = () => {
+            // todo: do something 
+          }
+      }
     }
 
     if(socket) {
@@ -53,13 +84,7 @@ function Direct() {
     }
   }
 
-  useEffect(() => { 
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight)
-    }
-  }, [,directs])
 
- //todo -----------------
   useEffect(() => {
     const options = {
       headers: new Headers({
@@ -73,6 +98,9 @@ function Direct() {
       .then(data => {
         console.log(data);
         setDirects(data)
+        //todo see if this works 
+        scrollToBottom();
+        //todo-----------------
       })
       .catch(err => err.message)
   }, [])
