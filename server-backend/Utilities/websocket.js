@@ -8,7 +8,7 @@ const runWebSocket = () => {
 
     wss.on('connection', (ws) => {
         ws.on('message', (message) => {
-            wss.clients.foreach((client) => {
+            wss.clients.forEach((client) => {
                 if(client !== ws && client.readyState === WebSocket.OPEN) {
                     client.send(message)
                 }

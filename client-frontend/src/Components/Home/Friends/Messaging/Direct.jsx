@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './direct.css';
 import { useParams, Link } from 'react-router-dom';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import { IconButton, TextField } from '@mui/material';
+import { IconButton, TextField, menuClasses } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -22,7 +22,7 @@ function Direct() {
 
   //todo ------------
   useEffect(() => {
-    const ws = new WebSocket('ws://http://127.0.0.1:8000')
+    const ws = new WebSocket('ws://127.0.0.1:8000')
     setSocket(ws)
     return () => {
       ws.close();
@@ -31,30 +31,34 @@ function Direct() {
 
   useEffect(() => {
     const handleReceiveMessage = e => {
-      const receivedMessage = e.data;
+      const receivedMessage = JSON.parse(e.data);
+      setDirects((prevDirects) => [...prevDirects,receivedMessage])
     }
+
     if(socket) {
       socket.addEventListener('message', handleReceiveMessage)
     }
+
     return () => {
       if(socket) {
         socket.removeEventListener('message', handleReceiveMessage)
       }
     }
   }, [socket])
+  
 
   const sendingMessage = (message) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(message);
+      socket.send(JSON.stringify({ message }));
     }
   }
 
   useEffect(() => { 
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight);
-      console.log('hank')
+      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight)
     }
-  }, [directs])
+  }, [,directs])
+
  //todo -----------------
   useEffect(() => {
     const options = {
@@ -79,6 +83,11 @@ function Direct() {
 
   const sendMessage = () => {
     if (!(message !== "" || picture !== "")) return;
+      const messageToSend = message === "" ? picture : message;
+      sendingMessage(messageToSend)
+      setMessage("")
+      setPicture("")
+
     const options = {
       method: "POST",
       headers: new Headers({
