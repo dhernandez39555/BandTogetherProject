@@ -75,7 +75,7 @@ function Direct() {
     const hours = militaryHour < 12 ? militaryHour + 1 : (militaryHour % 12) || 12;
     const minutes = newDate.getMinutes();
     const amOrPm = militaryHour >= 12 ? 'pm' : 'am';
-    return `${hours}:${minutes}${amOrPm}`
+    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${amOrPm}`
   }
 
   const convertToBase64 = file => {

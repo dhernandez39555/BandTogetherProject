@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import './meetBands.css'
 import { Link } from 'react-router-dom'
+import { TextField, MenuItem } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
 function MeetBands() {
     const [ users, setUsers ] = useState([]);
+    const [ filterUsers, setFilterUsers ] = useState([]);
     const [ latitude, setLatitude ] = useState(null)
     const [ longitude, setLongitude ] = useState(null)
+    const [ locationFilter, setLocationFilter ] = useState(50)
+    const [ genreFilter, setGenreFilter ] = useState("")
 
     useEffect(() => {
         const getUsers = async () => {
@@ -51,10 +57,9 @@ function MeetBands() {
                         }
                         return a.distance - b.distance;
                     })
-                    .slice(0, 4)
-                    .filter(user => user.distance < 50);
         
                     setUsers(sortedUsers);
+                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => user.distance < locationFilter));
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
@@ -88,13 +93,54 @@ function MeetBands() {
         return km * milesInKm;
     };
 
+    const changeFilter = () => {
+        if (isNaN(Number(locationFilter))) return;
+        let sortedUsers = users.slice(0, 4);
+        if (locationFilter !== "") sortedUsers = users.filter(user => user.distance < Number(locationFilter)).slice(0, 4);
+        if (genreFilter !== "") sortedUsers = users.filter(user => user.genre === genreFilter).slice(0, 4);
+        setFilterUsers(sortedUsers);
+    }
+
+    const changeLocationFilter = e => {
+        setLocationFilter(e.target.value);
+        changeFilter();
+    }
+
+    const changeGenreFilter = e => {
+        setGenreFilter(e.target.value);
+        changeFilter();
+    }
+
     return (
         <div id="meet-page">
-            { !users
+            { !filterUsers
                 ? <h1>Error while loading, please refresh</h1>
-                : users.length === 0
+                : filterUsers.length === 0
                 ? <h1>Loading</h1>
-                : users.map((user, i) => {
+                : <>
+                <div id="filter-form">
+                    { locationFilter !== "" && genreFilter !== "" ? <FilterListIcon onClick={e => changeFilter()} /> : <FilterListOffIcon onClick="" />}
+                    <TextField
+                        label="Miles"
+                        value={locationFilter}
+                        onChange={changeLocationFilter}
+                        fullWidth={true}
+                    />
+
+                    <TextField
+                        select={true}
+                        label="Genre"
+                        value={genreFilter}
+                        onChange={changeGenreFilter}
+                        fullWidth={true}
+                    >
+                        <MenuItem value=""></MenuItem>
+                        <MenuItem value={"rock"}>Rock</MenuItem>
+                        <MenuItem value={"jazz"}>Jazz</MenuItem>
+                        <MenuItem value={"pop"}>Pop</MenuItem>
+                    </TextField>
+                </div>
+                { filterUsers.map((user, i) => {
                     return (
                     <div key={i} className="meet-preview-profile">
                         <div className="meet-cover">
@@ -118,9 +164,9 @@ function MeetBands() {
                                 <Link to={`/messaging/${user._id}`}><span>Message</span></Link>
                             </div>
                         </div>
-                    </div>   
-                    )
-                })
+                    </div>
+                )})}
+            </>
             }
         </div>
     )
