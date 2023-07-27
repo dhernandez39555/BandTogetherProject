@@ -46,7 +46,7 @@ function Sidebar() {
 
   return (
     <Menu
-      width={'30%'}
+      width={'75%'}
       right 
       isOpen={ isOpen } 
       noTransition 
