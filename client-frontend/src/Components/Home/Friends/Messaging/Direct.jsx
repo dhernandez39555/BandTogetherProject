@@ -6,14 +6,17 @@ import { IconButton, TextField } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import KeyboardVoiceOutlinedIcon from '@mui/icons-material/KeyboardVoiceOutlined';
+import SendIcon from '@mui/icons-material/Send';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Direct() {
 
   const { otherUser_id } = useParams();
   const [ directs, setDirects ] = useState([]);
   const prevDate = useRef(new Date("January 1, 1970"));
+  const messageInput = useRef("");
   const [ message, setMessage ] = useState("");
+  const [ picture, setPicture ] = useState("");
 
   useEffect(() => {
     const options = {
@@ -32,20 +35,30 @@ function Direct() {
       .catch(err => err.message)
   }, [])
 
+  useEffect(() => {
+    prevDate.current = new Date("January 1, 1970");
+  }, [directs] )
+
   const sendMessage = () => {
+    if (!(message !== "" || picture !== "")) return;
     const options = {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json",
         "authorization": localStorage.getItem("token")
       }),
-      body: JSON.stringify({ body: message })
+      body: JSON.stringify({ body: message === "" ? picture : message })
     }
 
     fetch(`http://127.0.0.1:4000/message/makePostTo/${otherUser_id}`, options)
       .then(res => res.json())
-      .then(data => setDirects([...directs, data.newMessage]))
+      .then(data => {
+        console.log(data.newMessage)
+        setDirects([...directs, data.newMessage])})
       .catch(err => err.message)
+    
+    setMessage("");
+    setPicture("");
   }
 
   const getDate = (date) => {
@@ -58,9 +71,35 @@ function Direct() {
 
   const getTime = date => {
     const newDate = new Date(date);
-    const isPM = newDate.getHours() > 12;
-    const hours = isPM ? newDate.getHours() - 12 : newDate.getHours();
-    return `${hours}:${newDate.getMinutes()}${isPM ? "pm" : "am" }`
+    const militaryHour = newDate.getHours()
+    const hours = militaryHour < 12 ? militaryHour + 1 : (militaryHour % 12) || 12;
+    const minutes = newDate.getMinutes();
+    const amOrPm = militaryHour >= 12 ? 'pm' : 'am';
+    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${amOrPm}`
+  }
+
+  const convertToBase64 = file => {
+    return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+    fileReader.onload = () => {
+        resolve(fileReader.result)
+    }
+    fileReader.onerror = (error) => {
+        reject(error) 
+    }
+    })
+  }
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+    setMessage("");
+    setPicture(base64);
+  }
+
+  const removeImg = () => {
+    setPicture("");
   }
   
   return (
@@ -85,32 +124,57 @@ function Direct() {
             <>
             { direct.createdAt
               ? getDate(direct.createdAt)
-              : <div className="datestamp"><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
+              : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
             <div className="direct-item" key={i}>
-              <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              <div className="direct-img-container">
+                <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              </div>
               <div className="direct-text">
                 <div className="direct-top">
                   <h3>{direct.sender.bandName}</h3>
                   <p>{ direct.createdAt ? getTime(direct.createdAt) : null }</p>
                 </div>
-                <p>{direct.body}</p>
+                { direct.body.split(":")[0] === "data" && direct.body.split(":")[1].slice(0, 5) === "image"
+                    ? <img src={direct.body} alt="message image" />
+                    : <p>{direct.body}</p> }
               </div>
             </div>
             </>
         )}</div>
       }
       <div id="footer-textbox">
+        { picture !== ""
+          ? <div id="direct-preview-photo">
+              <img src={picture} alt="preview-photo" />
+            </div>
+          : null
+        }
         <div id="footer-wrap">
-          <AttachFileIcon id="clip" htmlColor='#7E12B3' fontSize="large" />
+          { picture !== ""
+            ? <CloseIcon htmlColor='#7E12B3' onClick={e => removeImg()} fontSize={"large"} />
+            : <label htmlFor="file-upload">
+                <AttachFileIcon id="clip" htmlColor='#7E12B3' fontSize="large" />
+              </label>
+          }
+          <input
+            type="file"
+            id="file-upload"
+            name="file-upload"
+            accept='.jpeg, .jpg, .png'
+            onChange={(e) => handleFileUpload(e)}
+          />
           <TextField
+            disabled={picture !== ""}
             id="direct-input"
-            label="Write a message..."
+            ref={messageInput}
+            label={picture !== "" ? "Send attactment" : "Write a message..." }
             variant="outlined"
+            value={message}
             onChange={e => setMessage(e.target.value)}
             onKeyDown={ e => e.key === "Enter" ? sendMessage() : null }
             fullWidth={true}
           ></TextField>
-          <KeyboardVoiceOutlinedIcon htmlColor='#7E12B3' fontSize="large" />
+          <SendIcon onClick={e => sendMessage()} htmlColor='#7E12B3' fontSize="large" />
         </div>
       </div>
     </div>

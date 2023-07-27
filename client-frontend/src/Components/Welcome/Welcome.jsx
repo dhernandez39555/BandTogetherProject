@@ -11,7 +11,7 @@ function Welcome() {
                 <h1>BandTogether</h1>
                 <img id="title-icon" src={note} alt="note" />
                 <div id="title-underline"></div>
-                <h2>Build relationships.<br/>Book show.</h2>
+                <h2>Build relationships.<br/>Book shows.</h2>
                 <div id="welcome-btns">
                     <Link to="/login" ><span>Sign In</span></Link>
                     <Link to="/register" ><span>Sign Up</span></Link>

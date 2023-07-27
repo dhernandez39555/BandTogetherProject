@@ -1,32 +1,29 @@
 const router = require("express").Router()
 const Post = require("../Models/Post")
 
-router.post("/create", async (req, res) => {
+router.post("/create", async (req,res) => {
     try {
-        const { user, title, body, likes } = req.body 
-        
-        if (!user || !title || !body) throw Error("Please, provide all necessary information.")
-
-        const newPost = new Post({ user, title, body, likes })
-
-        await newPost.save()
-
+        const { title, body } = req.body;
+        const newPost = await new Post({
+            user: req.user,
+            title,
+            body
+        }).populate("user")
+        await newPost.save();
         res.status(201).json({
-            message: "Post successful",
+            message: `Event Created`,
             newPost
-        })
-
+        });
     } catch(err) {
-        console.log(err)
         res.status(500).json({
-            message: `${err}`
-        })
+            message: err.message
+        });
     }
 })
 
 router.get("/", async (req, res) => {
     try {
-        const findAllPosts = await Post.find({})
+        const findAllPosts = await Post.find({}).populate("user",{ password:0 })
         if (findAllPosts.length === 0) throw Error("No posts found.")
         res.status(200).json(findAllPosts)
     } catch(err) {
@@ -41,7 +38,7 @@ router.put("/update/:id", async (req, res) => {
     try {
         const { id: _id } = req.params 
 
-        const { user, title, body, likes } = req.body 
+        const { user, title, body } = req.body 
 
         const newPost = req.body 
 

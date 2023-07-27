@@ -11,8 +11,6 @@ import ProfileIcon from '@mui/icons-material/PersonOutline';
 import note from '../assets/8thnote.png'
 import './Home.css'
 
-
-
 function Home() {
 const navigate = useNavigate();
 
@@ -107,7 +105,7 @@ return (
                         
                     }}
                 />
-                <p id='my-profile-text'>My Profile</p>
+                <p>My Profile</p>
             </div>
         </div>
 

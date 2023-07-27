@@ -6,6 +6,8 @@ import { IconButton, TextField } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
+import "./Showfinder.css"
+
 //TODO: Send messaging to its corresponding route and fix useEffect rendering to properly re-render fetchAllEvents
 
 function Showfinder() {
@@ -50,15 +52,17 @@ function Showfinder() {
       : <div className="renderContainer">
         {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
-            <h2 className='titleEach'>Title: {result.title}</h2>
-            <h4 className='userEach'>Band: {result.user.bandName}</h4>
-            <h4 className="genreEach">Genre: {result.genre}</h4>
-            <h5 className='bodyEach'>Body: {result.body}</h5>
-            <h4 className='dateEach'>Date: {result.eventDate}</h4>
+            <h2 className='titleEach'>{result.title}</h2>
+            <div id='bandDateGenreWrapper'>
+              <h4 className='userEach'>{result.user.bandName}</h4>
+              <h4 className='dateEach'>{result.eventDate}</h4>
+              <h4 className="genreEach">{result.genre}</h4>
+            </div>
+            <h5 className='bodyEach'>{result.body}</h5>
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={e=>{setIdUrl(result._id);openModal()}}>Edit</button>
-                <button className='deleteBtn' onClick={e=>{setIdUrl(result._id);deleteEvent(result._id)}}>Delete</button>
+                <button className='editBtn' onClick={e=>{setIdUrl(result._id);setShowModal(!showModal)}}>Edit</button>
+                <button className='deleteBtn' onClick={e=>{deleteEvent(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
                 <button className='profileBtn' onClick={e=>profileNav(result.user._id)}>Profile</button>
@@ -68,25 +72,11 @@ function Showfinder() {
         ))}
       </div>
   }
-  //GET+Render functions
-  function fetchAllEvents(){
-    fetch("http://localhost:4000/event/all",{
-      method:"GET",
-      headers:new Headers({
-        "Content-Type":"application/json",
-        "authorization":sessionToken
-      })
-    })
-    .then(res=>res.json())
-    .then(data=>setFetchResult(data))
-    .catch(err=>console.log(err))
-  }
-  
+  //External Nav functions  
   
   const profileNav=(_id)=>{
     navigate(`/profile/${_id}`)
   }
-  //TODO: change below to go to specific message
   const messageNav=(_id)=>{
     navigate(`/messaging/${_id}`)
   }
@@ -126,12 +116,22 @@ function Showfinder() {
       [name]: value
     }));
   }
-  
   //PUT functions
-  
   const handleUpdate= async()=>{
     updateEvent()
     closeModal()
+  }
+  const closeModal=()=>{
+    setPostBody({
+      title:"",
+      body:"",
+      eventDate:"",
+      genre:"",
+      user:{
+        bandName:""
+      }
+    })
+    setShowModal(false)
   }
   const updateEvent=()=>{
     try{
@@ -154,8 +154,7 @@ function Showfinder() {
   //cndt'l off of above to render buttons 'edit'+'delete'
   //add functionality to bring up modal prompt for edit and prompt for deletion certainty
   
-  //DELETE functions
-  
+  //DELETE function
   const deleteEvent=(id)=>{
     fetch(`http://localhost:4000/event/${id}`,{
       method:"DELETE",
@@ -166,49 +165,41 @@ function Showfinder() {
     })
     .then(res=>res.json())
     .catch(err=>console.log(err))
-    setIdUrl("")
   }
-  
-  //PUT+DELETE functions
-  const closeModal=()=>{
-    setPostBody({
-      title:"",
-      body:"",
-      eventDate:"",
-      genre:"",
-      user:{
-        bandName:""
-      }
-    })
-    setShowModal(false)
-  }
-  const openModal=()=>{
-    setShowModal(true)
-  }
-  //!UseEffect -> not re-rendering after second render
+
   useEffect(()=>{
-      fetchAllEvents()
-  })
-  //RETURN
+    fetch("http://localhost:4000/event/all",{
+      method:"GET",
+      headers:new Headers({
+        "Content-Type":"application/json",
+        "authorization":sessionToken
+      })
+    })
+    .then(res=>res.json())
+    .then(data=>setFetchResult(data))
+    .catch(err=>console.log(err))
+  },[])
   return (
     <>
-      <button onClick={()=>setPostBox(!postBox)}>Add an event!</button>
+      <div id='eventBtnWrapper'>
+        <button onClick={()=>setPostBox(!postBox)} id='newEventBtn'>Add an event!</button>
+      </div>
       {!postBox
         ?null
         :<div>
           <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter event title'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
           <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter event genre'/>
+          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
+          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
           <button onClick={e=>{fetchPostEvent()}}>Submit</button>
           <button onClick={closePostBox}>Cancel</button>
         </div>}
       {showModal
         ?<div className='modal'>
           <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter new event title'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
           <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter new event genre'/>
+          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
+          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
           <button onClick={e=>handleUpdate()}>Submit</button>
           <button onClick={e=>closeModal()}>Cancel</button>
         </div>

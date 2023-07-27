@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 
-// * GET all users * //
+// * GET all users except own * //
 router.get("/all", async (req, res) => {
     try {
-        const foundUsers = await User.find({});
+        const foundUsers = await User.find({ _id: { $ne: req.user._id } });
+        
         if (foundUsers.length === 0) throw Error("Not users found");
 
         res.status(200).json({
@@ -87,6 +88,8 @@ router.put("/addcontact", async (req, res) => {
 router.put("/", async (req, res) => {
     try {
         const {
+            profilePicture,
+            coverPhoto,
             email,
             password,
             bandName,
@@ -103,6 +106,8 @@ router.put("/", async (req, res) => {
         const updateStatus = await User.updateOne(
                 { _id: req.user._id }, 
                 { $set: {
+                    profilePicture,
+                    coverPhoto,
                     email,
                     password,
                     bandName,
