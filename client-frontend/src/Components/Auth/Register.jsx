@@ -147,11 +147,14 @@ function Register({ updateLocalStorage }) {
         <TextField
             required={true}
             fullWidth={true}
-            type="text"
+            type="email"
+            className="signUpInput"
             id="emailInput"
             label="Email"
             placeholder='Enter your email here.'
-            onChange={e => setEmail(e.target.value)}/>
+            onChange={e => setEmail(e.target.value)}
+            style={{marginBottom: "1em"}}
+            />
         </div>
         
         <div>
@@ -161,6 +164,7 @@ function Register({ updateLocalStorage }) {
             fullWidth={true}
             inputProps={{ minLength: 8 }}
             type="password"
+            className="signUpInput"
             id="passwordInput"
             label="Password"
             placeholder="Enter your password here." 
@@ -173,6 +177,7 @@ function Register({ updateLocalStorage }) {
             required={true}
             fullWidth={true}
             type="text"
+            className="signUpInput"
             id="bandNameInput" 
             label="Band Name"
             placeholder="Enter your band's name here." 
@@ -185,6 +190,7 @@ function Register({ updateLocalStorage }) {
             required={true}
             fullWidth={true}
             type="text"
+            className="signUpInput"
             id="contactNameInput"
             label="Contact Name"
             placeholder="Enter your main contact's name here."
@@ -197,7 +203,8 @@ function Register({ updateLocalStorage }) {
                 <TextField 
                 fullWidth={true}
                 type="text"
-                name="location" 
+                name="location"
+                className="signUpInput" 
                 id="locationInput" 
                 value={location}
                 placeholder="Enter your location here."
@@ -206,6 +213,7 @@ function Register({ updateLocalStorage }) {
                 <TextField
                     fullWidth={true}
                     type='text'
+                    className="signUpInput" 
                     id='locationInput'
                     name='location'
                     placeholder='Enter your location here'
@@ -216,9 +224,10 @@ function Register({ updateLocalStorage }) {
         <div id='genreDropdown'>
         {/* <label htmlFor="genreInput">Genre:</label> */}
         <TextField
-            select={true}
             required={true}
             fullWidth={true}
+            select={true}
+            className="signUpInput"
             id="genreInput"
             value={genre}
             label="Genre"
@@ -232,10 +241,11 @@ function Register({ updateLocalStorage }) {
         </div>
 
         <div id='additionGenreDropdown'>
-        <label htmlFor="additionalGenreInput">Genre:</label>
+        {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
         <TextField
-            select={true}
             fullWidth={true}
+            select={true}
+            className="signUpInput"
             id="additionGenreInput"
             value={additionGenre}
             label="Additional Genre"
@@ -249,53 +259,64 @@ function Register({ updateLocalStorage }) {
         </div>
 
         <div>
-        <label htmlFor="bioInput">Bio:</label>
+        {/* <label htmlFor="bioInput">Bio:</label> */}
         <TextField
-            multiline
-            rows={4}
             required={true}
             fullWidth={true}
+            multiline
+            rows={4}
+            // inputProps={{ maxLength: 120 }}
             type="text"
+            label="Bio"
+            className="signUpInput" 
             id="bioInput"
             placeholder="Enter your short bio here."
             onChange={e => setBio(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="youtubeInput">YouTube Link:</label>
+        {/* <label htmlFor="youtubeInput">YouTube Link:</label> */}
         <TextField
             fullWidth={true}
             type="text"
+            label="YouTube"
+            className="signUpInput"
             id="youtubeInput"
             placeholder="Link to a YouTube channel/video here."
             onChange={e => setYoutube(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="spotifyInput">Spotify Link:</label>
+        {/* <label htmlFor="spotifyInput">Spotify Link:</label> */}
         <TextField
             fullWidth={true}
             type="text"
+            label="Spotify"
+            className="signUpInput"
             id="spotifyInput"
-            placeholder="Link to your Spotify page here."
+            placeholder="Link to your Spotify track here."
             onChange={e => setSpotify(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="soundCloudInput">SoundCloud Link:</label>
+        {/* <label htmlFor="soundCloudInput">SoundCloud Link:</label> */}
         <TextField
             fullWidth={true}
             type="text"
+            label="SoundCloud"
+            className="signUpInput"
             id="soundCloudInput"
             placeholder="Link to your SoundCloud here."
             onChange={e => setSoundCloud(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="instagramInput">Instagram Link:</label>
+        {/* <label htmlFor="instagramInput">Instagram Link:</label> */}
         <TextField
-            type="text"
             fullWidth={true}
+            type="text"
+            label="Instagram"
+            className="signUpInput"
             id="instagramInput"
             placeholder="Link to your Instagram here."
             onChange={e => setInstagram(e.target.value)}/>
