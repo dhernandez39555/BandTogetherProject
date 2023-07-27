@@ -115,7 +115,7 @@ function Register({ updateLocalStorage }) {
     <form className="form-wrapper">
         <h1>Sign Up</h1>
         
-            <div id="preview-cover">
+            <div id="preview-cover" >
                 {coverPhoto === "" ?
                     <label htmlFor="cover-upload">
                         <AddPhotoAlternateIcon id="addCoverIcon" fontSize='medium'/>
@@ -152,8 +152,8 @@ function Register({ updateLocalStorage }) {
             id="emailInput"
             label="Email"
             placeholder='Enter your email here.'
-            onChange={e => setEmail(e.target.value)}
             style={{marginBottom: "1em"}}
+            onChange={e => setEmail(e.target.value)}
             />
         </div>
         
@@ -168,6 +168,7 @@ function Register({ updateLocalStorage }) {
             id="passwordInput"
             label="Password"
             placeholder="Enter your password here." 
+            style={{marginBottom: "1em"}}
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
@@ -180,7 +181,8 @@ function Register({ updateLocalStorage }) {
             className="signUpInput"
             id="bandNameInput" 
             label="Band Name"
-            placeholder="Enter your band's name here." 
+            placeholder="Enter your band's name here."
+            style={{marginBottom: "1em"}} 
             onChange={e => setBandName(e.target.value)}/>
         </div>
 
@@ -194,6 +196,7 @@ function Register({ updateLocalStorage }) {
             id="contactNameInput"
             label="Contact Name"
             placeholder="Enter your main contact's name here."
+            style={{marginBottom: "1em"}}
             onChange={e => setContactName(e.target.value)}/>
         </div> 
 
@@ -208,6 +211,7 @@ function Register({ updateLocalStorage }) {
                 id="locationInput" 
                 value={location}
                 placeholder="Enter your location here."
+                style={{marginBottom: "1em"}}
                 onChange={handleLocationChange}/>
             ) : (
                 <TextField
@@ -217,6 +221,7 @@ function Register({ updateLocalStorage }) {
                     id='locationInput'
                     name='location'
                     placeholder='Enter your location here'
+                    style={{marginBottom: "1em"}}
                     onChange={handleLocationChange}/>
             )}
         </div>
@@ -231,6 +236,7 @@ function Register({ updateLocalStorage }) {
             id="genreInput"
             value={genre}
             label="Genre"
+            style={{marginBottom: "1em"}}
             onChange={handleGenreChange}
         >
             <MenuItem value=""></MenuItem>
@@ -249,6 +255,7 @@ function Register({ updateLocalStorage }) {
             id="additionGenreInput"
             value={additionGenre}
             label="Additional Genre"
+            style={{marginBottom: "1em"}}
             onChange={handleAddGenreChange}
         >
             <MenuItem value=""></MenuItem>
@@ -271,6 +278,7 @@ function Register({ updateLocalStorage }) {
             className="signUpInput" 
             id="bioInput"
             placeholder="Enter your short bio here."
+            style={{marginBottom: "1em"}}
             onChange={e => setBio(e.target.value)}/>
         </div>
 
@@ -283,6 +291,7 @@ function Register({ updateLocalStorage }) {
             className="signUpInput"
             id="youtubeInput"
             placeholder="Link to a YouTube channel/video here."
+            style={{marginBottom: "1em"}}
             onChange={e => setYoutube(e.target.value)}/>
         </div>
 
@@ -295,6 +304,7 @@ function Register({ updateLocalStorage }) {
             className="signUpInput"
             id="spotifyInput"
             placeholder="Link to your Spotify track here."
+            style={{marginBottom: "1em"}}
             onChange={e => setSpotify(e.target.value)}/>
         </div>
 
@@ -307,6 +317,7 @@ function Register({ updateLocalStorage }) {
             className="signUpInput"
             id="soundCloudInput"
             placeholder="Link to your SoundCloud here."
+            style={{marginBottom: "1em"}}
             onChange={e => setSoundCloud(e.target.value)}/>
         </div>
 
@@ -319,6 +330,7 @@ function Register({ updateLocalStorage }) {
             className="signUpInput"
             id="instagramInput"
             placeholder="Link to your Instagram here."
+            style={{marginBottom: "1em"}}
             onChange={e => setInstagram(e.target.value)}/>
         </div>
 
