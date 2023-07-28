@@ -53,8 +53,6 @@
     align-items: center;
     width: 40%;
 }
-
-
 #top, #middle, #bottom {
     display: flex;
     justify-content: space-evenly;

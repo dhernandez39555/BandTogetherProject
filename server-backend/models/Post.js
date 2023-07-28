@@ -4,7 +4,8 @@ const { ObjectId } = mongoose.Schema;
 const Post = new mongoose.Schema (
     {
         user:{
-            type: String,
+            type: ObjectId,
+            ref:"user",
             required: true
         },
         title:{
@@ -14,9 +15,6 @@ const Post = new mongoose.Schema (
         body:{
             type: String,
             required: true
-        },
-        likes:{
-            type: Number
         }
     },
     {timestamps: true }

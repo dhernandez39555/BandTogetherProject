@@ -25,7 +25,7 @@ function Direct() {
         "authorization": localStorage.getItem("token")
       })
     }
-
+    console.log("before");
     fetch(`http://127.0.0.1:4000/message/readAllFrom/${otherUser_id}`, options)
       .then(res => res.json())
       .then(data => {
@@ -34,10 +34,6 @@ function Direct() {
       })
       .catch(err => err.message)
   }, [])
-
-  useEffect(() => {
-    prevDate.current = new Date("January 1, 1970");
-  }, [directs] )
 
   const sendMessage = () => {
     if (!(message !== "" || picture !== "")) return;
@@ -59,6 +55,7 @@ function Direct() {
     
     setMessage("");
     setPicture("");
+    prevDate.current = new Date("January 1, 1970");
   }
 
   const getDate = (date) => {
@@ -66,14 +63,16 @@ function Direct() {
     if (prevDate.current.getDate() === newDate.getDate()) return null;
     const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
     prevDate.current = newDate;
-    return (<div className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
+    return (<div key={date} className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
   }
 
   const getTime = date => {
     const newDate = new Date(date);
-    const isPM = newDate.getHours() > 12;
-    const hours = isPM ? newDate.getHours() - 12 : newDate.getHours();
-    return `${hours}:${newDate.getMinutes()}${isPM ? "pm" : "am" }`
+    const militaryHour = newDate.getHours()
+    const hours = militaryHour < 12 ? militaryHour + 1 : (militaryHour % 12) || 12;
+    const minutes = newDate.getMinutes();
+    const amOrPm = militaryHour >= 12 ? 'pm' : 'am';
+    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${amOrPm}`
   }
 
   const convertToBase64 = file => {
@@ -94,10 +93,12 @@ function Direct() {
     const base64 = await convertToBase64(file);
     setMessage("");
     setPicture(base64);
+    prevDate.current = new Date("January 1, 1970");
   }
 
   const removeImg = () => {
     setPicture("");
+    prevDate.current = new Date("January 1, 1970");
   }
   
   return (
@@ -124,7 +125,9 @@ function Direct() {
               ? getDate(direct.createdAt)
               : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
             <div className="direct-item" key={i}>
-              <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              <div className="direct-img-container">
+                <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              </div>
               <div className="direct-text">
                 <div className="direct-top">
                   <h3>{direct.sender.bandName}</h3>
