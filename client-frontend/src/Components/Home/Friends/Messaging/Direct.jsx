@@ -55,7 +55,7 @@ function Direct() {
     const handleReceiveMessage = e => {
       const receivedMessage = JSON.parse(e.data);
       setDirects((prevDirects) => [...prevDirects,receivedMessage])
-
+          //todo ----------
       if(Notification.permission === 'granted') {
         const notification = new Notification('New Message', {
           body: 'New Message in BandTogether!'
