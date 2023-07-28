@@ -91,6 +91,10 @@
     gap: 1em;
 }
 
+#meet-page > h1 {
+    text-align: center;
+}
+
 #meet-btns {
     display: flex;
     justify-content: center;

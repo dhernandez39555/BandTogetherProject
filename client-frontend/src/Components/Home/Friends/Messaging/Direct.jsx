@@ -63,7 +63,7 @@ function Direct() {
     if (prevDate.current.getDate() === newDate.getDate()) return null;
     const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
     prevDate.current = newDate;
-    return (<div className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
+    return (<div key={date} className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
   }
 
   const getTime = date => {
