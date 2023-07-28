@@ -10,6 +10,7 @@ function MeetBands() {
     const [ filterUsers, setFilterUsers ] = useState("");
     const [ latitude, setLatitude ] = useState(null);
     const [ longitude, setLongitude ] = useState(null);
+    const [ openFilter, setOpenFilter ] = useState(false);
     const locationFilter = useRef(50);
     const genreFilter = useRef("");
 
@@ -63,7 +64,10 @@ function MeetBands() {
                     
                     setUsers(sortedUsers);
                     setFilterUsers(sortedUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < locationFilter.current));
-                    window.scrollY = 300;
+                    window.scrollTo({
+                        top: 100,
+                        behavior: 'smooth',
+                    });
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
@@ -97,14 +101,11 @@ function MeetBands() {
         return km * milesInKm;
     }
 
-    const changeFilter = (filterType, data) => {
+    const changeFilter = () => {
         let sortedUsers = users.slice(0, 4);
         if (isNaN(Number(locationFilter.current))) setFilterUsers(sortedUsers);
         if (locationFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(locationFilter.current)).slice(0, 4);
-        console.log(sortedUsers);
         if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 4);
-        console.log(sortedUsers);
-        console.log(genreFilter.current, locationFilter.current);
         setFilterUsers(sortedUsers);
     }
 
@@ -120,27 +121,34 @@ function MeetBands() {
 
     return (
         <div id="meet-page">
-            <div id="filter-form">
-                <TextField
-                    label="Miles"
-                    value={locationFilter.current}
-                    onChange={changeLocationFilter}
-                    fullWidth={true}
-                />
+            { locationFilter.current === "" && genreFilter.current === ""
+                ? <FilterListOffIcon onClick={e => setOpenFilter(!openFilter)} />
+                : <FilterListIcon onClick={e => setOpenFilter(!openFilter)} />
+            }
+            { !openFilter ? null
+                :
+                <div id="filter-form">
+                    <TextField
+                        label="Miles"
+                        value={locationFilter.current}
+                        onChange={changeLocationFilter}
+                        fullWidth={true}
+                    />
 
-                <TextField
-                    select={true}
-                    label="Genre"
-                    value={genreFilter.current}
-                    onChange={changeGenreFilter}
-                    fullWidth={true}
-                >
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value={"rock"}>Rock</MenuItem>
-                    <MenuItem value={"jazz"}>Jazz</MenuItem>
-                    <MenuItem value={"pop"}>Pop</MenuItem>
-                </TextField>
-            </div>
+                    <TextField
+                        select={true}
+                        label="Genre"
+                        value={genreFilter.current}
+                        onChange={changeGenreFilter}
+                        fullWidth={true}
+                    >
+                        <MenuItem value=""></MenuItem>
+                        <MenuItem value={"rock"}>Rock</MenuItem>
+                        <MenuItem value={"jazz"}>Jazz</MenuItem>
+                        <MenuItem value={"pop"}>Pop</MenuItem>
+                    </TextField>
+                </div>
+            }
             { !filterUsers
                 ? <h1>Loading Bands and Venues</h1>
                 : filterUsers.length === 0
