@@ -74,7 +74,7 @@ function News() {
     }));
   }
   function fetchPost(){
-    fetch(`http://localhost:4000/post/create`,{
+    fetch(`http://localhost:4000/post/`,{
       method:"POST",
       body:JSON.stringify(postBody),
       headers:new Headers({
@@ -120,6 +120,13 @@ function News() {
     })
     .then(res=>res.json())
     .catch(err=>console.log(err))
+    setPostBody({
+      title:"",
+      body:"",
+      user:{
+        bandName:""
+      }
+    })
   }
 //fetch on repeat to ensure timely loading of all posts
   useEffect(()=>{
@@ -135,7 +142,58 @@ function News() {
     .catch(err=>console.log(err))
   },[])
   return (
-    <div>News</div>
+    <>
+      <div id='eventBtnWrapper'>
+        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>Add a post!</button>
+      </div>
+      {postBox
+        ?<div className='postBox'>
+          <input 
+            type="text" 
+            name='title'
+            value={postBody.title}
+            onChange={e=>handleNewPost(e)}
+            placeholder='Enter post title'/>
+          <input 
+            type="text" 
+            name='body' 
+            value={postBody.body} 
+            onChange={e=>handleNewPost(e)} 
+            placeholder='Enter post content'/>
+          <button onClick={e=>fetchPost()}>Submit</button>
+          <button onClick={e=>closePostBox()}>Cancel</button>
+        </div>
+        :null
+      }
+      {!modal
+        ?null
+        :<div className='modal'>
+          <input 
+            type="text" 
+            name='title' 
+            value={postBody.title} 
+            onChange={e=>handleNewPost(e)} 
+            placeholder='Enter updated title'/>
+          <input 
+            type="text" 
+            name='body' 
+            value={postBody.body} 
+            onChange={e=>handleNewPost(e)} 
+            placeholder='Enter updated content'/>
+          <button onClick={e=>fetchUpdate()}>Submit</button>
+          <button 
+            onClick={(e)=>{
+              setModal(!modal)
+              setPostBody({
+                title:"",
+                body:"",
+                user:{bandName:""}
+              })
+            }}>Cancel</button>
+        </div>
+      }
+      {renderResult()}
+    </>
   )
 }
 

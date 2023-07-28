@@ -40,12 +40,22 @@
     border-bottom: 1px solid black;
 }
 
-.contact-item > img {
-    float: left;
+.contact-img-container {
+    flex-shrink: 0;
     height: 50px;
     width: 50px;
     border-radius: 100%;
+    background-color: #7325ac;
+    overflow: hidden;
+    text-align: center;
+    z-index: 5;
     margin-left: 1em;
+}
+
+.contact-img-container > img {
+    object-fit: contain;
+    height: 100%;
+    z-index: 5;
 }
 
 #contact-form-wrap {
