@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './meetBands.css'
 import { Link } from 'react-router-dom'
 import { TextField, MenuItem } from '@mui/material';
@@ -7,13 +7,14 @@ import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
 function MeetBands() {
     const [ users, setUsers ] = useState([]);
-    const [ filterUsers, setFilterUsers ] = useState([]);
-    const [ latitude, setLatitude ] = useState(null)
-    const [ longitude, setLongitude ] = useState(null)
-    const [ locationFilter, setLocationFilter ] = useState(50)
-    const [ genreFilter, setGenreFilter ] = useState("")
+    const [ filterUsers, setFilterUsers ] = useState("");
+    const [ latitude, setLatitude ] = useState(null);
+    const [ longitude, setLongitude ] = useState(null);
+    const locationFilter = useRef(50);
+    const genreFilter = useRef("");
 
     useEffect(() => {
+        console.log("us effect");
         const getUsers = async () => {
             const options = {
                 method: 'GET',
@@ -25,7 +26,8 @@ function MeetBands() {
         
             const res = await fetch('http://127.0.0.1:4000/user/all', options);
             const data = await res.json();
-        
+            
+            console.log(data);
             // Check if geolocation is available in the browser
             if ('geolocation' in navigator) {
                 // Get the user's current position
@@ -57,9 +59,11 @@ function MeetBands() {
                         }
                         return a.distance - b.distance;
                     })
-        
+
+                    
                     setUsers(sortedUsers);
-                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => user.distance < locationFilter));
+                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < locationFilter.current));
+                    window.scrollY = 300;
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
@@ -91,55 +95,57 @@ function MeetBands() {
     const convertKmToMiles = (km) => {
         const milesInKm = 0.621371;
         return km * milesInKm;
-    };
+    }
 
-    const changeFilter = () => {
-        if (isNaN(Number(locationFilter))) return;
+    const changeFilter = (filterType, data) => {
         let sortedUsers = users.slice(0, 4);
-        if (locationFilter !== "") sortedUsers = users.filter(user => user.distance < Number(locationFilter)).slice(0, 4);
-        if (genreFilter !== "") sortedUsers = users.filter(user => user.genre === genreFilter).slice(0, 4);
+        if (isNaN(Number(locationFilter.current))) setFilterUsers(sortedUsers);
+        if (locationFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(locationFilter.current)).slice(0, 4);
+        console.log(sortedUsers);
+        if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 4);
+        console.log(sortedUsers);
+        console.log(genreFilter.current, locationFilter.current);
         setFilterUsers(sortedUsers);
     }
 
     const changeLocationFilter = e => {
-        setLocationFilter(e.target.value);
+        locationFilter.current = e.target.value;
         changeFilter();
     }
 
     const changeGenreFilter = e => {
-        setGenreFilter(e.target.value);
+        genreFilter.current = e.target.value;
         changeFilter();
     }
 
     return (
         <div id="meet-page">
-            { !filterUsers
-                ? <h1>Error while loading, please refresh</h1>
-                : filterUsers.length === 0
-                ? <h1>Loading</h1>
-                : <>
-                <div id="filter-form">
-                    { locationFilter !== "" && genreFilter !== "" ? <FilterListIcon onClick={e => changeFilter()} /> : <FilterListOffIcon onClick="" />}
-                    <TextField
-                        label="Miles"
-                        value={locationFilter}
-                        onChange={changeLocationFilter}
-                        fullWidth={true}
-                    />
+            <div id="filter-form">
+                <TextField
+                    label="Miles"
+                    value={locationFilter.current}
+                    onChange={changeLocationFilter}
+                    fullWidth={true}
+                />
 
-                    <TextField
-                        select={true}
-                        label="Genre"
-                        value={genreFilter}
-                        onChange={changeGenreFilter}
-                        fullWidth={true}
-                    >
-                        <MenuItem value=""></MenuItem>
-                        <MenuItem value={"rock"}>Rock</MenuItem>
-                        <MenuItem value={"jazz"}>Jazz</MenuItem>
-                        <MenuItem value={"pop"}>Pop</MenuItem>
-                    </TextField>
-                </div>
+                <TextField
+                    select={true}
+                    label="Genre"
+                    value={genreFilter.current}
+                    onChange={changeGenreFilter}
+                    fullWidth={true}
+                >
+                    <MenuItem value=""></MenuItem>
+                    <MenuItem value={"rock"}>Rock</MenuItem>
+                    <MenuItem value={"jazz"}>Jazz</MenuItem>
+                    <MenuItem value={"pop"}>Pop</MenuItem>
+                </TextField>
+            </div>
+            { !filterUsers
+                ? <h1>Loading Bands and Venues</h1>
+                : filterUsers.length === 0
+                ? <h1>Nobody in your area</h1>
+                : <>
                 { filterUsers.map((user, i) => {
                     return (
                     <div key={i} className="meet-preview-profile">

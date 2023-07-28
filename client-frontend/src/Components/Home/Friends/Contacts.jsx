@@ -107,7 +107,9 @@ function Contacts() {
                     : filteredContacts.map((contact, i) => {
                         return (
                             <div key={i} onClick={e => openProfile(contact._id)} className="contact-item">
-                                <img src={contact.profilePicture ? contact.profilePicture : "/blank.png"} alt="profile-pic" />
+                                <div className="contact-img-container">
+                                    <img src={contact.profilePicture ? contact.profilePicture : "/blank.png"} alt="profile-pic" />
+                                </div>
                                 <h3>{contact.bandName}</h3>
                             </div>
                         )
