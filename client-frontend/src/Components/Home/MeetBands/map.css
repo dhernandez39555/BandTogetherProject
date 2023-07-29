@@ -1,0 +1,10 @@
+#map {
+    height: 50vh;
+    padding: 1em;
+    /* overflow: hidden; */
+    background-color: #EEEDED;
+}
+
+#user-marker {
+    background-color: #7E12B3;
+}
