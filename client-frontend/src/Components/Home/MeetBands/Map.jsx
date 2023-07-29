@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import LocationMarker from './LocationMarker';
 import './map.css'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Link } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
 
 function Map({ location, setLocation, mileRadius, filterUsers }) {
     const [ userLocation, setUserLocation ] = useState(location);
@@ -25,7 +28,22 @@ function Map({ location, setLocation, mileRadius, filterUsers }) {
                 setLocation={setLocation}
                 mileRadius={mileRadius}
             />
-            { !filterUsers ? null : filterUsers.map((user, i) => <Marker key={i} position={[user.latitude, user.longitude]}><Popup>{user.bandName}</Popup></Marker>) }
+            { !filterUsers
+                ? null
+                : filterUsers.map((user, i) =>
+                    <Marker key={i} position={[user.latitude, user.longitude]}>
+                        <Popup>
+                            <div className="popup">
+                                <p>{user.bandName}</p>
+                                <p>{`${user.distance.toFixed(2)} miles away`}</p>
+                                <p>{user.genre}</p>
+                                <Link className="popup-link" to={`/profile/${user._id}`}><PersonIcon className="popup-icon" htmlColor="#7E12B3" fontSize="large" /></Link>
+                                <Link className="popup-link" to={`/messaging/${user._id}`}><EmailIcon className="popup-icon" htmlColor="#7E12B3" fontSize="large" /></Link>
+                            </div>
+                        </Popup>
+                    </Marker>
+                )
+            }
         </MapContainer>
       )
 }
