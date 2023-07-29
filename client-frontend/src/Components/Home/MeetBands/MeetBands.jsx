@@ -1,83 +1,92 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './meetBands.css'
 import { Link } from 'react-router-dom'
+import Map from './Map';
 import { TextField, MenuItem } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import FilterListOffIcon from '@mui/icons-material/FilterListOff';
+import MapIcon from '@mui/icons-material/Map';
 
 function MeetBands() {
-    const [ users, setUsers ] = useState([]);
+    const users = useRef([]);
     const [ filterUsers, setFilterUsers ] = useState("");
-    const [ latitude, setLatitude ] = useState(null);
-    const [ longitude, setLongitude ] = useState(null);
+    const [ location, _setLocation ] = useState({ lat: 49.1081214, lng: -70.1413931 });
     const [ openFilter, setOpenFilter ] = useState(false);
-    const locationFilter = useRef(50);
+    const mileFilter = useRef(10);
     const genreFilter = useRef("");
 
+    const setLocation = (newLocation) => {
+        _setLocation(newLocation);
+        const closeByUsers = sortUsersByDistance(users.current, newLocation);
+        users.current = closeByUsers;
+        setFilterUsers(closeByUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < mileFilter.current));
+    }
+
     useEffect(() => {
-        console.log("us effect");
         const getUsers = async () => {
             const options = {
                 method: 'GET',
                 headers: new Headers({
-                'Content-Type': 'application/json',
-                authorization: localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                    authorization: localStorage.getItem('token'),
                 }),
             };
-        
+            
             const res = await fetch('http://127.0.0.1:4000/user/all', options);
             const data = await res.json();
-            
-            console.log(data);
+
+            users.current = data.foundUsers;
+
             // Check if geolocation is available in the browser
             if ('geolocation' in navigator) {
                 // Get the user's current position
                 navigator.geolocation.getCurrentPosition((position) => {
-                    const { latitude: currentLatitude, longitude: currentLongitude } = position.coords;
-                    setLatitude(currentLatitude);
-                    setLongitude(currentLongitude);
-        
-                    const usersWithDistance = data.foundUsers.map((user) => {
-                        if (user.latitude && user.longitude) {
-                            const distance = calculateDistance(
-                                currentLatitude,
-                                currentLongitude,
-                                user.latitude,
-                                user.longitude
-                            );
-                            return { ...user, distance };
-                        }
-                        return user;
-                    });
-            
-                    const sortedUsers = usersWithDistance.sort((a, b) => {
-                        if (a.distance === undefined && b.distance === undefined) {
-                            return 0;
-                        } else if (a.distance === undefined) {
-                            return 1;
-                        } else if (b.distance === undefined) {
-                            return -1;
-                        }
-                        return a.distance - b.distance;
-                    })
-
-                    
-                    setUsers(sortedUsers);
-                    setFilterUsers(sortedUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < locationFilter.current));
-                    window.scrollTo({
-                        top: 100,
-                        behavior: 'smooth',
-                    });
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ lat: latitude, lng: longitude });
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
                 });
             } else {
                 console.error('Geolocation is not available in this browser.');
+                fetch("http://127.0.0.1:4000/user/location")
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(setLocation({ lat: data.location.latitude, lng: data.location.longitude }))
+                    })
             }
+            
+            
         };
         getUsers();
     }, []);
+
+    function sortUsersByDistance(userArr, coords) {
+        console.log(userArr);
+        const usersWithDistance = userArr.map((user) => {
+            if (user.latitude && user.longitude) {
+                const distance = calculateDistance(
+                    coords.lat,
+                    coords.lng,
+                    user.latitude,
+                    user.longitude
+                );
+                return { ...user, distance };
+            }
+            return user;
+        });
+
+        const sortedUsers = usersWithDistance.sort((a, b) => {
+            if (a.distance === undefined && b.distance === undefined) {
+                return 0;
+            } else if (a.distance === undefined) {
+                return 1;
+            } else if (b.distance === undefined) {
+                return -1;
+            }
+            return a.distance - b.distance;
+        })
+
+        return sortedUsers;
+    }
 
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const earthRadius = 6371; //kilometers
@@ -102,15 +111,15 @@ function MeetBands() {
     }
 
     const changeFilter = () => {
-        let sortedUsers = users.slice(0, 4);
-        if (isNaN(Number(locationFilter.current))) setFilterUsers(sortedUsers);
-        if (locationFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(locationFilter.current)).slice(0, 4);
+        let sortedUsers = users.current.slice(0, 4);
+        if (isNaN(Number(mileFilter.current))) setFilterUsers(sortedUsers);
+        if (mileFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(mileFilter.current)).slice(0, 4);
         if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 4);
         setFilterUsers(sortedUsers);
     }
 
     const changeLocationFilter = e => {
-        locationFilter.current = e.target.value;
+        mileFilter.current = e.target.value;
         changeFilter();
     }
 
@@ -121,34 +130,44 @@ function MeetBands() {
 
     return (
         <div id="meet-page">
-            { locationFilter.current === "" && genreFilter.current === ""
-                ? <FilterListOffIcon onClick={e => setOpenFilter(!openFilter)} />
-                : <FilterListIcon onClick={e => setOpenFilter(!openFilter)} />
-            }
-            { !openFilter ? null
-                :
-                <div id="filter-form">
-                    <TextField
-                        label="Miles"
-                        value={locationFilter.current}
-                        onChange={changeLocationFilter}
-                        fullWidth={true}
-                    />
+            <div id="filter-menu">
+                <MapIcon fontSize="large" onClick={e => setOpenFilter(!openFilter)} />
+                { !openFilter ? null
+                    :
+                    <div id="filter-form">
+                        <TextField
+                            label="Miles"
+                            className="filter-input"
+                            value={mileFilter.current}
+                            onChange={changeLocationFilter}
+                            fullWidth={true}
+                        />
 
-                    <TextField
-                        select={true}
-                        label="Genre"
-                        value={genreFilter.current}
-                        onChange={changeGenreFilter}
-                        fullWidth={true}
-                    >
-                        <MenuItem value=""></MenuItem>
-                        <MenuItem value={"rock"}>Rock</MenuItem>
-                        <MenuItem value={"jazz"}>Jazz</MenuItem>
-                        <MenuItem value={"pop"}>Pop</MenuItem>
-                    </TextField>
-                </div>
-            }
+                        <TextField
+                            select={true}
+                            label="Genre"
+                            className="filter-input"
+                            value={genreFilter.current}
+                            onChange={changeGenreFilter}
+                            fullWidth={true}
+                        >
+                            <MenuItem value=""></MenuItem>
+                            <MenuItem value={"rock"}>Rock</MenuItem>
+                            <MenuItem value={"jazz"}>Jazz</MenuItem>
+                            <MenuItem value={"pop"}>Pop</MenuItem>
+                        </TextField>
+                        { location
+                            ? <Map
+                                location={ location }
+                                setLocation={ setLocation }
+                                mileRadius={ mileFilter.current }
+                                filterUsers={filterUsers}
+                            />
+                            : null
+                        }
+                    </div>
+                }
+            </div>
             { !filterUsers
                 ? <h1>Loading Bands and Venues</h1>
                 : filterUsers.length === 0
