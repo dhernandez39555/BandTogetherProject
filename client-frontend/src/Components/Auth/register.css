@@ -1,4 +1,5 @@
 #registerDiv {
+    /* margin: 1em;  */
     display: flex;
     justify-content: center;
     text-align: center;
@@ -22,6 +23,8 @@
     width: 100%;
     background-color: lightgray;
     margin: 0 auto;
+    margin-top: 1em;
+    border: 1px solid black; 
 }
 
 #preview-cover > img {
@@ -33,12 +36,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid black;
     border-radius: 100%;
     overflow: hidden;
     height: 80px;
     width: 80px;
     background-color: lightgray;
     margin: 0 auto;
+    position: relative;
+    bottom: 2em;
+}
+
+#AddProfileIcon {
+    color: black; 
 }
 
 #preview-profile-pic > img {
@@ -58,4 +68,24 @@
 
 .form-wrapper {
     width: 80vw;
+    margin: 1em; 
+}
+
+.signUpInput {
+    background-color: lightgray;
+}
+
+#submitButtonDiv {
+    height: 5em; 
+    width: 100%; 
+    background-color: #7E12b3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#registerSubmitButton {
+    height: 2.5em;
+    border: 2px solid black; 
+    font-size: larger;
 }
