@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import './EditProfile.css'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import EditIcon from '@mui/icons-material/Edit';
 
 function EditProfile() {
   
@@ -161,10 +162,6 @@ useEffect(() => {
     <form action="" id="form-inputs">
         <h1 id='banner'>Edit Profile</h1>
       
-        <label htmlFor='profile-upload'>
-          <p>Profile</p>
-          <AddAPhotoOutlinedIcon/>
-        </label>
       <input
         type="file"
         name='profilePicture'
@@ -173,22 +170,44 @@ useEffect(() => {
         onChange={handleUpdateFile}
         />
 
-      {user?.profilePicture && (
+      {user.profilePicture ? (
         <div>
-          <p>Current Profile Photo:</p>
-          <img 
-            src={user.profilePicture}
-            alt='Profile'
-            style={{ width:50,height:50,borderRadius:100 }}
+          <label htmlFor='profile-upload'>
+            <img 
+              src={user.profilePicture}
+              alt='Profile'
+              style={{ width:50,height:50,borderRadius:100 }}
+              loading='lazy'
+          />
+          <EditIcon/> 
+          </label>
+        </div>)
+        : (
+        <label htmlFor='profile-upload'>
+          <AddAPhotoOutlinedIcon/>
+        </label>
+      )
+      }
+
+      {user.coverPhoto ? (
+        <div>
+          <label htmlFor='cover-upload'>
+          <img  
+            src={user.coverPhoto}
+            alt='Cover'
+            style={{ width: 500, height: 100 }}
             loading='lazy'
           />
+          <EditIcon/>
+          </label>
         </div>
-      )}
-      
-      <label htmlFor='cover-upload'>
-        <p>Cover</p>
-        <AddPhotoAlternateIcon/>
-      </label>
+      ) : (
+        <label htmlFor='cover-upload'>
+          <AddPhotoAlternateIcon/> 
+        </label>
+      )
+      }
+
       <input 
         type='file'
         name='coverPhoto'
@@ -196,17 +215,6 @@ useEffect(() => {
         accept='.jpeg, .jpg, .png'
         onChange={handleUpdateFile}
       />
-      {user?.coverPhoto && (
-        <div>
-          <p>Current Cover Photo:</p>
-          <img  
-            src={user.coverPhoto}
-            alt='Cover'
-            style={{ width: 500, height: 100 }}
-            loading='lazy'
-          />
-        </div>
-      )}
 
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
