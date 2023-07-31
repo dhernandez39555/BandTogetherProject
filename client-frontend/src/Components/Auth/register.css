@@ -1,15 +1,58 @@
 #registerDiv {
+    /* margin: 1em;  */
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
-#file-upload{ 
+#file-upload { 
     display: none;
 }
 
-#cover-upload{
-    display: none; 
+#cover-upload {
+    display: none;
+}
+
+#preview-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100px;
+    width: 100%;
+    background-color: lightgray;
+    margin: 0 auto;
+    margin-top: 1em;
+    border: 1px solid black; 
+}
+
+#preview-cover > img {
+    width: 100%;
+}
+
+#preview-profile-pic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 100%;
+    overflow: hidden;
+    height: 80px;
+    width: 80px;
+    background-color: lightgray;
+    margin: 0 auto;
+    position: relative;
+    bottom: 2em;
+}
+
+#AddProfileIcon {
+    color: black; 
+}
+
+#preview-profile-pic > img {
+    width: 100%;
 }
 
 #addAPhotoDiv {
@@ -21,4 +64,28 @@
     display: flex;
     justify-content: center;
     align-content: center;
+}
+
+.form-wrapper {
+    width: 80vw;
+    margin: 1em; 
+}
+
+.signUpInput {
+    background-color: lightgray;
+}
+
+#submitButtonDiv {
+    height: 5em; 
+    width: 100%; 
+    background-color: #7E12b3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#registerSubmitButton {
+    height: 2.5em;
+    border: 2px solid black; 
+    font-size: larger;
 }

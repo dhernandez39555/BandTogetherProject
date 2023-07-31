@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { TextField, MenuItem } from '@mui/material';
 
 function Register({ updateLocalStorage }) {
     const [profilePicture, setProfilePicture] = useState("")
@@ -111,135 +112,234 @@ function Register({ updateLocalStorage }) {
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
 
     <div id='registerDiv'>
-    <form action="" className="form-wrapper">
+    <form className="form-wrapper">
         <h1>Sign Up</h1>
-
-        {profilePicture === "" ? 
-            <label htmlFor="file-upload">
-                <p>Profile</p>
-                <AddAPhotoOutlinedIcon/> 
-            </label>
-        : 
-        <div>
-        <p>Profile has been uploaded.</p>
-        <img src={profilePicture} alt="" srcSet="" style={{width: 50, height: 50, borderRadius:100}}/>
+        
+            <div id="preview-cover" >
+                {coverPhoto === "" ?
+                    <label htmlFor="cover-upload">
+                        <AddPhotoAlternateIcon id="addCoverIcon" fontSize='medium'/>
+                    </label>
+                    :
+                    <img src={coverPhoto} alt="cover-photo" />
+                }
+            </div>
+            
+            <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
+                onChange={(e) => handleCoverUpload(e)} />
+        
+            <div id="preview-profile-pic">
+                {profilePicture === "" ?
+                    <label htmlFor="file-upload">
+                        <AddAPhotoOutlinedIcon id="AddProfileIcon" fontSize='large'/>
+                        </label>
+                : <img src={profilePicture} alt="profile-picture" />
+                }
         </div>
-        }
 
         <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
-            onChange={(e) => handleFileUpload(e)}/>
+            onChange={(e) => handleFileUpload(e)} />
 
-        {coverPhoto === "" ?
-            <label htmlFor="cover-upload">
-                <p>Cover</p>
-                <AddPhotoAlternateIcon/> 
-            </label>
-            : 
-            <div>
-                <p>Cover photo has been uploaded.</p>
-                <img src={coverPhoto} style={{width: 500, height: 100}}/>
-            </div>
-        }
-
-        <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
-            onChange={(e) => handleCoverUpload(e)}/>
+        
 
         <div id="emailDiv">
-        <label htmlFor="emailInput">Email Address:</label>
-        <input type="text" name="" id="emailInput" placeholder="Enter your email here."
-            onChange={e => setEmail(e.target.value)}/>
+        {/* <label htmlFor="emailInput">Email Address:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            type="email"
+            className="signUpInput"
+            id="emailInput"
+            label="Email"
+            placeholder='Enter your email here.'
+            style={{marginBottom: "1em"}}
+            onChange={e => setEmail(e.target.value)}
+            />
         </div>
-
+        
         <div>
-        <label htmlFor="passwordInput">Password:</label>
-        <input type="password" name="" id="passwordInput" placeholder="Enter your password here." 
+        {/* <label htmlFor="passwordInput">Password:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            inputProps={{ minLength: 8 }}
+            type="password"
+            className="signUpInput"
+            id="passwordInput"
+            label="Password"
+            placeholder="Enter your password here." 
+            style={{marginBottom: "1em"}}
             onChange={e => setPassword(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="bandNameInput">Band Name:</label>
-        <input type="text" name="" id="bandNameInput" placeholder="Enter your band's name here." 
+        {/* <label htmlFor="bandNameInput">Band Name:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            type="text"
+            className="signUpInput"
+            id="bandNameInput" 
+            label="Band Name"
+            placeholder="Enter your band's name here."
+            style={{marginBottom: "1em"}} 
             onChange={e => setBandName(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="contactNameInput">Contact Name:</label>
-        <input type="text" name="" id="contactNameInput" placeholder="Enter your main contact's name here."
+        {/* <label htmlFor="contactNameInput">Contact Name:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            type="text"
+            className="signUpInput"
+            id="contactNameInput"
+            label="Contact Name"
+            placeholder="Enter your main contact's name here."
+            style={{marginBottom: "1em"}}
             onChange={e => setContactName(e.target.value)}/>
         </div> 
 
         <div>
-        <label htmlFor="locationInput">Location:</label>
+        {/* <label htmlFor="locationInput">Location:</label> */}
             {location ? (
-                <input 
+                <TextField 
+                fullWidth={true}
                 type="text"
-                name="location" 
+                name="location"
+                className="signUpInput" 
                 id="locationInput" 
                 value={location}
                 placeholder="Enter your location here."
+                style={{marginBottom: "1em"}}
                 onChange={handleLocationChange}/>
             ) : (
-                <input
+                <TextField
+                    fullWidth={true}
                     type='text'
+                    className="signUpInput" 
                     id='locationInput'
                     name='location'
                     placeholder='Enter your location here'
+                    style={{marginBottom: "1em"}}
                     onChange={handleLocationChange}/>
             )}
         </div>
-
+  
         <div id='genreDropdown'>
-        <label htmlFor="genreInput">Genre:</label>
-        <select value={genre} onChange={handleGenreChange} id="genreInput">
-            <option value="">Select a genre.</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
-        </select>
+        {/* <label htmlFor="genreInput">Genre:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            select={true}
+            className="signUpInput"
+            id="genreInput"
+            value={genre}
+            label="Genre"
+            style={{marginBottom: "1em"}}
+            onChange={handleGenreChange}
+        >
+            <MenuItem value=""></MenuItem>
+            <MenuItem value={"rock"}>Rock</MenuItem>
+            <MenuItem value={"jazz"}>Jazz</MenuItem>
+            <MenuItem value={"pop"}>Pop</MenuItem>
+        </TextField>
         </div>
 
         <div id='additionGenreDropdown'>
-        <label htmlFor="additionalGenreInput">Genre:</label>
-        <select value={additionGenre} onChange={handleAddGenreChange} id="additionGenreInput">
-            <option value="">Select an additional genre.</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
-        </select>
+        {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
+        <TextField
+            fullWidth={true}
+            select={true}
+            className="signUpInput"
+            id="additionGenreInput"
+            value={additionGenre}
+            label="Additional Genre"
+            style={{marginBottom: "1em"}}
+            onChange={handleAddGenreChange}
+        >
+            <MenuItem value=""></MenuItem>
+            <MenuItem value={"rock"}>Rock</MenuItem>
+            <MenuItem value={"jazz"}>Jazz</MenuItem>
+            <MenuItem value={"pop"}>Pop</MenuItem>
+        </TextField>
         </div>
 
         <div>
-        <label htmlFor="bioInput">Bio:</label>
-        <input type="text" name="" id="bioInput" placeholder="Enter your short bio here."
+        {/* <label htmlFor="bioInput">Bio:</label> */}
+        <TextField
+            required={true}
+            fullWidth={true}
+            multiline
+            rows={4}
+            // inputProps={{ maxLength: 120 }}
+            type="text"
+            label="Bio"
+            className="signUpInput" 
+            id="bioInput"
+            placeholder="Enter your short bio here."
+            style={{marginBottom: "1em"}}
             onChange={e => setBio(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="youtubeInput">YouTube Link:</label>
-        <input type="text" name="" id="youtubeInput" placeholder="Link to a YouTube channel/video here."
+        {/* <label htmlFor="youtubeInput">YouTube Link:</label> */}
+        <TextField
+            fullWidth={true}
+            type="text"
+            label="YouTube"
+            className="signUpInput"
+            id="youtubeInput"
+            placeholder="Link to a YouTube channel/video here."
+            style={{marginBottom: "1em"}}
             onChange={e => setYoutube(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="spotifyInput">Spotify Link:</label>
-        <input type="text" name="" id="spotifyInput" placeholder="Link to your Spotify page here."
+        {/* <label htmlFor="spotifyInput">Spotify Link:</label> */}
+        <TextField
+            fullWidth={true}
+            type="text"
+            label="Spotify"
+            className="signUpInput"
+            id="spotifyInput"
+            placeholder="Link to your Spotify track here."
+            style={{marginBottom: "1em"}}
             onChange={e => setSpotify(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="soundCloudInput">SoundCloud Link:</label>
-        <input type="text" name="" id="soundCloudInput" placeholder="Link to your SoundCloud here."
+        {/* <label htmlFor="soundCloudInput">SoundCloud Link:</label> */}
+        <TextField
+            fullWidth={true}
+            type="text"
+            label="SoundCloud"
+            className="signUpInput"
+            id="soundCloudInput"
+            placeholder="Link to your SoundCloud here."
+            style={{marginBottom: "1em"}}
             onChange={e => setSoundCloud(e.target.value)}/>
         </div>
 
         <div>
-        <label htmlFor="instagramInput">Instagram Link:</label>
-        <input type="text" name="" id="instagramInput" placeholder="Link to your Instagram here."
+        {/* <label htmlFor="instagramInput">Instagram Link:</label> */}
+        <TextField
+            fullWidth={true}
+            type="text"
+            label="Instagram"
+            className="signUpInput"
+            id="instagramInput"
+            placeholder="Link to your Instagram here."
+            style={{marginBottom: "1em"}}
             onChange={e => setInstagram(e.target.value)}/>
         </div>
 
-        <button id="submitButton" type="button" onClick={handleSubmit}>Submit</button>
+        <div id="submitButtonDiv">
+            <button id="registerSubmitButton" type="button" onClick={handleSubmit}>Submit</button>
+        </div>
+
     </form>
+    
     </div>
     }
     </> 

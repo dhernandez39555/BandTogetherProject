@@ -1,3 +1,20 @@
+#aboutPage{
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#backArrow{
+    margin-top: .5em;
+    margin-bottom: 0;
+    margin-left: .5em;
+}
+#title-container{
+    margin: 0 2em;
+    font-size: 1.5em;
+}
+
 #signUpBtn{
     background-color: yellow;
     color:black;
@@ -5,7 +22,22 @@
     border: 3px solid black;
     display: flex;
     padding:5px 35px;
+    text-align: center;
+}
+#aboutWrapper{
+    background-color: #e6e6e6;
 }
 #aboutBT{
-    background-color: rgb(180, 180, 180);
+    padding: 8vw;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1px;
+    line-height: 1.4em;
+    font-size: 1.2em;
+}
+#signUpWrapper {
+    background-color: #7E12B3;
+    height: 13vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

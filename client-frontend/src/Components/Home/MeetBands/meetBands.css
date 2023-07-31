@@ -1,17 +1,105 @@
-.preview-profile {
+.meet-preview-profile {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    gap: 1em;
+}
+
+.meet-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.meet-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: -3.5em 1em 1em 1em;
+}
+
+.meet-img-container {
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    background-color: #7325ac;
+    overflow: hidden;
+    text-align: center;
+    z-index: 5;
+}
+
+.meet-img-container > img {
+    border-radius: 100%;
+    object-fit: contain;
+    height: 100%;
+    z-index: 5;
+}
+
+.meet-bio {
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.meet-genre {
+    color: lightgray;
+}
+
+.meet-cover {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.meet-cover > img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.meet-cover > h1 {
+    text-align: center;
+}
+
+.meet-band-name {
+    font-weight: 900;
+}
+
+#filter-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    gap: 1em;
+    height: 100%;
+}
+
+.filter-input {
     background-color: white;
 }
 
-.preview-profile > .genre {
-    float: right;
+#preview-cover > img {
+    width: 100%;
 }
 
 #meet-page {
     background-color: lightgray;
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 1em 0.5em;
     gap: 1em;
+    position: relative;
+}
+
+#meet-page > h1 {
+    text-align: center;
 }
 
 #meet-btns {
