@@ -73,10 +73,21 @@
     font-weight: 900;
 }
 
+#filter-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    gap: 1em;
+    height: 100%;
+}
+
+.filter-input {
+    background-color: white;
+}
+
 #preview-cover > img {
     width: 100%;
 }
-
 
 #meet-page {
     background-color: lightgray;
@@ -84,6 +95,11 @@
     flex-direction: column;
     padding: 1em 0.5em;
     gap: 1em;
+    position: relative;
+}
+
+#meet-page > h1 {
+    text-align: center;
 }
 
 #meet-btns {
