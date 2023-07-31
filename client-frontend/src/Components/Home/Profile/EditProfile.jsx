@@ -6,7 +6,6 @@ import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField, MenuItem } from '@mui/material';
-import SelectInput from '@mui/material/Select/SelectInput';
 
 function EditProfile() {
   
@@ -315,7 +314,7 @@ useEffect(() => {
           select={true}
           className="editProfileInput"
           value={updatedUser.additionGenre} 
-          name='additionalGenre'
+          name='additionGenre'
           onChange={handleUpdate} 
           id="additionGenreInput"
           label="Additional Genre"
