@@ -9,12 +9,13 @@ const cors=require("cors")
 const http = require('http').createServer(app)
 const WebSocket = require('ws');
 const runWebSocket = require('./Utilities/websocket')
+const { wss } = require('./Utilities/websocket')
 
 const JWT_KEY=process.env.JWT_KEY
 const HOST=process.env.HOST||"127.0.0.1"
 const PORT=process.env.PORT||4000
 
-runWebSocket(http);
+
 
 const authController = require("./Controllers/Auth")
 const postController = require("./Controllers/Post")

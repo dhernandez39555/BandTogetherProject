@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import './direct.css';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode' 
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { IconButton, TextField, menuClasses } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -8,6 +9,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
+
 
 function Direct() {
 
@@ -19,51 +21,68 @@ function Direct() {
   const [ picture, setPicture ] = useState("");
   const [ socket, setSocket ] = useState(null);
   const messageContainerRef = useRef(null)
+  const navigate = useNavigate();
+  const lastMessageRef = useRef(null);
 
-  //function to scroll the message container to bottom
-  const scrollToBottom = () => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTo(0, messageContainerRef.current.scrollHeight)
+  const params = useParams();
+  const sessionToken = localStorage.getItem('token');
+
+  const getUserId = () => {
+        try {
+            const decodedToken = jwtDecode(sessionToken)
+            return decodedToken._id 
+        } catch (error) {
+            console.log(`error decoding`,error)
+        }
     }
-  }
+    
 
-  //calls the scroll to bottom function when page loads
-  useLayoutEffect(() => {
-    scrollToBottom();
-  },[])
+  
 
-  useLayoutEffect(() => {
-    scrollToBottom()
-  },[directs])
+    //function to scroll the message container to bottom
+    useEffect(() => {
+      if (lastMessageRef.current) {
+        lastMessageRef.current.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, [directs])
+
+    
 
   useEffect(() => {
-    const ws = new WebSocket('ws://127.0.0.1:8000')
+    const ws = new WebSocket(`ws://127.0.0.1:8000?user-id=${params.otherUser_id}`)
+    console.log(params.otherUser_id)
     setSocket(ws)
     return () => {
       ws.close();
     }
-  },[])
+  },[params.otherUser_id])
 
-  useEffect(() => {
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission();
+  const showNotification = () => {
+    if (Notification.permission === 'granted') {
+      new Notification('New Message', {
+        body: 'New Message in BandTogether!',
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification('New Message', {
+            body: 'New Message in BandTogether!',
+          });
+        }
+      });
     }
-  },[])
+  };
 
 
   useEffect(() => {
     const handleReceiveMessage = e => {
       const receivedMessage = JSON.parse(e.data);
-      setDirects((prevDirects) => [...prevDirects,receivedMessage])
-          //todo ----------
-      if(Notification.permission === 'granted') {
-        const notification = new Notification('New Message', {
-          body: 'New Message in BandTogether!'
-        })
-          notification.onclick = () => {
-            // todo: do something 
-          }
-      }
+      const receivedData = JSON.parse(e.data);
+      if(receivedData.hasOwnProperty("newMessage")) {
+        setDirects((prevDirects) => [...prevDirects,receivedMessage])
+        console.log("message received:", receivedMessage,directs)
+        }
+      showNotification();
     }
 
     if(socket) {
@@ -80,7 +99,7 @@ function Direct() {
 
   const sendingMessage = (message) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ message }));
+      socket.send(JSON.stringify({ message, receiver: otherUser_id }));
     }
   }
 
@@ -98,9 +117,6 @@ function Direct() {
       .then(data => {
         console.log(data);
         setDirects(data)
-        //todo see if this works 
-        scrollToBottom();
-        //todo-----------------
       })
       .catch(err => err.message)
   }, [])
@@ -199,9 +215,14 @@ function Direct() {
             { direct.createdAt
               ? getDate(direct.createdAt)
               : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
-            <div className="direct-item" key={i}>
+            <div className="direct-item" 
+            key={i}
+            ref={i === directs.length - 1 ? lastMessageRef : null}>
               <div className="direct-img-container">
-                <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
+              {direct.sender && direct.sender.profilePicture
+                ? <img src={direct.sender.profilePicture} alt="profile pic" />
+                : <img src="/blank.png" alt="default profile pic" />
+              }
               </div>
               <div className="direct-text">
                 <div className="direct-top">

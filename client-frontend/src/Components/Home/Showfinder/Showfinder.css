@@ -11,8 +11,7 @@
 .eventWrapper{
     border-radius: 1px;
     background-color:white;
-    margin: 15px 100px 15px 100px;
-
+    margin: 15px 100px;
 }
 #bandDateGenreWrapper{
     display: flex;
