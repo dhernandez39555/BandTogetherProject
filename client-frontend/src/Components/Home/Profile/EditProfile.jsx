@@ -159,6 +159,8 @@ useEffect(() => {
 
   return (
     <div id='edit-profile'>
+      {Object.keys(user).length === 0 ? (<p>Loading Content...</p>)
+      : 
       <div id='registerDiv'>
     <form action="" id="form-inputs">
         <h1 id='banner'>Edit Profile</h1>
@@ -171,7 +173,7 @@ useEffect(() => {
         onChange={handleUpdateFile}
       />
 
-      {Object.keys(user).length > 0 && user.coverPhoto ? (
+      {user.coverPhoto ? (
         <div>
           <label htmlFor='cover-upload'>
           <img  
@@ -200,7 +202,7 @@ useEffect(() => {
         onChange={handleUpdateFile}
         />
 
-      {Object.keys(user).length > 0 && user.profilePicture ? (
+      {user.profilePicture ? (
         <div>
           <label htmlFor='profile-upload'>
             <img 
@@ -401,7 +403,7 @@ useEffect(() => {
         <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
         {message && <div>{message}</div>}
     </form>
-    </div>
+    </div>}
     </div>
   )
 }
