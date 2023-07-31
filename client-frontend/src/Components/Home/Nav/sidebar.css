@@ -1,0 +1,65 @@
+#sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.bm-menu {
+    background-color: #F5F5F5;
+    gap: 1em;
+}
+
+.bm-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 80%;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.bm-item-list .line {
+    margin-bottom: 1em;
+}
+
+.bm-item-list > a {
+    width: 80%;
+}
+
+.bm-item-list > a > button {
+    width: 100%;
+    background-color: #fae354;
+}
+
+.bm-item-list > h1 {
+    align-self: flex-start;
+}
+
+.side-icon {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    height: 35px;
+    width: 35px;
+}
+
+.bm-cross {
+    background: #505253;
+}
+
+#side-img-container {
+    align-self: flex-start;
+    margin-top: 1em;
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: #7325ac;
+    overflow: hidden;
+}
+
+#side-img-container > img {
+    object-fit: contain;
+    height: 100%;
+}
