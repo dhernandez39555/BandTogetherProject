@@ -172,7 +172,7 @@ useEffect(() => {
         onChange={handleUpdateFile}
       />
 
-      {user.coverPhoto ? (
+      {Object.keys(user).length > 0 && user.coverPhoto ? (
         <div>
           <label htmlFor='cover-upload'>
           <img  
@@ -201,7 +201,7 @@ useEffect(() => {
         onChange={handleUpdateFile}
         />
 
-      {user.profilePicture ? (
+      {Object.keys(user).length > 0 && user.profilePicture ? (
         <div>
           <label htmlFor='profile-upload'>
             <img 
@@ -314,13 +314,13 @@ useEffect(() => {
           fullWidth={true}
           select={true}
           className="editProfileInput"
-          value={updatedUser.additionalGenre} 
+          value={updatedUser.additionGenre} 
           name='additionalGenre'
           onChange={handleUpdate} 
           id="additionGenreInput"
           label="Additional Genre"
           style={{marginBottom: "1em"}}>
-            <MenuItem value="">Select an additional genre.</MenuItem>
+            <MenuItem value=""></MenuItem>
             <MenuItem value={"rock"}>Rock</MenuItem>
             <MenuItem value={"jazz"}>Jazz</MenuItem>
             <MenuItem value={"pop"}>Pop</MenuItem>
