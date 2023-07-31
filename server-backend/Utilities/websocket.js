@@ -7,7 +7,7 @@ const wss = new WebSocket.Server({ port: process.env.WSS_PORT || 8000 })
 
 const clients = new Map();
 
-
+// for sending messages to everyone not ideal will probably slow the app alot if used
 function broadcastMessage(message) {
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
@@ -51,9 +51,10 @@ function handleMessage(message, senderUserId) {
 function handleChatMessage(message, senderUserId, receiverUserId) {
     const recipientWs = clients.get(message.receiver)
     
-
+console.log('message priming')
     if(recipientWs && recipientWs.readyState === WebSocket.OPEN) {
         recipientWs.send(JSON.stringify(message))
+        console.log('message primed')
     } else {
         console.log('no recipient found' , receiverUserId)
     }
@@ -61,7 +62,7 @@ function handleChatMessage(message, senderUserId, receiverUserId) {
 
 
 wss.on('listening',() => {
-    console.log('WebSocket server started')
+    console.log('WebSocket server started: on ', process.env.WSS_PORT)
 })
 
 module.exports = wss;
