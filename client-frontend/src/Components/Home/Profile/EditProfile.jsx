@@ -301,10 +301,10 @@ useEffect(() => {
           onChange={handleUpdate} 
           label="Genre"
           style={{marginBottom: "1em"}}>
-              <option value=""></option>
-              <option value="rock">Rock</option>
-              <option value="jazz">Jazz</option>
-              <option value="pop">Pop</option>
+              <MenuItem value=""></MenuItem>
+              <MenuItem value={"rock"}>Rock</MenuItem>
+              <MenuItem value={"jazz"}>Jazz</MenuItem>
+              <MenuItem value={"pop"}>Pop</MenuItem>
         </TextField>
         </div>
 
@@ -320,10 +320,10 @@ useEffect(() => {
           id="additionGenreInput"
           label="Additional Genre"
           style={{marginBottom: "1em"}}>
-            <option value="">Select an additional genre.</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
+            <MenuItem value="">Select an additional genre.</MenuItem>
+            <MenuItem value={"rock"}>Rock</MenuItem>
+            <MenuItem value={"jazz"}>Jazz</MenuItem>
+            <MenuItem value={"pop"}>Pop</MenuItem>
         </TextField>
         </div>
 

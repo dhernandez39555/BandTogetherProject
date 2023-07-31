@@ -247,7 +247,7 @@ function Register({ updateLocalStorage }) {
             <MenuItem value={"pop"}>Pop</MenuItem>
         </TextField>
         </div>
-
+        
         <div id='additionGenreDropdown'>
         {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
         <TextField
