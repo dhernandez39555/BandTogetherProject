@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu'
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import './sidebar.css';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Sidebar() {
 
   const [ isOpen, setIsOpen ]=useState(false)
+  const [ loggedInUser, setLoggedInUser ]=useState(false)
+
   const navigate=useNavigate()
 
     const handleIsOpen=()=>{
         setIsOpen(!isOpen)
     }
+
     const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
 
     const getUserId = () => {
@@ -22,7 +28,8 @@ function Sidebar() {
       } catch (err) {
           console.log(`err decoding`, err);
       }
-    }   
+    }
+
   function deleteAccount(){
     const resp=window.confirm("Are you sure you wish to delete your account?")
     if(resp){
@@ -40,50 +47,76 @@ function Sidebar() {
       .then(setSessionToken(null))
     }
   }
+
+  // useEffect(() => {
+  //   const options = {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       "authorization": sessionToken
+  //     })
+  //   }
+
+  //   fetch("http://localhost:4000/user", options)
+  //     .then(res => res.json())
+  //     .then(data => setLoggedInUser(data.foundUser));
+  // }, []);
+
   useEffect(()=>{
     if(!sessionToken){setTimeout(navigate("/welcome"),1000)}
   }, [sessionToken])
 
   return (
-    <Menu
-      width={'75%'}
-      right 
-      isOpen={ isOpen } 
-      noTransition 
-      onOpen={handleIsOpen} 
-      onClick={handleIsOpen}>
-      <br/><br/><br/>
-      <Link to={`/profile/${getUserId()}`}>
-        <button 
-          id='toProfileBtn' 
-          onClick={handleIsOpen}>
-        My Profile</button>
-      </Link>
-      <Link to={`/profile/edit`}>
-        <button
-          id='toEditProfileBtn'
-          onClick={handleIsOpen}
-        >Edit My Profile</button>
-      </Link>
-      <Link to={`/logout`}>
-        <button 
-          id='toLogoutBtn' 
-          onClick={handleIsOpen}>
-        Logout</button>
-      </Link>
-      <Link to={`/invite`}>
-        <button 
-          id='toInviteBtn' 
-          onClick={handleIsOpen}>
-      Invite A Friend</button>
-      </Link>
-      <Link>
-        <button 
-          id='toDeleteAccountBtn' 
-          onClick={()=>{handleIsOpen();deleteAccount()}}>
-        Delete Account</button>
-      </Link>
-    </Menu>
+    <div id='side-menu'>
+      <Menu
+        id={"sidebar"}
+        burgerButtonClassName={ "side-icon" }
+        outerContainerId={'side-menu'}
+        customBurgerIcon={ <MenuIcon htmlColor='#DB9A35' fontSize='large' /> }
+        width={'75%'}
+        right 
+        isOpen={ isOpen } 
+        noTransition 
+        onClick={handleIsOpen}
+      >
+        <div id="side-img-container">
+          {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
+          <img src={"/blank.png"} alt="profile-pic" />
+        </div>
+        <h1>{ loggedInUser.bandName ? loggedInUser.bandName : "Loading" }</h1>
+        <div className="line"></div>
+        <Link to={`/profile/${getUserId()}`}>
+          <button 
+            id='toProfileBtn' 
+            onClick={handleIsOpen}>
+          My Profile</button>
+        </Link>
+        <Link to={`/profile/edit`}>
+          <button
+            id='toEditProfileBtn'
+            onClick={handleIsOpen}
+          >Edit My Profile</button>
+        </Link>
+        <Link to={`/logout`}>
+          <button 
+            id='toLogoutBtn' 
+            onClick={handleIsOpen}>
+          Logout</button>
+        </Link>
+        <Link to={`/invite`}>
+          <button 
+            id='toInviteBtn' 
+            onClick={handleIsOpen}>
+        Invite A Friend</button>
+        </Link>
+        <Link>
+          <button 
+            id='toDeleteAccountBtn' 
+            onClick={()=>{handleIsOpen();deleteAccount()}}>
+          Delete Account</button>
+        </Link>
+      </Menu>
+    </div>
   )
 }
 
