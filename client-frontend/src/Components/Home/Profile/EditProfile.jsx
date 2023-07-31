@@ -399,7 +399,7 @@ useEffect(() => {
         />
         </div>
 
-        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
+        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>Submit</button>
         {message && <div>{message}</div>}
     </form>
     </div>}
