@@ -82,7 +82,6 @@ function EditProfile() {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     fetch('http://127.0.0.1:4000/user/', {
       method: "PUT",
       headers: {

@@ -209,7 +209,6 @@ function Register({ updateLocalStorage }) {
                 name="location"
                 className="signUpInput" 
                 id="locationInput" 
-                label="Location"
                 value={location}
                 placeholder="Enter your location here."
                 style={{marginBottom: "1em"}}
@@ -220,7 +219,6 @@ function Register({ updateLocalStorage }) {
                     type='text'
                     className="signUpInput" 
                     id='locationInput'
-                    label="Location"
                     name='location'
                     placeholder='Enter your location here'
                     style={{marginBottom: "1em"}}
@@ -247,7 +245,7 @@ function Register({ updateLocalStorage }) {
             <MenuItem value={"pop"}>Pop</MenuItem>
         </TextField>
         </div>
-        
+
         <div id='additionGenreDropdown'>
         {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
         <TextField
