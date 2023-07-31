@@ -1,7 +1,7 @@
 #header,
 #footer {
     position: sticky;
-    z-index: 10;
+    z-index: 10000;
     background-color: #7E12b3;
     height: 70px;
 }

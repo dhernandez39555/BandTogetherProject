@@ -4,7 +4,8 @@ const User = require("../Models/User");
 // * GET all users except own * //
 router.get("/all", async (req, res) => {
     try {
-        const foundUsers = await User.find({ _id: { $ne: req.user._id } });
+        const foundUsers = await User.find({ _id: { $ne: req.user._id } }).select("-coverPhoto -profilePicture");
+        console.log(foundUsers);
         
         if (foundUsers.length === 0) throw Error("Not users found");
 
@@ -28,6 +29,24 @@ router.get("/", async (req, res) => {
         res.status(200).json({
             message: "Found User",
             foundUser
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+});
+
+// * GET Current user location * //
+router.get("/location", async (req, res) => {
+    try {
+        const foundUser = await User.findOne({ _id: req.user }).select("latitude longitude");
+        console.log(foundUser);
+        if (!foundUser) throw Error("User not signed in.");
+
+        res.status(200).json({
+            message: "Found Location",
+            location
         });
     } catch (err) {
         res.status(500).json({
