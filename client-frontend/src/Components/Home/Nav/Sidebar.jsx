@@ -90,8 +90,8 @@ function Sidebar() {
     }
     {
       isOpen ? 
-      <div id="side-menu" onClick={handleIsOpen}>
-        <div id="sidebar">
+      <div id="side-menu" className={isOpen ? "fade-in" : "fade-out"} onClick={handleIsOpen}>
+        <div id="sidebar" className={isOpen ? "slide-out" : "slide-in"}>
           <div id="side-wrap">
             <div id="side-img-container">
               {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
