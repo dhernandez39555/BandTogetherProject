@@ -187,21 +187,25 @@ function Showfinder() {
       {!postBox
         ?null
         :<div>
-          <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter event title'/>
-          <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter event genre'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
+          <TextField type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter event title'/>
+          <TextField type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter event genre'/>
+          <TextField type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter event date'/>
+          <TextField type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter event description'/>
+            <div id='selectBtns'>
           <button onClick={e=>{fetchPostEvent()}}>Submit</button>
           <button onClick={closePostBox}>Cancel</button>
+            </div>
         </div>}
       {showModal
         ?<div className='modal'>
-          <input type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter new event title'/>
-          <input type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter new event genre'/>
-          <input type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
-          <input type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
-          <button onClick={e=>handleUpdate()}>Submit</button>
-          <button onClick={e=>closeModal()}>Cancel</button>
+          <TextField type="text" name="title" value={postBody.title} onChange={e=>handleNewEvent(e)} placeholder='Enter new event title'/>
+          <TextField type="text" value={postBody.genre} name="genre" onChange={e=>handleNewEvent(e)} placeholder='Enter new event genre'/>
+          <TextField type="text" value={postBody.eventDate} name="eventDate" onChange={e=>handleNewEvent(e)} placeholder='Enter new event date'/>
+          <TextField type="text" name="body" value={postBody.body} onChange={e=>handleNewEvent(e)} placeholder='Enter new event description'/>
+          <div id="selectBtns">
+            <button onClick={e=>handleUpdate()}>Submit</button>
+            <button onClick={e=>closeModal()}>Cancel</button>
+          </div>
         </div>
         :null
       }
