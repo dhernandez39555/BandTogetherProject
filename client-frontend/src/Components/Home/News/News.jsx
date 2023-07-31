@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { TextField } from '@mui/material';
+import "../Showfinder/Showfinder.css"
 
 function News() {
   //TODO need GET -x-, POST-x-, PUT, DELETE-x-, Rendering-x-
@@ -148,48 +150,52 @@ function News() {
       </div>
       {postBox
         ?<div className='postBox'>
-          <input 
+          <TextField 
             type="text" 
             name='title'
             value={postBody.title}
             onChange={e=>handleNewPost(e)}
             placeholder='Enter post title'/>
-          <input 
+          <TextField 
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter post content'/>
-          <button onClick={e=>fetchPost()}>Submit</button>
-          <button onClick={e=>closePostBox()}>Cancel</button>
+          <div id="selectBtns">
+            <button onClick={e=>fetchPost()}>Submit</button>
+            <button onClick={e=>closePostBox()}>Cancel</button>
+          </div>
         </div>
         :null
       }
       {!modal
         ?null
         :<div className='modal'>
-          <input 
+          <TextField 
             type="text" 
             name='title' 
             value={postBody.title} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated title'/>
-          <input 
+          <TextField 
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated content'/>
-          <button onClick={e=>fetchUpdate()}>Submit</button>
-          <button 
-            onClick={(e)=>{
-              setModal(!modal)
-              setPostBody({
-                title:"",
-                body:"",
-                user:{bandName:""}
-              })
-            }}>Cancel</button>
+          <div id="selectBtns">
+            <button onClick={e=>fetchUpdate()}>Submit</button>
+            <button 
+              onClick={(e)=>{
+                setModal(!modal)
+                setPostBody({
+                  title:"",
+                  body:"",
+                  user:{bandName:""}
+                })
+              }}>Cancel</button>
+          </div>
         </div>
       }
       {renderResult()}
