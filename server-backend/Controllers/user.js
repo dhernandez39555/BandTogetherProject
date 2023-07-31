@@ -143,7 +143,22 @@ router.put("/", async (req, res) => {
 
         if (updateStatus.matchedCount == 0) throw Error(`${req.user._id} does not exist. No update was performed.`);
         res.status(200).json({
-            message: `${req.user._id} was updated`
+            message: `${req.user._id} was updated`,
+            updatedUser: {
+                profilePicture,
+                coverPhoto,
+                email,
+                password,
+                bandName,
+                contactName,
+                location,
+                genre,
+                additionGenre,
+                bio,
+                friendList,
+                messages,
+                socials
+            }
         });
     } catch (err) {
         res.status(500).json({

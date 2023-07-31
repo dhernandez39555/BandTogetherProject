@@ -4,6 +4,8 @@ import jwtDecode from 'jwt-decode';
 import './EditProfile.css'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import EditIcon from '@mui/icons-material/Edit';
+import { TextField, MenuItem } from '@mui/material';
 
 function EditProfile() {
   
@@ -80,7 +82,6 @@ function EditProfile() {
 
   const handleSubmit = e => {
     e.preventDefault();
-
     fetch('http://127.0.0.1:4000/user/', {
       method: "PUT",
       headers: {
@@ -157,14 +158,41 @@ useEffect(() => {
 
   return (
     <div id='edit-profile'>
+      {Object.keys(user).length === 0 ? (<p>Loading Content...</p>)
+      : 
       <div id='registerDiv'>
     <form action="" id="form-inputs">
         <h1 id='banner'>Edit Profile</h1>
       
-        <label htmlFor='profile-upload'>
-          <p>Profile</p>
-          <AddAPhotoOutlinedIcon/>
-        </label>
+      <input 
+        type='file'
+        name='coverPhoto'
+        id='cover-upload'
+        accept='.jpeg, .jpg, .png'
+        onChange={handleUpdateFile}
+      />
+
+      {user.coverPhoto ? (
+        <div>
+          <label htmlFor='cover-upload'>
+          <img  
+            src={user.coverPhoto}
+            alt='Cover'
+            loading='lazy'
+            id='updated-cover-preview'
+          />
+          {/* <EditIcon/> */}
+          </label>
+        </div>
+      ) : (
+        <div id="preview-updated-cover-div">
+          <label htmlFor='cover-upload'>
+            <AddPhotoAlternateIcon fontSize='medium'/> 
+          </label>
+        </div>
+      )
+      }
+
       <input
         type="file"
         name='profilePicture'
@@ -173,175 +201,208 @@ useEffect(() => {
         onChange={handleUpdateFile}
         />
 
-      {user?.profilePicture && (
+      {user.profilePicture ? (
         <div>
-          <p>Current Profile Photo:</p>
-          <img 
-            src={user.profilePicture}
-            alt='Profile'
-            style={{ width:50,height:50,borderRadius:100 }}
-            loading='lazy'
+          <label htmlFor='profile-upload'>
+            <img 
+              src={user.profilePicture}
+              alt='Profile'
+              loading='lazy'
+              id='updated-profile-preview'
           />
+          {/* <EditIcon/>  */}
+          </label>
+        </div>)
+        : (
+        <div id="preview-updated-profile-div">
+          <label htmlFor='profile-upload'>
+            <AddAPhotoOutlinedIcon fontSize='large'/>
+          </label>
         </div>
-      )}
-      
-      <label htmlFor='cover-upload'>
-        <p>Cover</p>
-        <AddPhotoAlternateIcon/>
-      </label>
-      <input 
-        type='file'
-        name='coverPhoto'
-        id='cover-upload'
-        accept='.jpeg, .jpg, .png'
-        onChange={handleUpdateFile}
-      />
-      {user?.coverPhoto && (
-        <div>
-          <p>Current Cover Photo:</p>
-          <img  
-            src={user.coverPhoto}
-            alt='Cover'
-            style={{ width: 500, height: 100 }}
-            loading='lazy'
-          />
-        </div>
-      )}
+      )
+      }
 
         <div id="emailDiv">
-        <label htmlFor="emailInput">Email Address:</label>
-        <input 
-        type="text" 
-        name="email" 
-        id="emailInput" 
-        placeholder="Enter your email here." 
-        value={updatedUser.email}
-        onChange={handleUpdate}
+        {/* <label htmlFor="emailInput">Email Address:</label> */}
+        <TextField 
+          required={true} 
+          fullWidth={true}
+          className="editProfileInput"
+          id="emailInput" 
+          type='email'
+          name="email"
+          label="Email"
+          placeholder="Enter your email here." 
+          style={{marginBottom: "1em"}}
+          value={updatedUser.email}
+          onChange={handleUpdate}
         />
         </div>
 
         <div>
-        <label htmlFor="bandNameInput">Band Name:</label>
-        <input 
-        type="text" 
-        name="bandName" 
-        id="bandNameInput" 
-        placeholder="Enter your band's name here." 
-        value={updatedUser.bandName}
-        onChange={handleUpdate}
+        {/* <label htmlFor="bandNameInput">Band Name:</label> */}
+        <TextField 
+          required={true} 
+          fullWidth={true}
+          className="editProfileInput"
+          name="bandName" 
+          id="bandNameInput" 
+          label="Band Name"
+          placeholder="Enter your band's name here." 
+          value={updatedUser.bandName}
+          style={{marginBottom: "1em"}} 
+          onChange={handleUpdate}
         />
         </div>
 
+        
+
         <div>
-        <label htmlFor="contactNameInput">Contact Name:</label>
-        <input 
-        type="text" 
-        name="contactName" 
-        id="contactNameInput" 
-        placeholder="Enter your main contact's name here."
-        value={updatedUser.contactName}
-        onChange={handleUpdate}
+        {/* <label htmlFor="contactNameInput">Contact Name:</label> */}
+        <TextField
+          required={true}
+          fullWidth={true}
+          className="editProfileInput"
+          name="contactName" 
+          id="contactNameInput" 
+          label="Contact Name"
+          placeholder="Enter your main contact's name here."
+          style={{marginBottom: "1em"}}
+          value={updatedUser.contactName}
+          onChange={handleUpdate}
         />
         </div> 
 
+
         <div>
-        <label htmlFor="locationInput">Location:</label>
-        <input 
-        type="text" 
-        name="location" 
-        id="locationInput" placeholder="Enter your location here."
-        value={updatedUser.location}
-        onChange={handleUpdate}
+        {/* <label htmlFor="locationInput">Location:</label> */}
+        <TextField 
+          fullWidth={true}
+          className="editProfileInput"
+          name="location" 
+          id="locationInput" placeholder="Enter your location here."
+          label="Location"
+          style={{marginBottom: "1em"}}
+          value={updatedUser.location}
+          onChange={handleUpdate}
         />
         </div>
 
         <div id='genreDropdown'>
-        <label htmlFor="genreInput">Genre:</label>
-        <select 
-        name='genre'
-        value={updatedUser.genre} 
-        onChange={handleUpdate} 
-        id="genreInput">
-            <option value="">Select a genre.</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
-        </select>
+        {/* <label htmlFor="genreInput">Genre:</label> */}
+        <TextField 
+          required={true}
+          fullWidth={true}
+          select={true}
+          className="editProfileInput"
+          id="genreInput"
+          name='genre'
+          value={updatedUser.genre} 
+          onChange={handleUpdate} 
+          label="Genre"
+          style={{marginBottom: "1em"}}>
+              <MenuItem value=""></MenuItem>
+              <MenuItem value={"rock"}>Rock</MenuItem>
+              <MenuItem value={"jazz"}>Jazz</MenuItem>
+              <MenuItem value={"pop"}>Pop</MenuItem>
+        </TextField>
         </div>
 
         <div id='additionGenreDropdown'>
-        <label htmlFor="additionalGenreInput">Genre:</label>
-        <select 
-        value={updatedUser.additionalGenre} 
-        name='additionalGenre'
-        onChange={handleUpdate} 
-        id="additionGenreInput">
-            <option value="">Select an additional genre.</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
-        </select>
+        {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
+        <TextField 
+          fullWidth={true}
+          select={true}
+          className="editProfileInput"
+          value={updatedUser.additionGenre} 
+          name='additionGenre'
+          onChange={handleUpdate} 
+          id="additionGenreInput"
+          label="Additional Genre"
+          style={{marginBottom: "1em"}}>
+            <MenuItem value=""></MenuItem>
+            <MenuItem value={"rock"}>Rock</MenuItem>
+            <MenuItem value={"jazz"}>Jazz</MenuItem>
+            <MenuItem value={"pop"}>Pop</MenuItem>
+        </TextField>
         </div>
 
         <div>
-        <label htmlFor="bioInput">Bio:</label>
-        <textarea 
-        type="text" 
-        name="bio" 
-        id="bioInput" placeholder="Enter your short bio here."
-        value={updatedUser.bio}
-        onChange={handleUpdate}
+        {/* <label htmlFor="bioInput">Bio:</label> */}
+        <TextField 
+          required={true}
+          fullWidth={true}
+          className="editProfileInput"
+          multiline
+          rows={4}
+          name="bio" 
+          id="bioInput" placeholder="Enter your short bio here."
+          label="Bio"
+          style={{marginBottom: "1em"}}
+          value={updatedUser.bio}
+          onChange={handleUpdate}
         />
         </div>
 
         <div>
-        <label htmlFor="youtubeInput">YouTube Link:</label>
-        <input 
-        type="text" 
-        name="youtube" 
-        id="youtubeInput" placeholder="Link to a YouTube channel/video here."
-        value={updatedUser.socials.youtube}
-        onChange={handleUpdate}
+        {/* <label htmlFor="youtubeInput">YouTube Link:</label> */}
+        <TextField 
+          fullWidth={true}
+          className="editProfileInput"
+          name="youtube" 
+          id="youtubeInput" placeholder="Link to a YouTube channel/video here."
+          label="YouTube"
+          style={{marginBottom: "1em"}}
+          value={updatedUser.socials.youtube}
+          onChange={handleUpdate}
         />
         </div>
 
         <div>
-        <label htmlFor="spotifyInput">Spotify Link:</label>
-        <input 
-        type="text" 
-        name="spotify" 
-        id="spotifyInput" placeholder="Link to your Spotify page here."
-        value={updatedUser.socials.spotify}
-        onChange={handleUpdate}
+        {/* <label htmlFor="spotifyInput">Spotify Link:</label> */}
+        <TextField 
+          fullWidth={true}
+          className="editProfileInput"
+          name="spotify" 
+          id="spotifyInput" placeholder="Link to your Spotify page here."
+          label="Spotify"
+          style={{marginBottom: "1em"}}
+          value={updatedUser.socials.spotify}
+          onChange={handleUpdate}
         />
         </div>
 
         <div>
-        <label htmlFor="soundCloudInput">SoundCloud Link:</label>
-        <input 
-        type="text" 
-        name="soundCloud" 
-        id="soundCloudInput" placeholder="Link to your SoundCloud here."
-        value={updatedUser.socials.soundCloud}
-        onChange={handleUpdate}
+        {/* <label htmlFor="soundCloudInput">SoundCloud Link:</label> */}
+        <TextField  
+          fullWidth={true}
+          className="editProfileInput"
+          name="soundCloud" 
+          id="soundCloudInput" placeholder="Link to your SoundCloud here."
+          label="SoundCloud"
+          style={{marginBottom: "1em"}}
+          value={updatedUser.socials.soundCloud}
+          onChange={handleUpdate}
         />
         </div>
 
         <div>
-        <label htmlFor="instagramInput">Instagram Link:</label>
-        <input 
-        type="text" 
-        name="instagram" 
-        id="instagramInput" placeholder="Link to your Instagram here."
-        value={updatedUser.socials.instagram}
-        onChange={handleUpdate}
+        {/* <label htmlFor="instagramInput">Instagram Link:</label> */}
+        <TextField 
+          fullWidth={true}
+          className="editProfileInput"
+          name="instagram" 
+          id="instagramInput" placeholder="Link to your Instagram here."
+          label="Instagram"
+          value={updatedUser.socials.instagram}
+          onChange={handleUpdate}
         />
         </div>
 
         <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
         {message && <div>{message}</div>}
     </form>
-    </div>
+    </div>}
     </div>
   )
 }
