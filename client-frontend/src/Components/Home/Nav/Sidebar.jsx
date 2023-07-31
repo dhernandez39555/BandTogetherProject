@@ -14,8 +14,13 @@ function Sidebar() {
 
   const navigate=useNavigate()
 
-    const handleIsOpen=()=>{
-        setIsOpen(!isOpen)
+    const handleIsOpen=(e)=>{
+      if (e.target.id === "side-wrap"
+          || e.target.id === "sidebar"
+          || e.target.id === ""
+          && e.target.parentNode.id !== "toggle-side-btn"
+        ) return;
+      setIsOpen(!isOpen)
     }
 
     const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
@@ -67,56 +72,66 @@ function Sidebar() {
   }, [sessionToken])
 
   return (
-    <div id='side-menu'>
-      <Menu
-        id={"sidebar"}
-        burgerButtonClassName={ "side-icon" }
-        outerContainerId={'side-menu'}
-        customBurgerIcon={ <MenuIcon htmlColor='#DB9A35' fontSize='large' /> }
-        width={'75%'}
-        right 
-        isOpen={ isOpen } 
-        noTransition 
+    <>
+    { isOpen ? <CloseIcon
+        id="toggle-side-btn"
+        className="side-icon"
+        style={{ zIndex: 2, position: 'fixed', right: "0.5em" }}
         onClick={handleIsOpen}
-      >
-        <div id="side-img-container">
-          {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
-          <img src={"/blank.png"} alt="profile-pic" />
+        htmlColor="#DB9A35"
+        fontSize="large" />
+      : 
+      <MenuIcon
+        id="toggle-side-btn"
+        className="side-icon"
+        onClick={handleIsOpen}
+        htmlColor="#DB9A35"
+        fontSize="large" />
+    }
+    {
+      isOpen ? 
+      <div id="side-menu" onClick={handleIsOpen}>
+        <div id="sidebar">
+          <div id="side-wrap">
+            <div id="side-img-container">
+              {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
+              <img src={"/blank.png"} alt="profile-pic" />
+            </div>
+            <h1>{ loggedInUser.bandName ? loggedInUser.bandName : "Loading" }</h1>
+            <div className="line"></div>
+            <Link to={`/profile/${getUserId()}`}>
+              <button 
+                id='toProfileBtn' 
+                onClick={handleIsOpen}>
+              My Profile</button>
+            </Link>
+            <Link to={`/profile/edit`}>
+              <button
+                id='toEditProfileBtn'
+              >Edit My Profile</button>
+            </Link>
+            <Link to={`/logout`}>
+              <button 
+                id='toLogoutBtn' >
+              Logout</button>
+            </Link>
+            <Link to={`/invite`}>
+              <button 
+                id='toInviteBtn'>
+            Invite A Friend</button>
+            </Link>
+            <Link>
+              <button 
+                id='toDeleteAccountBtn' 
+                onClick={()=>{deleteAccount()}}>
+              Delete Account</button>
+            </Link>
+          </div>
         </div>
-        <h1>{ loggedInUser.bandName ? loggedInUser.bandName : "Loading" }</h1>
-        <div className="line"></div>
-        <Link to={`/profile/${getUserId()}`}>
-          <button 
-            id='toProfileBtn' 
-            onClick={handleIsOpen}>
-          My Profile</button>
-        </Link>
-        <Link to={`/profile/edit`}>
-          <button
-            id='toEditProfileBtn'
-            onClick={handleIsOpen}
-          >Edit My Profile</button>
-        </Link>
-        <Link to={`/logout`}>
-          <button 
-            id='toLogoutBtn' 
-            onClick={handleIsOpen}>
-          Logout</button>
-        </Link>
-        <Link to={`/invite`}>
-          <button 
-            id='toInviteBtn' 
-            onClick={handleIsOpen}>
-        Invite A Friend</button>
-        </Link>
-        <Link>
-          <button 
-            id='toDeleteAccountBtn' 
-            onClick={()=>{handleIsOpen();deleteAccount()}}>
-          Delete Account</button>
-        </Link>
-      </Menu>
-    </div>
+      </div>
+      : <></>
+    }
+    </>
   )
 }
 
