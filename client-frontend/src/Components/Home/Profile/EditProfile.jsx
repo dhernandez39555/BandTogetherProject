@@ -162,6 +162,35 @@ useEffect(() => {
     <form action="" id="form-inputs">
         <h1 id='banner'>Edit Profile</h1>
       
+      <input 
+        type='file'
+        name='coverPhoto'
+        id='cover-upload'
+        accept='.jpeg, .jpg, .png'
+        onChange={handleUpdateFile}
+      />
+
+      {user.coverPhoto ? (
+        <div>
+          <label htmlFor='cover-upload'>
+          <img  
+            src={user.coverPhoto}
+            alt='Cover'
+            loading='lazy'
+            id='updated-cover-preview'
+          />
+          {/* <EditIcon/> */}
+          </label>
+        </div>
+      ) : (
+        <div id="preview-updated-cover-div">
+          <label htmlFor='cover-upload'>
+            <AddPhotoAlternateIcon fontSize='medium'/> 
+          </label>
+        </div>
+      )
+      }
+
       <input
         type="file"
         name='profilePicture'
@@ -176,45 +205,22 @@ useEffect(() => {
             <img 
               src={user.profilePicture}
               alt='Profile'
-              style={{ width:50,height:50,borderRadius:100 }}
               loading='lazy'
+              id='updated-profile-preview'
           />
-          <EditIcon/> 
+          {/* <EditIcon/>  */}
           </label>
         </div>)
         : (
-        <label htmlFor='profile-upload'>
-          <AddAPhotoOutlinedIcon/>
-        </label>
-      )
-      }
-
-      {user.coverPhoto ? (
-        <div>
-          <label htmlFor='cover-upload'>
-          <img  
-            src={user.coverPhoto}
-            alt='Cover'
-            style={{ width: 500, height: 100 }}
-            loading='lazy'
-          />
-          <EditIcon/>
+        <div id="preview-updated-profile-div">
+          <label htmlFor='profile-upload'>
+            <AddAPhotoOutlinedIcon fontSize='large'/>
           </label>
         </div>
-      ) : (
-        <label htmlFor='cover-upload'>
-          <AddPhotoAlternateIcon/> 
-        </label>
       )
       }
 
-      <input 
-        type='file'
-        name='coverPhoto'
-        id='cover-upload'
-        accept='.jpeg, .jpg, .png'
-        onChange={handleUpdateFile}
-      />
+
 
         <div id="emailDiv">
         <label htmlFor="emailInput">Email Address:</label>
