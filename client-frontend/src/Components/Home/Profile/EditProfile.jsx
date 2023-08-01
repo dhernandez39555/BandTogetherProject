@@ -157,6 +157,7 @@ useEffect(() => {
 }, [redirectToProfile, navigate])
 
   return (
+  <>  
     <div id='edit-profile'>
       {Object.keys(user).length === 0 ? (<p>Loading Content...</p>)
       : 
@@ -399,11 +400,15 @@ useEffect(() => {
         />
         </div>
 
-        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
-        {/* {message && <div>{message}</div>} */}
     </form>
     </div>}
     </div>
+
+        <div id="edit-profile-button-div">
+        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
+        {/* {message && <div>{message}</div>} */}
+        </div>
+  </>      
   )
 }
 
