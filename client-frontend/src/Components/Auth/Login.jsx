@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom' 
 import "./login.css"
-import { TextField } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'; 
 import note from "../assets/8thnote.png"
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Login({ updateLocalStorage }) {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ visible, setVisible ] = useState(false)
 
     const navigate = useNavigate()
 
@@ -32,6 +35,14 @@ function Login({ updateLocalStorage }) {
         })
         .catch(err => console.log(err));
 
+    }
+    
+    const EndAdornment = ({visible, setVisible}) => {
+        return <InputAdornment position="end">
+            <IconButton onClick={() => setVisible(!visible)}>
+                {visible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+            </IconButton>
+        </InputAdornment>
     }
 
   return (
@@ -68,11 +79,17 @@ function Login({ updateLocalStorage }) {
                 <TextField 
                 required={true}
                 fullWidth={true}
-                type ="password"
+                type={visible ? "text": "password"}
                 id="passwordInput"
                 label="Password"
                 placeholder="Enter your password here."
-                onChange={e => setPassword(e.target.value)}/> 
+                onChange={e => setPassword(e.target.value)}
+                InputProps={{
+                    endAdornment: (
+                        <EndAdornment visible={visible} setVisible={setVisible}/>
+                    )
+                }}
+                />  
             </div>
 
             <div id="loginButtonDiv">

@@ -3,13 +3,16 @@ import { Navigate } from 'react-router-dom';
 import "./register.css"; 
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { TextField, MenuItem } from '@mui/material';
+import { TextField, MenuItem, IconButton, InputAdornment } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Register({ updateLocalStorage }) {
     const [profilePicture, setProfilePicture] = useState("")
     const [coverPhoto, setCoverPhoto] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ visible, setVisible ] = useState(false)
     const [ bandName, setBandName ] = useState("")
     const [ contactName, setContactName ] = useState("")
     const [ location, setLocation ] = useState("")
@@ -107,6 +110,14 @@ function Register({ updateLocalStorage }) {
         setCoverPhoto(coverBase64) 
     }
 
+    const EndAdornment = ({visible, setVisible}) => {
+        return <InputAdornment position="end">
+            <IconButton onClick={() => setVisible(!visible)}>
+                {visible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+            </IconButton>
+        </InputAdornment>
+    }
+
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
@@ -163,13 +174,18 @@ function Register({ updateLocalStorage }) {
             required={true}
             fullWidth={true}
             inputProps={{ minLength: 8 }}
-            type="password"
+            type={visible ? "text": "password"}
             className="signUpInput"
             id="passwordInput"
             label="Password"
             placeholder="Enter your password here." 
             style={{marginBottom: "1em"}}
-            onChange={e => setPassword(e.target.value)}/>
+            onChange={e => setPassword(e.target.value)}
+            InputProps={{
+                endAdornment: (
+                    <EndAdornment visible={visible} setVisible={setVisible}/>
+                )
+            }}/>
         </div>
 
         <div>
