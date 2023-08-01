@@ -5,7 +5,6 @@ import { TextField } from '@mui/material';
 import "../Showfinder/Showfinder.css"
 
 function News() {
-  //TODO need GET -x-, POST-x-, PUT, DELETE-x-, Rendering-x-
 
   const sessionToken=localStorage.getItem('token')
   const getUserId = () => {
@@ -86,7 +85,7 @@ function News() {
     }));
   }
   function fetchPost(){
-    fetch(`http://localhost:4000/post/`,{
+    fetch(`http://localhost:4000/post/create`,{
       method:"POST",
       body:JSON.stringify(postBody),
       headers:new Headers({

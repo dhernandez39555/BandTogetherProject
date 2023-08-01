@@ -6,6 +6,10 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { TextField, MenuItem } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom'; 
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment } from '@mui/material';
+
 
 function Register({ updateLocalStorage }) {
     const navigate=useNavigate()
@@ -13,6 +17,7 @@ function Register({ updateLocalStorage }) {
     const [coverPhoto, setCoverPhoto] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ visible, setVisible ] = useState(false)
     const [ bandName, setBandName ] = useState("")
     const [ contactName, setContactName ] = useState("")
     const [ location, setLocation ] = useState("")
@@ -110,6 +115,14 @@ function Register({ updateLocalStorage }) {
         setCoverPhoto(coverBase64) 
     }
 
+    const EndAdornment = ({visible, setVisible}) => {
+        return <InputAdornment position="end">
+            <IconButton onClick={() => setVisible(!visible)}>
+                {visible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+            </IconButton>
+        </InputAdornment>
+    }
+
   return (
     <>
     { localStorage.getItem("token") ? <Navigate to="/" /> : 
@@ -144,9 +157,7 @@ function Register({ updateLocalStorage }) {
 
                 <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
                     onChange={(e) => handleFileUpload(e)} />
-
-                
-
+               
                 <div id="emailDiv">
                 {/* <label htmlFor="emailInput">Email Address:</label> */}
                 <TextField
@@ -176,7 +187,6 @@ function Register({ updateLocalStorage }) {
                     style={{marginBottom: "1em"}}
                     onChange={e => setPassword(e.target.value)}/>
                 </div>
-
                 <div>
                 {/* <label htmlFor="bandNameInput">Band Name:</label> */}
                 <TextField
