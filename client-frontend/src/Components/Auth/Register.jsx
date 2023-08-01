@@ -337,7 +337,7 @@ function Register({ updateLocalStorage }) {
         <div id="submitButtonDiv">
             <button id="registerSubmitButton" type="button" onClick={handleSubmit}>Submit</button>
         </div>
-
+                
     </form>
     
     </div>
