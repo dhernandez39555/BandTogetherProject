@@ -11,6 +11,7 @@ function Login({ updateLocalStorage }) {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ visible, setVisible ] = useState(false)
 
     const navigate = useNavigate()
 
@@ -36,11 +37,10 @@ function Login({ updateLocalStorage }) {
 
     }
 
-    const EndAdornment = () => {
+    const EndAdornment = ({visible, setVisible}) => {
         return <InputAdornment position="end">
-            <IconButton>
-                <VisibilityIcon/>
-                <VisibilityOffIcon/>
+            <IconButton onClick={() => setVisible(!visible)}>
+                {visible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
             </IconButton>
         </InputAdornment>
     }
@@ -79,14 +79,14 @@ function Login({ updateLocalStorage }) {
                 <TextField 
                 required={true}
                 fullWidth={true}
-                type ="password"
+                type={visible ? "text": "password"}
                 id="passwordInput"
                 label="Password"
                 placeholder="Enter your password here."
                 onChange={e => setPassword(e.target.value)}
                 InputProps={{
                     endAdornment: (
-                        <EndAdornment />
+                        <EndAdornment visible={visible} setVisible={setVisible}/>
                     )
                 }}
                 />  
