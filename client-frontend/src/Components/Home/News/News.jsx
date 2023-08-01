@@ -162,7 +162,8 @@ function News() {
   return (
     <>
       <div id='eventBtnWrapper'>
-        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>Add a post!</button>
+        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
+          Add a post!</button>
       </div>
       {postBox
         ?<div className='postBox'>
@@ -211,7 +212,9 @@ function News() {
                   user:{bandName:""}
                 })
               }}>Cancel</button>
+              
           </div>
+
         </div>
       }
       {renderResult()}
