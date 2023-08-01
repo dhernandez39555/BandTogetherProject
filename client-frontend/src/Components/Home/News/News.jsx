@@ -5,7 +5,6 @@ import { TextField } from '@mui/material';
 import "../Showfinder/Showfinder.css"
 
 function News() {
-  //TODO need GET -x-, POST-x-, PUT, DELETE-x-, Rendering-x-
 
   const sessionToken=localStorage.getItem('token')
   const getUserId = () => {
