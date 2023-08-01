@@ -1,12 +1,16 @@
-#loginPageDiv {
-    margin: 1em; 
+#login-main{
+    background-color: white;
 }
+/* #loginPageDiv { 
+} */
 
 #backArrow {
     color: #7E12b3; 
     cursor: pointer;
 }
-
+#logo-container{
+    margin:1em;
+}
 #loginForm {
     margin-top: 2em;
 }
@@ -28,4 +32,11 @@
     border: 2px solid black; 
     font-size: larger;
 }
-
+.splash-desc{
+    background-color: #e6e6e6;
+    padding: 8vw;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1px;
+    line-height: 1.4em;
+    font-size: 1.2em;
+}

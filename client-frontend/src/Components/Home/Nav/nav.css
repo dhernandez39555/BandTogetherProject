@@ -5,6 +5,10 @@
     background-color: #7E12b3;
     height: 70px;
 }
+#footer{
+    position: fixed;
+    bottom: 0;
+}
 
 .nav-wrap {
     display: flex;
