@@ -8,6 +8,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom'; 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment } from '@mui/material';
+
 
 function Register({ updateLocalStorage }) {
     const navigate=useNavigate()
@@ -155,9 +157,7 @@ function Register({ updateLocalStorage }) {
 
                 <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
                     onChange={(e) => handleFileUpload(e)} />
-
-                
-
+               
                 <div id="emailDiv">
                 {/* <label htmlFor="emailInput">Email Address:</label> */}
                 <TextField
