@@ -47,3 +47,7 @@
     cursor: pointer; 
 }
 
+#newPostBtn {
+    margin-bottom: 1em;
+}
+

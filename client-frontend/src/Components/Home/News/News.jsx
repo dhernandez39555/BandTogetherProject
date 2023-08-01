@@ -162,26 +162,30 @@ function News() {
   return (
     <>
       <div id='eventBtnWrapper'>
-        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
+        <button className='newsButton' onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
           Add a post!</button>
       </div>
       {postBox
         ?<div className='postBox'>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='title'
             value={postBody.title}
             onChange={e=>handleNewPost(e)}
             placeholder='Enter post title'/>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter post content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchPost()}>Submit</button>
-            <button onClick={e=>closePostBox()}>Cancel</button>
+            <button className='newsButton' onClick={e=>fetchPost()}>Submit</button>
+            <button className='newsButton' onClick={e=>closePostBox()}>Cancel</button>
           </div>
         </div>
         :null
@@ -190,20 +194,25 @@ function News() {
         ?null
         :<div className='modal'>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='title' 
             value={postBody.title} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated title'/>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchUpdate()}>Submit</button>
+            <button className='newsButton' onClick={e=>fetchUpdate()}>Submit</button>
             <button 
+              className='newsButton'
               onClick={(e)=>{
                 setModal(!modal)
                 setPostBody({
