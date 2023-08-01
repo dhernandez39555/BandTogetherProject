@@ -58,7 +58,7 @@ function handleChatMessage(message, senderId, receiverId) {
     console.log('===Message received:', message);
     console.log('===Sender ID:', senderId);
     console.log('===Receiver ID:', receiverId);
-    console.log('===Recipient WebSocket:');
+    console.log('===Recipient WebSocket:', recipientWs);
     
 console.log('message priming')
     if(recipientWs && recipientWs.readyState === WebSocket.OPEN) {

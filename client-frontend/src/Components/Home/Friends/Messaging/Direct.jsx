@@ -88,15 +88,12 @@ function Direct() {
       console.log('function handleReceivedMessage')
       const receivedMessage = JSON.parse(e.data);
       console.log('recivedMessage:', receivedMessage)
-      console.log('88888888888888',directs[0].sender.bandName)
-      console.log('9999999999',directs[0].sender.profilePicture)
       const newMessage = {
         body: receivedMessage,
         createdAt: new Date().toISOString(),
         sender: {
-          bandName: directs[0].sender.bandName
-          // profilePicture: directs[0]?.sender?.profilePicture ?? null
-          // ! I think this ^^^^ is because it is slow 
+          bandName: 'bandName',
+          profilePicture: 'profile picture'
         }
       }
       
