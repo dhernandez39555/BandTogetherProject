@@ -400,7 +400,7 @@ useEffect(() => {
         </div>
 
         <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
-        {message && <div>{message}</div>}
+        {/* {message && <div>{message}</div>} */}
     </form>
     </div>}
     </div>
