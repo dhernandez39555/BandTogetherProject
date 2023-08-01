@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
@@ -37,7 +37,16 @@ function News() {
 
   const [ postBox, setPostBox ]=useState(false)
   const [ modal, setModal ]=useState(false)
+  //functions for organizing mongoDB date into readable strings
+  const prevDate = useRef(new Date("January 1, 1970"));
 
+  const getDate = (date) => {
+    const newDate = new Date(date);
+    if (prevDate.current.getDate() === newDate.getDate()) return null;
+    const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
+    prevDate.current = newDate;
+    return (<div key={date} className="datestamp"><p>{newDateStr}</p></div>)
+  }
   //rendering out each fetch GET index with title, body, and bandName alongside either edit and delete or navigation buttons depending on the current user
   const renderResult=()=>{
     return fetchResult.length===0||!fetchResult
@@ -48,6 +57,7 @@ function News() {
             <h2>{result.title}</h2>
             <h4>{result.user.bandName}</h4>
             <h5>{result.body}</h5>
+            <h6>{getDate(result.createdAt)}</h6>
             {result.user._id===getUserId()
               ?<div className='options'>
                 <button className='editBtn' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
