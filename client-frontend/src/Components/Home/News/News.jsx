@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
-import "../Showfinder/Showfinder.css"
+import './news.css'
 
 function News() {
-  //TODO need GET -x-, POST-x-, PUT, DELETE-x-, Rendering-x-
 
   const sessionToken=localStorage.getItem('token')
   const getUserId = () => {
@@ -54,10 +53,17 @@ function News() {
       :<div className='renderContainer'>
         {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
-            <h2>{result.title}</h2>
-            <h4>{result.user.bandName}</h4>
-            <h5>{result.body}</h5>
-            <h6>{getDate(result.createdAt)}</h6>
+
+            <div id="dateDiv">
+            <h6 className='dateHeader'>{getDate(result.createdAt)}</h6>
+            </div>
+
+            <div className="messageBodyDiv">
+            <h2 className='titleHeader'>{result.title}</h2>
+            <h4 className='bandNameHeader'>{result.user.bandName}</h4>
+            <h5 className='messageBodyHeader'>{result.body}</h5>
+            </div>
+
             {result.user._id===getUserId()
               ?<div className='options'>
                 <button className='editBtn' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
@@ -86,7 +92,7 @@ function News() {
     }));
   }
   function fetchPost(){
-    fetch(`http://localhost:4000/post/`,{
+    fetch(`http://localhost:4000/post/create`,{
       method:"POST",
       body:JSON.stringify(postBody),
       headers:new Headers({
