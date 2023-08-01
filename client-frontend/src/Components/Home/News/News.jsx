@@ -86,7 +86,7 @@ function News() {
     }));
   }
   function fetchPost(){
-    fetch(`http://localhost:4000/post/`,{
+    fetch(`http://localhost:4000/post/create`,{
       method:"POST",
       body:JSON.stringify(postBody),
       headers:new Headers({
