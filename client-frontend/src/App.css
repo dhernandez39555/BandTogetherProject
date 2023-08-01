@@ -14,15 +14,15 @@ label {
 }
 
 button {
-    background-color: yellow;
+    background-color: #FAE248;
     height: 3em;
     width: 10em;
     border: 1px solid black; 
     border-radius: 2em;
 }
-
-button:hover {
-    background-color: #b3b300;
+button:active{
+    box-shadow: 2px 2px 1px;
+    box-shadow: inset 0px 5px 2px rgba(177, 177, 0, 0.796);
 }
 p {
     font-size: 3vh;
