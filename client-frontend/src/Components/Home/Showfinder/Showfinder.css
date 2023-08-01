@@ -30,3 +30,7 @@
 .userEach,.genreEach,.dateEach{
     font-size: small;
 }
+#selectBtns{
+    display: flex;
+    justify-content: space-around;
+}
