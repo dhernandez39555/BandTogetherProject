@@ -13,7 +13,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function Direct() {
 
-  const { otherUser_id } = useParams();
   const [ directs, setDirects ] = useState([]);
   const prevDate = useRef(new Date("January 1, 1970"));
   const messageInput = useRef("");
@@ -21,22 +20,22 @@ function Direct() {
   const [ picture, setPicture ] = useState("");
   const [ socket, setSocket ] = useState(null);
   const messageContainerRef = useRef(null)
-  const navigate = useNavigate();
   const lastMessageRef = useRef(null);
-
-  const params = useParams();
+  const { otherUser_id } = useParams();
+  
+  
   const sessionToken = localStorage.getItem('token');
-
+  
   const getUserId = () => {
-        try {
-            const decodedToken = jwtDecode(sessionToken)
-            return decodedToken._id 
-        } catch (error) {
-            console.log(`error decoding`,error)
-        }
+    try {
+      const decodedToken = jwtDecode(sessionToken)
+      return decodedToken._id 
+    } catch (error) {
+      console.log(`error decoding`,error)
     }
-    
-
+  }
+  
+  const loggedInUserId = getUserId();
   
 
     //function to scroll the message container to bottom
@@ -49,13 +48,20 @@ function Direct() {
     
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://127.0.0.1:8000?user-id=${params.otherUser_id}`)
-    console.log(params.otherUser_id)
-    setSocket(ws)
-    return () => {
-      ws.close();
+    const ws = new WebSocket(`ws://127.0.0.1:8000?user-id=${loggedInUserId}&receiver-id=${otherUser_id}`)
+    ws.onopen = () => {
+      console.log('WS connected with other user')
+      setSocket(ws)
+    };
+    ws.onerror = (err) => {
+      console.log('WS error', err)
     }
-  },[params.otherUser_id])
+    return () => {
+      if(socket) {
+      socket.close();
+      }
+    }
+  },[])
 
   const showNotification = () => {
     if (Notification.permission === 'granted') {
@@ -73,20 +79,34 @@ function Direct() {
     }
   };
 
+  const addNewMessage = (message) => {
+    setDirects((prevDirects) => [...prevDirects,message])
 
+  }
   useEffect(() => {
     const handleReceiveMessage = e => {
+      console.log('function handleReceivedMessage')
       const receivedMessage = JSON.parse(e.data);
-      const receivedData = JSON.parse(e.data);
-      if(receivedData.hasOwnProperty("newMessage")) {
-        setDirects((prevDirects) => [...prevDirects,receivedMessage])
-        console.log("message received:", receivedMessage,directs)
+      console.log('recivedMessage:', receivedMessage)
+      console.log('88888888888888',directs[0].sender.bandName)
+      console.log('9999999999',directs[0].sender.profilePicture)
+      const newMessage = {
+        body: receivedMessage,
+        createdAt: new Date().toISOString(),
+        sender: {
+          bandName: directs[0].sender.bandName
+          // profilePicture: directs[0]?.sender?.profilePicture ?? null
+          // ! I think this ^^^^ is because it is slow 
         }
+      }
+      
+      addNewMessage(newMessage)
       showNotification();
     }
 
     if(socket) {
       socket.addEventListener('message', handleReceiveMessage)
+      console.log('socket event listener added')
     }
 
     return () => {
@@ -99,7 +119,8 @@ function Direct() {
 
   const sendingMessage = (message) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ message, receiver: otherUser_id }));
+      socket.send(JSON.stringify( message ));
+      console.log('socket open when sending:', message)
     }
   }
 

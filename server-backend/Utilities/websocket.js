@@ -7,26 +7,26 @@ const wss = new WebSocket.Server({ port: process.env.WSS_PORT || 8000 })
 
 const clients = new Map();
 
-// for sending messages to everyone not ideal will probably slow the app alot if used
-function broadcastMessage(message) {
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(message))
-        }
-    })
-}
+
 
 wss.on('connection', (ws,req) => {
-    const userId = req.url.split('=')[1]
+    const urlParams = new URLSearchParams(req.url.split('?')[1]);
+    const userId = urlParams.get('user-id');
+    const receiverId = urlParams.get('receiver-id');
+
+    console.log('22222 User logged in :', userId)
+    console.log('22222 receiver ID:' , receiverId)
 
     if (userId) {
         clients.set(userId,ws)
     }
 
     ws.on('message',(message) => {
+        console.log('message incoming to:', userId)
         try {
             const parsedMessage = JSON.parse(message);
-            handleMessage(parsedMessage, userId)
+            handleMessage(parsedMessage, userId, receiverId)
+            
         } catch (err) {
             console.log('error parsing websocket message', err)
         }
@@ -38,25 +38,34 @@ wss.on('connection', (ws,req) => {
     })
 })
 
-function handleMessage(message, senderUserId) {
+
+//! 64b is id for grimey 
+
+function handleMessage(message, senderId, receiverId) {
     if(message) {
-        handleChatMessage(message, senderUserId, message.receiver)
-        console.log('message:',message)
+    
+        handleChatMessage(message, senderId, receiverId)
+
         return;
     } else {
         console.log('UH OH')
     }
 }
+function handleChatMessage(message, senderId, receiverId) {
 
-function handleChatMessage(message, senderUserId, receiverUserId) {
-    const recipientWs = clients.get(message.receiver)
+    const recipientWs = clients.get(receiverId)
+
+    console.log('===Message received:', message);
+    console.log('===Sender ID:', senderId);
+    console.log('===Receiver ID:', receiverId);
+    console.log('===Recipient WebSocket:');
     
 console.log('message priming')
     if(recipientWs && recipientWs.readyState === WebSocket.OPEN) {
         recipientWs.send(JSON.stringify(message))
         console.log('message primed')
     } else {
-        console.log('no recipient found' , receiverUserId)
+        console.log('no recipient found' , receiverId)
     }
 }
 
