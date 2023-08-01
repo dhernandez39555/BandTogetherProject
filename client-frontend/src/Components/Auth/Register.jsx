@@ -78,7 +78,7 @@ function Register({ updateLocalStorage }) {
             })
         })
         .then(res => res.json())
-        .then(data => updateLocalStorage(data.token))
+        .then(data => !data.token?alert("Please fill in all fields that have an asterisk beside them."):updateLocalStorage(data.token))
         .catch(err => console.log(err))
     }
     
@@ -337,7 +337,7 @@ function Register({ updateLocalStorage }) {
         <div id="submitButtonDiv">
             <button id="registerSubmitButton" type="button" onClick={handleSubmit}>Submit</button>
         </div>
-
+                
     </form>
     
     </div>
