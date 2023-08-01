@@ -38,3 +38,11 @@
     margin-bottom: .5em;
     word-wrap: normal;
 }
+
+.newsButton {
+    background-color: #7E12B3; 
+    width: 45%; 
+    margin: .5em; 
+    box-shadow: .2em .2em .2em black; 
+    cursor: pointer; 
+}

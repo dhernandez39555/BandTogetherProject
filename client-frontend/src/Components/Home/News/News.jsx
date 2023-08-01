@@ -66,12 +66,12 @@ function News() {
 
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
-                <button className='deleteBtn' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
+                <button className='newsButton' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
+                <button className='newsButton' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
-                <button className='profileBtn' onClick={e=>profileNav(result.user._id)}>Profile</button>
-                <button className='messageBtn' onClick={e=>messageNav(result.user._id)}>Message</button>
+                <button className='newsButton' onClick={e=>profileNav(result.user._id)}>Profile</button>
+                <button className='newsButton' onClick={e=>messageNav(result.user._id)}>Message</button>
               </div>}
           </div>
         ))}
