@@ -60,7 +60,7 @@ function MeetBands() {
     }, []);
 
     function sortUsersByDistance(userArr, coords) {
-        console.log(userArr);
+        // console.log(userArr);
         const usersWithDistance = userArr.map((user) => {
             if (user.latitude && user.longitude) {
                 const distance = calculateDistance(

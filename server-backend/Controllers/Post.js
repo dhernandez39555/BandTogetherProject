@@ -23,7 +23,7 @@ router.post("/create", async (req,res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const findAllPosts = await Post.find({}).populate("user",{ password:0 })
+        const findAllPosts = await Post.find({}).populate("user",{ password:0, coverPhoto:0, profilePicture:0 })
         if (findAllPosts.length === 0) throw Error("No posts found.")
         res.status(200).json(findAllPosts)
     } catch(err) {
