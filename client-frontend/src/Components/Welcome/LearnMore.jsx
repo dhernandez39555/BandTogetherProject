@@ -14,15 +14,18 @@ function LearnMore() {
       <ArrowBackIosIcon fontSize='large' id="backArrow"
             onClick={() => navigate(`/welcome`)}/>
         <div id="title-container">
-                <h1>BandTogether</h1>
+                <h1 id='title-headline'>BandTogether</h1>
                 <img id="title-icon" src={note} alt="note" />
-                <div id="title-underline"></div>
-                <h2>Build relationships.<br/>Book shows.</h2>
+                <div id="title-underline">
+                  <h2>Build relationships.<br/>Book shows.</h2>
+                </div>
             </div>
         <div id="aboutWrapper">
           <p id="aboutBT">
-              BandTogether believes that a thriving music scene looks more like a community than an industry.<br/><br/>
-              We believe that one meaningful relationship can make all the difference for an independent band. That is why we are here. We connect local bands with other local bands - and the venues that host them too. <br/><br/>
+              BandTogether believes that a thriving music scene looks more like a community than an industry.
+              <br/><br/>
+              We believe that one meaningful relationship can make all the difference for an independent band. That is why we are here. We connect local bands with other local bands - and the venues that host them too. 
+              <br/><br/>
               BandTogether is here to support local live music.
               <br/><br/>
               See you at the next show.

@@ -19,6 +19,8 @@ button {
     width: 10em;
     border: 1px solid black; 
     border-radius: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
 }
 button:active{
     box-shadow: 2px 2px 1px;
