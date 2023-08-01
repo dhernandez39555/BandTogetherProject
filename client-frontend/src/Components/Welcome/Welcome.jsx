@@ -18,17 +18,15 @@ function Welcome() {
                 </div>
             </div>
             <div id="welcome-info">
-                <div id="welcome-wrap">
-                    <p>
-                        BandTogether is a networking platform for Vermont’s local music scene.
-                        <br />
-                        <br />
-                        Started by musicians, for musicians, our goal is to connect the bands and venues that make our little community special.
-                        <br />
-                        <br />
-                        See you at the next show.
-                    </p>
-                </div>
+                    <p id='welcome-text'>
+                    BandTogether is a networking platform for Vermont’s local music scene.
+                    <br />
+                    <br />
+                    Started by musicians, for musicians, our goal is to connect the bands and venues that make our little community special.
+                    <br />
+                    <br />
+                    See you at the next show.
+                </p>
                 <div id="welcome-footer">
                     <Link to="/learnmore" ><span>Learn More</span></Link>
                 </div>
