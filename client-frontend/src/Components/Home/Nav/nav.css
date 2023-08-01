@@ -1,7 +1,7 @@
 #header,
 #footer {
     position: sticky;
-    z-index: 10000;
+    z-index: 2000;
     background-color: #7E12b3;
     height: 70px;
 }
@@ -19,33 +19,8 @@
 }
 
 #footer {
+    z-index: 900;
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-
-.bm-menu{
-    display: flex;
-    justify-content: center;
-    background-color: rgb(180,180,180);
-}
-.bm-burger-button {
-    position: fixed;
-    width: 36px;
-    height: 30px;
-    right: 36px;
-    top: 20px;
-}
-.bm-burger-bars {
-    background: #e6ae14;
-}
-.bm-burger-bars-hover {
-    background: #e6d514;
-}
-.bm-cross-button {
-    height: 24px;
-    width: 24px;
-}
-.bm-cross {
-    background: #505253;
 }
