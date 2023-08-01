@@ -59,12 +59,12 @@ function News() {
             <h6>{getDate(result.createdAt)}</h6>
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
-                <button className='deleteBtn' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
+                <button className='editBtn' onClick={()=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
+                <button className='deleteBtn' onClick={()=>{fetchDelete(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
-                <button className='profileBtn' onClick={e=>profileNav(result.user._id)}>Profile</button>
-                <button className='messageBtn' onClick={e=>messageNav(result.user._id)}>Message</button>
+                <button className='profileBtn' onClick={()=>profileNav(result.user._id)}>Profile</button>
+                <button className='messageBtn' onClick={()=>messageNav(result.user._id)}>Message</button>
               </div>}
           </div>
         ))}
