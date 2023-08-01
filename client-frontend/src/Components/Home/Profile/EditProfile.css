@@ -5,6 +5,15 @@
     text-align: center;
 }
 
+#editBackArrow {
+    color: #7E12b3; 
+    cursor: pointer;
+    display: inline-block; 
+    position: absolute;
+    top: 1em;
+    left: 1em; 
+}
+
 #preview-updated-cover-div {
     display: flex;
     flex-direction: column;
@@ -84,10 +93,9 @@ select {
 }
 
 #edit-submitButton {
-    margin-top: 3vh;
-    height: 7vh;
-    width: 60vw;
-    /* font-size: 140%; */
+    width: 70%; 
+    height: 3em;
+    border: 2px solid black; 
 }
 
 #updated-profile-preview {
@@ -106,3 +114,10 @@ select {
     bottom: 2em;
 }
 
+#edit-profile-button-div {
+    background-color: #7E12b3;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
