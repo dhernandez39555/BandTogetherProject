@@ -36,7 +36,7 @@ function Login({ updateLocalStorage }) {
         .catch(err => console.log(err));
 
     }
-
+    
     const EndAdornment = ({visible, setVisible}) => {
         return <InputAdornment position="end">
             <IconButton onClick={() => setVisible(!visible)}>
