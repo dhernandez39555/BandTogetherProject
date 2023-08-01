@@ -5,6 +5,11 @@
     text-align: center;
 }
 
+#editBackArrow {
+    color: #7E12b3; 
+    cursor: pointer;
+}
+
 #preview-updated-cover-div {
     display: flex;
     flex-direction: column;
