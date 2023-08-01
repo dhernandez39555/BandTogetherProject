@@ -8,6 +8,10 @@
 #editBackArrow {
     color: #7E12b3; 
     cursor: pointer;
+    display: inline-block; 
+    position: absolute;
+    top: 1em;
+    left: 1em; 
 }
 
 #preview-updated-cover-div {

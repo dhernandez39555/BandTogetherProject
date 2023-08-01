@@ -169,11 +169,12 @@ const handleBackArrow = async (e) => {
       : 
       <div id='registerDiv'>
     <form action="" id="form-inputs">
-
+    
       <ArrowBackIosIcon fontSize='large' id="editBackArrow"
-        onClick={handleBackArrow}/>
+      onClick={handleBackArrow}/>
 
-      <h1 id='banner'>Edit Profile</h1>
+      <h1 id='banner'>
+      Edit Profile</h1>
       
       <input 
         type='file'
