@@ -10,8 +10,11 @@ router.post("/", async (req,res) => {
             eventDate,
             title,
             body,
-            genre
-        }).populate("user")
+            genre,
+            location,
+            latitude,
+            longitude
+        }).populate("user", { coverPhoto: 0, profilePicture: 0 })
         console.log(newEvent)
         // console.log(await newEvent)
         await newEvent.save();
@@ -93,12 +96,12 @@ router.get("/:event_id", async (req, res) => {
 router.put("/:event_id", async (req, res) => {
     try {
         const { event_id } = req.params;
-        const { eventDate, title, body, genre } = req.body;
+        const { eventDate, title, body, genre, location, latitude, longitude } = req.body;
 
         const findEvent = await Event.findOne({ _id: event_id });
         if (!findEvent) throw Error("no event found");
 
-        const updateStatus = await Event.updateOne({_id: event_id}, { $set: { eventDate, title, body, genre } });
+        const updateStatus = await Event.updateOne({_id: event_id}, { $set: { eventDate, title, body, genre, location, latitude, longitude } });
         if (updateStatus.matchedCount == 0) throw Error(`${event_id} does not exist`)
 
         res.status(201).json({

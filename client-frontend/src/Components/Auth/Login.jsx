@@ -28,7 +28,9 @@ function Login({ updateLocalStorage }) {
         })
         .then(res => res.json())
         .then(data => {
-            updateLocalStorage(data.token) 
+            !data.token
+                ? alert(`${data.message}`)
+                : updateLocalStorage(data.token)
         })
         .catch(err => console.log(err));
 
