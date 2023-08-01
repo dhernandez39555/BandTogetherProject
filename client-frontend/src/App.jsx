@@ -52,13 +52,13 @@ function App() {
         <Route element={ <><Header /><Footer /><div id="bottom-spacer"></div></> }>
           <Route path='/invite' element={ <Invite /> } />
           <Route path='/profile/:user_id' element={ <ReadProfile /> } />
-          <Route path='/profile/edit' element={ <EditProfile /> } />
           <Route path='/findshows' element={ <Showfinder /> } />
           <Route path='/inbox' element={ <Inbox /> } />
           <Route path='/meetbands' element={ <MeetBands /> } />
           <Route path='/friends' element={ <Contacts /> } />
           <Route path='/news' element={ <News /> } />
         </Route>
+        <Route path='/profile/edit' element={ <EditProfile /> } />
         <Route path='/' element={ <Home /> } />
         <Route path='/messaging/:otherUser_id' element={ <><Direct /><div id="bottom-spacer"></div></> } />
       </Route>
