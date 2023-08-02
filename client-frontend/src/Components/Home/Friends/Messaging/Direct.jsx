@@ -37,7 +37,6 @@ function Direct() {
   
   const loggedInUserId = getUserId();
   
-
     //function to scroll the message container to bottom
     useEffect(() => {
       if (lastMessageRef.current) {
@@ -93,7 +92,7 @@ function Direct() {
         createdAt: new Date().toISOString(),
         sender: {
           bandName: 'bandName',
-          profilePicture: 'profile picture'
+          profilePicture: 'profilePicture'
         }
       }
       
