@@ -103,7 +103,7 @@ router.put("/addcontact", async (req, res) => {
     }
 });
 
-router.put("/addcontact2/:id", async (req, res)) => {
+router.put("/addcontact2/:id", async (req, res) => {
     try {
     const { id: _id } = req.params 
     const newUser = req.body 
@@ -120,8 +120,7 @@ router.put("/addcontact2/:id", async (req, res)) => {
             message: `${err}`
         })
     }
-}
-
+})
 
 // * UPDATE Current A User by user_id * //
 router.put("/", async (req, res) => {
