@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
         friendList, socials })
     
     await newUser.save()
-
+        
     const token = jwt.sign(
         { _id: newUser._id },
         JWT_KEY,

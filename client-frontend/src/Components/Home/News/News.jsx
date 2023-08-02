@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
-import "../Showfinder/Showfinder.css"
+import './news.css'
 
 function News() {
-  //TODO need GET -x-, POST-x-, PUT, DELETE-x-, Rendering-x-
 
   const sessionToken=localStorage.getItem('token')
   const getUserId = () => {
@@ -37,7 +36,16 @@ function News() {
 
   const [ postBox, setPostBox ]=useState(false)
   const [ modal, setModal ]=useState(false)
+  //functions for organizing mongoDB date into readable strings
+  const prevDate = useRef(new Date("January 1, 1970"));
 
+  const getDate = (date) => {
+    const newDate = new Date(date);
+    if (prevDate.current.getDate() === newDate.getDate()) return null;
+    const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
+    prevDate.current = newDate;
+    return (<div key={date} className="datestamp"><p>{newDateStr}</p></div>)
+  }
   //rendering out each fetch GET index with title, body, and bandName alongside either edit and delete or navigation buttons depending on the current user
   const renderResult=()=>{
     return fetchResult.length===0||!fetchResult
@@ -45,17 +53,25 @@ function News() {
       :<div className='renderContainer'>
         {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
-            <h2>{result.title}</h2>
-            <h4>{result.user.bandName}</h4>
-            <h5>{result.body}</h5>
+
+            <div id="dateDiv">
+            <h6 className='dateHeader'>{getDate(result.createdAt)}</h6>
+            </div>
+
+            <div className="messageBodyDiv">
+            <h2 className='titleHeader'>{result.title}</h2>
+            <h4 className='bandNameHeader'>{result.user.bandName}</h4>
+            <h5 className='messageBodyHeader'>{result.body}</h5>
+            </div>
+
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
-                <button className='deleteBtn' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
+                <button className='newsButton' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
+                <button className='newsButton' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
-                <button className='profileBtn' onClick={e=>profileNav(result.user._id)}>Profile</button>
-                <button className='messageBtn' onClick={e=>messageNav(result.user._id)}>Message</button>
+                <button className='newsButton' onClick={e=>profileNav(result.user._id)}>Profile</button>
+                <button className='newsButton' onClick={e=>messageNav(result.user._id)}>Message</button>
               </div>}
           </div>
         ))}
@@ -76,7 +92,7 @@ function News() {
     }));
   }
   function fetchPost(){
-    fetch(`http://localhost:4000/post/`,{
+    fetch(`http://localhost:4000/post/create`,{
       method:"POST",
       body:JSON.stringify(postBody),
       headers:new Headers({
@@ -146,25 +162,30 @@ function News() {
   return (
     <>
       <div id='eventBtnWrapper'>
-        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>Add a post!</button>
+        <button className='newsButton' onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
+          Add a post!</button>
       </div>
       {postBox
         ?<div className='postBox'>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='title'
             value={postBody.title}
             onChange={e=>handleNewPost(e)}
             placeholder='Enter post title'/>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter post content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchPost()}>Submit</button>
-            <button onClick={e=>closePostBox()}>Cancel</button>
+            <button className='newsButton' onClick={e=>fetchPost()}>Submit</button>
+            <button className='newsButton' onClick={e=>closePostBox()}>Cancel</button>
           </div>
         </div>
         :null
@@ -173,20 +194,25 @@ function News() {
         ?null
         :<div className='modal'>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='title' 
             value={postBody.title} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated title'/>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchUpdate()}>Submit</button>
+            <button className='newsButton' onClick={e=>fetchUpdate()}>Submit</button>
             <button 
+              className='newsButton'
               onClick={(e)=>{
                 setModal(!modal)
                 setPostBody({
@@ -195,7 +221,9 @@ function News() {
                   user:{bandName:""}
                 })
               }}>Cancel</button>
+              
           </div>
+
         </div>
       }
       {renderResult()}

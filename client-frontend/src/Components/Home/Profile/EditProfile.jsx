@@ -6,6 +6,7 @@ import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import EditIcon from '@mui/icons-material/Edit';
 import { TextField, MenuItem } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function EditProfile() {
   
@@ -156,13 +157,24 @@ useEffect(() => {
   }
 }, [redirectToProfile, navigate])
 
+const handleBackArrow = async (e) => {
+  const userId = getUserId();
+  navigate(`/profile/${userId}`)
+}
+
   return (
+  <>  
     <div id='edit-profile'>
       {Object.keys(user).length === 0 ? (<p>Loading Content...</p>)
       : 
       <div id='registerDiv'>
     <form action="" id="form-inputs">
-        <h1 id='banner'>Edit Profile</h1>
+    
+      <ArrowBackIosIcon fontSize='large' id="editBackArrow"
+      onClick={handleBackArrow}/>
+
+      <h1 id='banner'>
+      Edit Profile</h1>
       
       <input 
         type='file'
@@ -399,11 +411,17 @@ useEffect(() => {
         />
         </div>
 
-        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>UpdateProfile</button>
-        {message && <div>{message}</div>}
     </form>
     </div>}
     </div>
+
+    {Object.keys(user).length === 0 ? null : 
+        (<div id="edit-profile-button-div">
+        <button id="edit-submitButton" type="submit" onClick={handleSubmit}>Submit</button>
+        {/* {message && <div>{message}</div>} */}
+        </div>)}
+
+  </>      
   )
 }
 
