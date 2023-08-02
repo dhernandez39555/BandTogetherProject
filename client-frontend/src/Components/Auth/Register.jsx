@@ -179,13 +179,17 @@ function Register({ updateLocalStorage }) {
                     required={true}
                     fullWidth={true}
                     inputProps={{ minLength: 8 }}
-                    type="password"
+                    type ={visible ? "text": "password"}
                     className="signUpInput"
                     id="passwordInput"
                     label="Password"
                     placeholder="Enter your password here." 
                     style={{marginBottom: "1em"}}
-                    onChange={e => setPassword(e.target.value)}/>
+                    onChange={e => setPassword(e.target.value)}
+                    InputProps={{
+                        endAdornment: <EndAdornment visible={visible} setVisible={setVisible}/>
+                    }}
+                    />
                 </div>
                 <div>
                 {/* <label htmlFor="bandNameInput">Band Name:</label> */}
