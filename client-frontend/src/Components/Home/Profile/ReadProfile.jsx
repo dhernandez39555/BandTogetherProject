@@ -11,19 +11,43 @@ function ReadProfile() {
   const navigate = useNavigate()
 
   const [ profile, setProfile ] = useState({})
+  const [ myFriendList, setMyFriendList ] = useState([])
 
   const sessionToken = localStorage.getItem('token');
 
   const getUserId = () => {
         try {
             const decodedToken = jwtDecode(sessionToken)
-            return decodedToken._id 
+            return decodedToken._id
         } catch (error) {
             console.log(`error decoding`,error)
         }
     }
     
   const params = useParams();
+
+  const checkFriendList = () => {
+    try {
+      const currentUserId = getUserId()
+      console.log(currentUserId)
+
+      const url = `http://127.0.0.1:4000/user/${currentUserId}`
+
+      fetch(url, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application.json",
+          "authorization": sessionToken,
+        }),
+      })
+        .then(res => res.json())
+        .then(data => setMyFriendList(data.foundUser.friendList))
+        .then(console.log(myFriendList))
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const fetchProfile = () => {
     const url = `http://127.0.0.1:4000/user/${params.user_id}`
@@ -42,6 +66,7 @@ function ReadProfile() {
 
   useEffect(() => {
     fetchProfile()
+    checkFriendList()
   }, [params])
    
   const renderProfile = () => {
@@ -75,6 +100,7 @@ function ReadProfile() {
                 onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
                 </button>
                 </div>
+                
             }
 
         <div id='socialMediaDiv'>
