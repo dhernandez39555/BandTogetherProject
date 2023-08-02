@@ -103,6 +103,26 @@ router.put("/addcontact", async (req, res) => {
     }
 });
 
+router.put("/addcontact2/:id", async (req, res)) => {
+    try {
+    const { id: _id } = req.params 
+    const newUser = req.body 
+    /* const updatedUser = await User.updateOne({_id}, {$set: newUser})
+    if (updatedUser.matchedCount === 0) throw Error("User not found") */
+    res.status(200).json({
+        message: `User updated`,
+        newUser
+        // updatedUser
+    })
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({
+            message: `${err}`
+        })
+    }
+}
+
+
 // * UPDATE Current A User by user_id * //
 router.put("/", async (req, res) => {
     try {
