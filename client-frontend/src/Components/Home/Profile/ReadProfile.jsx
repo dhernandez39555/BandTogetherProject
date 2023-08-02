@@ -86,8 +86,8 @@ function ReadProfile() {
           </div>
 
           <div id='bandNameBioDiv'>
-            <p>{myFriendList[0]}</p>
             <h1>{profile.bandName}</h1>
+            {myFriendList.includes(params.user_id) ? <p>friend</p> : <p>not friend</p>}
             <p>{profile.bio}</p>
           </div>
 
