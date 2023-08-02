@@ -42,8 +42,7 @@ function ReadProfile() {
         }),
       })
         .then(res => res.json())
-        .then(data => {console.log(data.foundUser.friendList); 
-          setMyFriendList(data.foundUser.friendList)})
+        .then(data => {setMyFriendList(data.foundUser.friendList)})
   }
   
   const fetchProfile = async (e) => {
@@ -69,8 +68,6 @@ function ReadProfile() {
   const handleAddFriend = async (e) => {
     const currentUser = await getUserId()
     const newContact = params.user_id 
-    
-    console.log("Add Friend", currentUser, newContact)
 
     const url =`http://127.0.0.1:4000/user/addFriend/`
 
@@ -82,7 +79,11 @@ function ReadProfile() {
           "authorization": sessionToken, 
       })
     })
+    .then(res => res.json())
+    .then(data => setMyFriendList(data.updatedFriendList))
+    .catch(err => console.log(err))
   }
+
   const renderProfile = () => {
 
     if (profile.socials) {
@@ -103,7 +104,7 @@ function ReadProfile() {
             <h1>{profile.bandName}</h1>
 
             {myFriendList.includes(params.user_id) ? 
-                <p className='friendParagraph'> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
+                <p> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
                 <p className='friendParagraph' onClick={handleAddFriend}> <PersonAddIcon/> </p>}
 
             <p>{profile.bio}</p>

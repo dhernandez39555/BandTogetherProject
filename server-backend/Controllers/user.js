@@ -111,7 +111,8 @@ router.put("/addFriend", async (req, res) => {
         foundUser.friendList.push(newContact)
         await foundUser.save()
         res.status(200).json({
-            message: `HELLO THERE!`
+            message: `Friend list updated`,
+            updatedFriendList: foundUser.friendList
         })
     } catch(err) {
         console.log(err)
