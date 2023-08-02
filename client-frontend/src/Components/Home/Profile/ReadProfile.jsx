@@ -26,8 +26,7 @@ function ReadProfile() {
     
   const params = useParams();
 
-  const checkFriendList = async (e) => {
-    try {
+  const fetchFriendList = async (e) => {
       const currentUserId = getUserId()
 
       const url = `http://127.0.0.1:4000/user/${currentUserId}`
@@ -40,15 +39,16 @@ function ReadProfile() {
         }),
       })
         .then(res => res.json())
-        .then(data => {
-          console.log(data.foundUser.friendList);
-        })
-    } catch (error) {
-      console.log(error)
-    }
+        .then(data => {console.log(data.foundUser.friendList); 
+          setMyFriendList(data.foundUser.friendList)})
   }
 
-  const fetchProfile = () => {
+  /* const checkFriendList = async (e) => {
+    const friendList = await fetchFriendList()
+    console.log(friendList)
+  } */
+
+  const fetchProfile = async (e) => {
     const url = `http://127.0.0.1:4000/user/${params.user_id}`
 
     fetch(url, {
@@ -64,8 +64,9 @@ function ReadProfile() {
   }
 
   useEffect(() => {
+    fetchFriendList()
     fetchProfile()
-    checkFriendList()
+    // checkFriendList()
   }, [params])
    
   const renderProfile = () => {
@@ -85,6 +86,7 @@ function ReadProfile() {
           </div>
 
           <div id='bandNameBioDiv'>
+            <p>{myFriendList[0]}</p>
             <h1>{profile.bandName}</h1>
             <p>{profile.bio}</p>
           </div>
