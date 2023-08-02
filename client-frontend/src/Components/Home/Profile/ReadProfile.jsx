@@ -6,6 +6,8 @@ import { useHref, useParams } from 'react-router-dom'
 import YouTubePlayer from 'react-player/youtube'
 import SoundCloudPlayer from 'react-player/soundcloud'
 import jwtDecode from 'jwt-decode' 
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function ReadProfile() {
   const navigate = useNavigate()
@@ -87,7 +89,11 @@ function ReadProfile() {
 
           <div id='bandNameBioDiv'>
             <h1>{profile.bandName}</h1>
-            {myFriendList.includes(params.user_id) ? <p>friend</p> : <p>not friend</p>}
+
+            {myFriendList.includes(params.user_id) ? 
+                <p> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
+                <p> <PersonAddIcon/> </p>}
+
             <p>{profile.bio}</p>
           </div>
 
