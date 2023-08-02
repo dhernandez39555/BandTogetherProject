@@ -45,7 +45,7 @@ function ReadProfile() {
         .then(data => {console.log(data.foundUser.friendList); 
           setMyFriendList(data.foundUser.friendList)})
   }
-
+  
   const fetchProfile = async (e) => {
     const url = `http://127.0.0.1:4000/user/${params.user_id}`
 
