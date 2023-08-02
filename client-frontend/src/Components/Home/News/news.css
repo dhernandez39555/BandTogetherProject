@@ -1,0 +1,53 @@
+.eventWrapper {
+    background-color: #FAE248;;
+    width: 100%;
+}
+
+#dateDiv {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1em;
+    margin-top: 1em; 
+}
+
+.dateHeader {
+    color: black; 
+    font-family: arial;
+    font-style: italic;
+    font-size: small;
+}
+
+.messageBodyDiv {
+    margin: 1em;
+}
+
+.bandNameHeader {
+    font: arial;
+    font-size: 1.2em;
+}
+
+.messageBodyHeader {
+    font: arial;
+    font-size: 1em;
+}
+
+.titleHeader {
+    color: #7E12B3; 
+    font: arial; 
+    font-size: 2em;
+    margin-bottom: .5em;
+    word-wrap: normal;
+}
+
+.newsButton {
+    background-color: #7E12B3; 
+    width: 45%; 
+    margin: .5em; 
+    box-shadow: .2em .2em .2em black; 
+    cursor: pointer; 
+}
+
+#newPostBtn {
+    margin-bottom: 1em;
+}
+
