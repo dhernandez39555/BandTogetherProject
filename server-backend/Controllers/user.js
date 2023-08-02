@@ -103,8 +103,13 @@ router.put("/addcontact", async (req, res) => {
     }
 });
 
-router.put("/add/:id", async (req, res) => {
+router.put("/addFriend", async (req, res) => {
     try {
+        const { currentUser, newContact } = req.body;
+        const foundUser = await User.findOne({ _id: currentUser });
+        if (!foundUser) throw Error("User not found.");
+        foundUser.friendList.push(newContact)
+        await foundUser.save()
         res.status(200).json({
             message: `HELLO THERE!`
         })

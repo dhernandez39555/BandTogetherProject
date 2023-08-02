@@ -72,18 +72,17 @@ function ReadProfile() {
     
     console.log("Add Friend", currentUser, newContact)
 
-    const url =`http://127.0.0.1:4000/user/add/${currentUser}`
+    const url =`http://127.0.0.1:4000/user/addFriend/`
 
     fetch(url, {
       method: "PUT", 
+      body: JSON.stringify({currentUser: currentUser, newContact: newContact}),
       headers: new Headers({
-        "Content-Type": "application.json",
-        "authorization": sessionToken, 
-      }),
+          "Content-Type": "application/json",
+          "authorization": sessionToken, 
+      })
     })
-    .then(res => res.json())
   }
-
   const renderProfile = () => {
 
     if (profile.socials) {
