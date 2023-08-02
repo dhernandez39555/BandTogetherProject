@@ -70,7 +70,11 @@ function ReadProfile() {
     fetchProfile()
     // checkFriendList()
   }, [params])
-   
+
+  const handleAddFriend = async (e) => {
+    console.log("Add Friend")
+  }
+  
   const renderProfile = () => {
 
     if (profile.socials) {
@@ -91,8 +95,8 @@ function ReadProfile() {
             <h1>{profile.bandName}</h1>
 
             {myFriendList.includes(params.user_id) ? 
-                <p> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
-                <p> <PersonAddIcon/> </p>}
+                <p className='friendParagraph'> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
+                <p className='friendParagraph' onClick={handleAddFriend}> <PersonAddIcon/> </p>}
 
             <p>{profile.bio}</p>
           </div>
