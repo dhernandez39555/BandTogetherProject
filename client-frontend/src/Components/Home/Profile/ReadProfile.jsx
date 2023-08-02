@@ -64,13 +64,25 @@ function ReadProfile() {
   useEffect(() => {
     fetchFriendList()
     fetchProfile()
-    // checkFriendList()
   }, [params])
 
   const handleAddFriend = async (e) => {
-    const newContact = params.user_id
+    const currentUser = await getUserId()
+    const newContact = params.user_id 
     
-    
+    console.log("Add Friend", currentUser, newContact)
+
+    const url = `http://127.0.0.1:4000/user/${params.user_id}`
+
+    fetch(url, {
+      method: "GET",
+      headers: new Headers ({
+        "content-Type": "application.json",
+        "authorization": sessionToken,
+      }),
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
   }
 
   const renderProfile = () => {
