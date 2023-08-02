@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
-import "../Showfinder/Showfinder.css"
+import './news.css'
 
 function News() {
 
@@ -53,18 +53,25 @@ function News() {
       :<div className='renderContainer'>
         {fetchResult.map((result)=>(
           <div className="eventWrapper" key={result._id}>
-            <h2>{result.title}</h2>
-            <h4>{result.user.bandName}</h4>
-            <h5>{result.body}</h5>
-            <h6>{getDate(result.createdAt)}</h6>
+
+            <div id="dateDiv">
+            <h6 className='dateHeader'>{getDate(result.createdAt)}</h6>
+            </div>
+
+            <div className="messageBodyDiv">
+            <h2 className='titleHeader'>{result.title}</h2>
+            <h4 className='bandNameHeader'>{result.user.bandName}</h4>
+            <h5 className='messageBodyHeader'>{result.body}</h5>
+            </div>
+
             {result.user._id===getUserId()
               ?<div className='options'>
-                <button className='editBtn' onClick={()=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
-                <button className='deleteBtn' onClick={()=>{fetchDelete(result._id)}}>Delete</button>
+                <button className='newsButton' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
+                <button className='newsButton' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
-                <button className='profileBtn' onClick={()=>profileNav(result.user._id)}>Profile</button>
-                <button className='messageBtn' onClick={()=>messageNav(result.user._id)}>Message</button>
+                <button className='newsButton' onClick={e=>profileNav(result.user._id)}>Profile</button>
+                <button className='newsButton' onClick={e=>messageNav(result.user._id)}>Message</button>
               </div>}
           </div>
         ))}
@@ -155,25 +162,30 @@ function News() {
   return (
     <>
       <div id='eventBtnWrapper'>
-        <button onClick={()=>setPostBox(!postBox)} id='newPostBtn'>Add a post!</button>
+        <button className='newsButton' onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
+          Add a post!</button>
       </div>
       {postBox
         ?<div className='postBox'>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='title'
             value={postBody.title}
             onChange={e=>handleNewPost(e)}
             placeholder='Enter post title'/>
           <TextField 
+            fullWidth={true}
+            style={{marginBottom: "1em"}}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter post content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchPost()}>Submit</button>
-            <button onClick={e=>closePostBox()}>Cancel</button>
+            <button className='newsButton' onClick={e=>fetchPost()}>Submit</button>
+            <button className='newsButton' onClick={e=>closePostBox()}>Cancel</button>
           </div>
         </div>
         :null
@@ -182,20 +194,25 @@ function News() {
         ?null
         :<div className='modal'>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='title' 
             value={postBody.title} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated title'/>
           <TextField 
+            style={{marginBottom: "1em"}}
+            fullWidth={true}
             type="text" 
             name='body' 
             value={postBody.body} 
             onChange={e=>handleNewPost(e)} 
             placeholder='Enter updated content'/>
           <div id="selectBtns">
-            <button onClick={e=>fetchUpdate()}>Submit</button>
+            <button className='newsButton' onClick={e=>fetchUpdate()}>Submit</button>
             <button 
+              className='newsButton'
               onClick={(e)=>{
                 setModal(!modal)
                 setPostBody({
@@ -204,7 +221,9 @@ function News() {
                   user:{bandName:""}
                 })
               }}>Cancel</button>
+              
           </div>
+
         </div>
       }
       {renderResult()}
