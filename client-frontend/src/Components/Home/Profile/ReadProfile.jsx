@@ -14,6 +14,7 @@ function ReadProfile() {
 
   const [ profile, setProfile ] = useState({})
   const [ myFriendList, setMyFriendList ] = useState([])
+  // const [ newContact, setNewContact] = useState("")
 
   const sessionToken = localStorage.getItem('token');
 
@@ -45,11 +46,6 @@ function ReadProfile() {
           setMyFriendList(data.foundUser.friendList)})
   }
 
-  /* const checkFriendList = async (e) => {
-    const friendList = await fetchFriendList()
-    console.log(friendList)
-  } */
-
   const fetchProfile = async (e) => {
     const url = `http://127.0.0.1:4000/user/${params.user_id}`
 
@@ -72,9 +68,11 @@ function ReadProfile() {
   }, [params])
 
   const handleAddFriend = async (e) => {
-    console.log("Add Friend")
+    const newContact = params.user_id
+    
+    
   }
-  
+
   const renderProfile = () => {
 
     if (profile.socials) {
