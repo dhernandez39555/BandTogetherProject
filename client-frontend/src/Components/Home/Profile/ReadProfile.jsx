@@ -26,10 +26,9 @@ function ReadProfile() {
     
   const params = useParams();
 
-  const checkFriendList = () => {
+  const checkFriendList = async (e) => {
     try {
       const currentUserId = getUserId()
-      console.log(currentUserId)
 
       const url = `http://127.0.0.1:4000/user/${currentUserId}`
 
@@ -41,9 +40,9 @@ function ReadProfile() {
         }),
       })
         .then(res => res.json())
-        .then(data => setMyFriendList(data.foundUser.friendList))
-        .then(console.log(myFriendList))
-
+        .then(data => {
+          console.log(data.foundUser.friendList);
+        })
     } catch (error) {
       console.log(error)
     }
