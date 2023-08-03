@@ -42,9 +42,9 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     try {
-    const { email, password } = req.body 
+    const { email, password } = req.body
 
-    if (!email || !password ) throw Error("Please, provide all necessary information.")
+    if (!email || !password) throw Error("Please, provide all necessary information.")
 
     let foundUser = await User.findOne({ email })
 

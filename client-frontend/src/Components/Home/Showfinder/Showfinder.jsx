@@ -61,7 +61,8 @@ function Showfinder() {
   const setFilterLocation = (newLocation) => {
     _setFilterLocation(newLocation);
     const closeByEvents = getDistanceFromEvent(allEvents.current, newLocation);
-    setFilterEvents(closeByEvents.filter(user => convertKmToMiles(user.distance) < mileFilter.current));
+    allEvents.current = closeByEvents;
+    setFilterEvents(closeByEvents.filter(event => convertKmToMiles(event.distance) < mileFilter.current));
   }
 
   //DELETE function
@@ -74,7 +75,10 @@ function Showfinder() {
       })
     })
     .then(res=>res.json())
-    .then(data => setFilterEvents(filterEvents.filter(event => event._id !== event_id)))
+    .then(data => {
+      allEvents.current = filterEvents.filter(event => event._id !== event_id);
+      setFilterEvents([...allEvents.current])
+    })
     .catch(err=>console.log(err))
   }
 
@@ -87,6 +91,7 @@ function Showfinder() {
         "authorization":sessionToken
       })
     }
+
     fetch("http://localhost:4000/event/all", options)
     .then(res => res.json())
     .then(data => {
@@ -158,7 +163,9 @@ function Showfinder() {
       let sortedEvents = allEvents.current;
       if (isNaN(Number(mileFilter.current))) setFilterEvents(sortedEvents);
       if (mileFilter.current !== "") sortedEvents = sortedEvents.filter(event => convertKmToMiles(event.distance) < Number(mileFilter.current));
-      if (genreFilter.current !== "") sortedEvents = sortedEvents.filter(event => event.genre === genreFilter.current);
+      console.log(genreFilter.current);
+      if (genreFilter.current !== "") sortedEvents = sortedEvents.filter(event => event.genre == genreFilter.current);
+      console.log(sortedEvents);
       setFilterEvents(sortedEvents);
   }
 
@@ -179,7 +186,6 @@ function Showfinder() {
       .then((res) => res.json())
       .then((data) => {
         const { city, town, county, country, state } = data.address;
-        console.log(city ? city : town ? town : county);
         const formatLocation = `${ city ? city : town ? town : county }, ${state}, ${country}` 
         setPostBody(prevData => ({
           ...prevData,
@@ -217,7 +223,7 @@ function Showfinder() {
             { event.user._id === getUserId()
               ? 
               <>
-                <button className='editBtn' onClick={e => { setIsEdit(true); setupPostForm(event); }}>Edit</button>
+                <button className='editBtn' onClick={e => {setupEditForm(event)}}>Edit</button>
                 <button className='deleteBtn' onClick={e=>{deleteEvent(event._id)}}>Delete</button>
               </>
               :
@@ -242,7 +248,7 @@ function Showfinder() {
   }
   
   //POST functions
-  function handleEventFetch(){
+  async function handleEventFetch(){
     const url = isEdit
       ? `http://localhost:4000/event/${editID}`
       : "http://localhost:4000/event/";
@@ -256,27 +262,45 @@ function Showfinder() {
       body:JSON.stringify(postBody)
     }
 
-    fetch(url, options)
+    await fetch(url, options)
       .then(res=>res.json())
       .then(data=> {
-        allEvents.current = [...allEvents.current, data.newEvent];
+        if (isEdit) {
+          const updatedIndex = allEvents.current.findIndex(event => event._id == editID);
+          let editedEvent = allEvents.current[updatedIndex];
+          data.eventUpdates.title ? editedEvent.title = data.postUpdates.title : null;
+          data.eventUpdates.body ? editedEvent.body = data.postUpdates.body : null;
+          data.eventUpdates.eventDate ? editedEvent.eventDate = data.postUpdates.eventDate : null;
+          data.eventUpdates.genre ? editedEvent.genre = data.postUpdates.genre : null;
+          data.eventUpdates.user  ? editedEvent.user = data.postUpdates.user : null;
+          data.eventUpdates.location  ? editedEvent.location = data.postUpdates.location : null;
+          data.eventUpdates.latitude ? editedEvent.latitude = data.postUpdates.latitude : null;
+          data.eventUpdates.longitude ? editedEvent.longitude = data.postUpdates.longitude : null;
+          console.log(editedEvent);
+          setFilterLocation(filterLocation);
+        } else {
+          allEvents.current = [ data.newEvent, allEvents.current ];
+          setFilterLocation(filterLocation);
+        }
       })
       .catch(err=>console.log(err));
 
     closePostForm();
   }
 
-  function setupPostForm(event){
-    if(isEdit){setEditID(event._id)};
+  function setupEditForm(event){
+    setIsEdit(true);
+    setOpenForm(true);
+    setEditID(event._id);
     setPostBody({
-      title: isEdit ? event.title : "",
-      body: isEdit ? event.body : "",
-      eventDate: isEdit ? event.eventDate : "",
-      genre: isEdit ? event.genre : "",
-      user: isEdit ? event.user : "",
-      location:  isEdit ? event.location : "",
-      latitude:  isEdit ? event.latitude : "",
-      longitude:  isEdit ? event.longitude : ""
+      title: event.title,
+      body: event.body,
+      eventDate: event.eventDate,
+      genre: event.genre,
+      user: event.user,
+      location: event.location,
+      latitude: event.latitude,
+      longitude: event.longitude
     })
   }
 
@@ -301,7 +325,7 @@ function Showfinder() {
     if (!e.target) {
       setPostBody(prevData => ({
         ...prevData,
-        ["eventDate"]: e.$d
+        ["eventDate"]: dayjs(e.$d)
       }));
       return;
     }
@@ -366,9 +390,30 @@ function Showfinder() {
               fullWidth={true}
             >
               <MenuItem value=""></MenuItem>
-              <MenuItem value={"rock"}>Rock</MenuItem>
-              <MenuItem value={"jazz"}>Jazz</MenuItem>
-              <MenuItem value={"pop"}>Pop</MenuItem>
+              <MenuItem value={"Country"}>Country</MenuItem>
+              <MenuItem value={"Rock"}>Rock</MenuItem>
+              <MenuItem value={"Folk"}>Folk</MenuItem>
+              <MenuItem value={"Indie"}>Indie</MenuItem>
+              <MenuItem value={"Jazz"}>Jazz</MenuItem>
+              <MenuItem value={"Blues"}>Blues</MenuItem>
+              <MenuItem value={"Bluegrass"}>Bluegrass</MenuItem>
+              <MenuItem value={"Metal"}>Metal</MenuItem>
+              <MenuItem value={"Punk"}>Punk</MenuItem>
+              <MenuItem value={"Hip Hop"}>Hip Hop</MenuItem>
+              <MenuItem value={"R&B"}>R&B</MenuItem>
+              <MenuItem value={"Latin"}>Latin</MenuItem>
+              <MenuItem value={"Electronic"}>Electronic</MenuItem>
+              <MenuItem value={"Experimental"}>Experimental</MenuItem>
+              <MenuItem value={"Reggae"}>Reggae</MenuItem>
+              <MenuItem value={"Alternative"}>Alternative</MenuItem>
+              <MenuItem value={"Dance"}>Dance</MenuItem>
+              <MenuItem value={"Ambient"}>Ambient</MenuItem>
+              <MenuItem value={"Gospel"}>Gospel</MenuItem>
+              <MenuItem value={"Ska"}>Ska</MenuItem>
+              <MenuItem value={"Pop"}>Pop</MenuItem>
+              <MenuItem value={"Orchestral"}>Orchestral</MenuItem>
+              <MenuItem value={"Psychedelic"}>Psychedelic</MenuItem>
+              <MenuItem value={"Other"}>Other</MenuItem>
             </TextField>
             { filterLocation
                 ? <ShowMap
@@ -414,7 +459,6 @@ function Showfinder() {
                   id="datePicker"
                   disablePast={true}
                   name="eventDate"
-                  defaultValue={dayjs()}
                   label="Event Date"
                   value={ postBody.eventDate }
                   onChange={ e => updatePostBody(e) }
