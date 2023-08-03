@@ -1,0 +1,15 @@
+#location-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#location-input {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+#search-icon {
+    margin-right: 0.5em;
+}

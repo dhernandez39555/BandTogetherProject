@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Map from './Map';
 import { TextField, MenuItem } from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
+import CloseIcon from '@mui/icons-material/Close';
 
 function MeetBands() {
     const users = useRef([]);
@@ -131,7 +132,18 @@ function MeetBands() {
     return (
         <div id="meet-page">
             <div id="filter-menu">
-                <MapIcon fontSize="large" onClick={e => setOpenFilter(!openFilter)} />
+                { openFilter
+                ? <CloseIcon
+                    htmlColor="#7E12B3"
+                    fontSize="large"
+                    onClick={()=>{setOpenFilter(!openFilter)}}
+                />
+                : <MapIcon
+                    htmlColor="#7E12B3"
+                    fontSize="large"
+                    onClick={e => setOpenFilter(!openFilter)}
+                />
+                }
                 { !openFilter ? null
                     :
                     <div id="filter-form">

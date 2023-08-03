@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const Event = new mongoose.Schema (
     {
         eventDate:{
-            type: String,
+            type: Date,
             required: true
         },
         user:{
@@ -23,6 +23,16 @@ const Event = new mongoose.Schema (
         genre:{
             type: String,
             required: true
+        },
+        location: {
+            type: String,
+            required: true
+        },
+        latitude: {
+            type: Number
+        },
+        longitude: {
+            type: Number
         }
     },
     {timestamps: true }
