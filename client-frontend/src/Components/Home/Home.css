@@ -35,9 +35,12 @@
     width: 12vh;
     margin-bottom: 1vh;
 }
+#button-1:focus {
+    box-shadow: inset 3px 3px 10px black;
+}
 
 #button-1 .MuiSvgIcon-root {
-    font-size: 350%;
+    font-size: 300%;
 }
 
 #meet-bands,
