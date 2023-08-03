@@ -72,7 +72,8 @@ function Login({ updateLocalStorage }) {
                     id="emailInput"
                     label="Email"
                     placeholder='Enter your email here.'
-                    onChange={e => setEmail(e.target.value)}/>
+                    onChange={e => setEmail(e.target.value)}
+                    />
                 </div>
 
                 <div id='passwordDiv'>
@@ -80,11 +81,15 @@ function Login({ updateLocalStorage }) {
                     <TextField 
                     required={true}
                     fullWidth={true}
-                    type ="password"
+                    type ={visible ? "text": "password"}
                     id="passwordInput"
                     label="Password"
                     placeholder="Enter your password here."
-                    onChange={e => setPassword(e.target.value)}/> 
+                    onChange={e => setPassword(e.target.value)}
+                    InputProps={{
+                        endAdornment: <EndAdornment visible={visible} setVisible={setVisible}/>
+                    }}
+                    /> 
                 </div>
 
                 <div id="loginButtonDiv">

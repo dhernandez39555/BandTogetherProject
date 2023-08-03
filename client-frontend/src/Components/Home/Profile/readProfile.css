@@ -22,6 +22,10 @@
     word-wrap: break-word;
 }
 
+.friendParagraph {
+    cursor: pointer;
+}
+
 #editProfileDiv {
     background-color: #7E12b3;
     height: 5em;
