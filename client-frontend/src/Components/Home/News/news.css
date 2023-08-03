@@ -1,53 +1,105 @@
-.eventWrapper {
-    background-color: #FAE248;;
+#posts-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+}
+
+.postWrapper {
+    background-color: white;
+    border-radius: 5px;
     width: 100%;
 }
 
-#dateDiv {
+.renderContainer {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 1em;
-    margin-top: 1em; 
+    flex-direction: column;
+    gap: 1em;
+}
+
+.externalNav {
+    display: flex;
+    gap: 1em;
 }
 
 .dateHeader {
-    color: black; 
+    color: #888;
     font-family: arial;
-    font-style: italic;
-    font-size: small;
+    font-size: 1em;
+    text-align: left;
 }
 
-.messageBodyDiv {
+.post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     margin: 1em;
 }
 
 .bandNameHeader {
-    font: arial;
-    font-size: 1.2em;
+    font-size: 1em;
+    color:#7E12B3;
+    font-weight: 500;
 }
 
-.messageBodyHeader {
-    font: arial;
-    font-size: 1em;
+.postBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .titleHeader {
-    color: #7E12B3; 
-    font: arial; 
+    color: #7E12B3;
+    font-family: arial;
     font-size: 2em;
-    margin-bottom: .5em;
     word-wrap: normal;
 }
 
-.newsButton {
-    background-color: #7E12B3; 
-    width: 45%; 
-    margin: .5em; 
-    box-shadow: .2em .2em .2em black; 
-    cursor: pointer; 
+.messageBodyHeader {
+    font-size: 1em;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
 }
 
-#newPostBtn {
-    margin-bottom: 1em;
+.link-preview {
+    width: 100%;
+    background-color: lightgray;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
 }
 
+.link-preview > img {
+    width: 100%;
+    vertical-align: middle;
+    max-height: 250px;
+}
+
+.link-preview > h2 {
+    font-size: 1em;
+    padding: 0.5em;
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.fullscreen {
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.fullscreen > .post-content > div > .messageBodyHeader {
+    text-overflow: inherit;
+    white-space: inherit;
+    display: -webkit-box;
+    /* overflow: hidden; */
+    -webkit-line-clamp: inherit;
+    -webkit-box-orient: inherit;
+}
