@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import './Invite.css'
+import { TextField } from '@mui/material';
+
+
 
 function Invite() {
 
@@ -46,12 +49,24 @@ return (
         <h1 id='banner'>Invite a Friend</h1>
         <form id='email-form' onSubmit={handleSubmit}>
             <label id='email-input'>
-                Email Address:
-                <input type="email" value={email} onChange={handleEmail} placeholder='Enter friends email address here'/>
+                <TextField 
+                id='email-text'
+                required={true}
+                fullWidth={true}
+                type="email" 
+                value={email} 
+                onChange={handleEmail} 
+                placeholder='Enter friends email address here'/>
             </label>
             <label id='message-input'>
-                Message:
-                <textarea id='email-body' placeholder='Enter message here' value={message} onChange={handleMessage}></textarea>
+                <TextField
+                multiline
+                rows={4}
+                maxRows={Infinity}
+                id='email-body' 
+                placeholder='Enter message here' 
+                value={message} 
+                onChange={handleMessage}/>
             </label>
             <button id='invite-button' type='submit'>Send</button>
         </form>

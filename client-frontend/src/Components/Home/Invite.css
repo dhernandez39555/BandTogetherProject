@@ -13,14 +13,18 @@
     flex-direction: column;
 }
 #email-input {
-    margin-top: 2vh;
+    margin-top: 3vh;
+}
+#email-text {
+    font-size: 5vw;
 }
 #message-input {
-    margin-top: 1vh;
+    margin-top: 3vh;
 }
 #email-body {
-    height: 20vh;
+    height: 30vh;
     margin-bottom: 2vh;
+    font-size: 3vh;
 }
 #invite-button {
     
