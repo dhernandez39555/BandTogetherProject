@@ -259,9 +259,30 @@ function Register({ updateLocalStorage }) {
                     onChange={handleGenreChange}
                 >
                     <MenuItem value=""></MenuItem>
-                    <MenuItem value={"rock"}>Rock</MenuItem>
-                    <MenuItem value={"jazz"}>Jazz</MenuItem>
-                    <MenuItem value={"pop"}>Pop</MenuItem>
+                    <MenuItem value={"Rock"}>Rock</MenuItem>
+                    <MenuItem value={"Country"}>Country</MenuItem>
+                    <MenuItem value={"Folk"}>Folk</MenuItem>
+                    <MenuItem value={"Indie"}>Indie</MenuItem>
+                    <MenuItem value={"Jazz"}>Jazz</MenuItem>
+                    <MenuItem value={"Blues"}>Blues</MenuItem>
+                    <MenuItem value={"Bluegrass"}>Bluegrass</MenuItem>
+                    <MenuItem value={"Metal"}>Metal</MenuItem>
+                    <MenuItem value={"Punk"}>Punk</MenuItem>
+                    <MenuItem value={"Hip Hop"}>Hip Hop</MenuItem>
+                    <MenuItem value={"R&B"}>R&B</MenuItem>
+                    <MenuItem value={"Latin"}>Latin</MenuItem>
+                    <MenuItem value={"Electronic"}>Electronic</MenuItem>
+                    <MenuItem value={"Experimental"}>Experimental</MenuItem>
+                    <MenuItem value={"Reggae"}>Reggae</MenuItem>
+                    <MenuItem value={"Alternative"}>Alternative</MenuItem>
+                    <MenuItem value={"Dance"}>Dance</MenuItem>
+                    <MenuItem value={"Ambient"}>Ambient</MenuItem>
+                    <MenuItem value={"Gospel"}>Gospel</MenuItem>
+                    <MenuItem value={"Ska"}>Ska</MenuItem>
+                    <MenuItem value={"Pop"}>Pop</MenuItem>
+                    <MenuItem value={"Orchestral"}>Orchestral</MenuItem>
+                    <MenuItem value={"Psychedelic"}>Psychedelic</MenuItem>
+                    <MenuItem value={"Other"}>Other</MenuItem>
                 </TextField>
                 </div>
 
@@ -278,9 +299,31 @@ function Register({ updateLocalStorage }) {
                     onChange={handleAddGenreChange}
                 >
                     <MenuItem value=""></MenuItem>
-                    <MenuItem value={"rock"}>Rock</MenuItem>
-                    <MenuItem value={"jazz"}>Jazz</MenuItem>
-                    <MenuItem value={"pop"}>Pop</MenuItem>
+                    <MenuItem value=""></MenuItem>
+                    <MenuItem value={"Rock"}>Rock</MenuItem>
+                    <MenuItem value={"Country"}>Country</MenuItem>
+                    <MenuItem value={"Folk"}>Folk</MenuItem>
+                    <MenuItem value={"Indie"}>Indie</MenuItem>
+                    <MenuItem value={"Jazz"}>Jazz</MenuItem>
+                    <MenuItem value={"Blues"}>Blues</MenuItem>
+                    <MenuItem value={"Bluegrass"}>Bluegrass</MenuItem>
+                    <MenuItem value={"Metal"}>Metal</MenuItem>
+                    <MenuItem value={"Punk"}>Punk</MenuItem>
+                    <MenuItem value={"Hip Hop"}>Hip Hop</MenuItem>
+                    <MenuItem value={"R&B"}>R&B</MenuItem>
+                    <MenuItem value={"Latin"}>Latin</MenuItem>
+                    <MenuItem value={"Electronic"}>Electronic</MenuItem>
+                    <MenuItem value={"Experimental"}>Experimental</MenuItem>
+                    <MenuItem value={"Reggae"}>Reggae</MenuItem>
+                    <MenuItem value={"Alternative"}>Alternative</MenuItem>
+                    <MenuItem value={"Dance"}>Dance</MenuItem>
+                    <MenuItem value={"Ambient"}>Ambient</MenuItem>
+                    <MenuItem value={"Gospel"}>Gospel</MenuItem>
+                    <MenuItem value={"Ska"}>Ska</MenuItem>
+                    <MenuItem value={"Pop"}>Pop</MenuItem>
+                    <MenuItem value={"Orchestral"}>Orchestral</MenuItem>
+                    <MenuItem value={"Psychedelic"}>Psychedelic</MenuItem>
+                    <MenuItem value={"Other"}>Other</MenuItem>
                 </TextField>
                 </div>
 
