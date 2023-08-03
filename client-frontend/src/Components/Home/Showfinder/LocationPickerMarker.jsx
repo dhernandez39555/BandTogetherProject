@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Circle, Marker, useMap, Popup } from 'react-leaflet';
+import { Marker, useMap, Popup } from 'react-leaflet';
 
 function LocationMarker({ location, setLocation }) {
     const map = useMap();
