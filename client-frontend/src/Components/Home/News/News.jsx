@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { TextField } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import AddLinkIcon from '@mui/icons-material/AddLink';
+import dayjs from 'dayjs';
 import './news.css'
 
 function News() {
@@ -29,50 +32,49 @@ function News() {
   const [postBody,setPostBody]=useState({
     title:"",
     body:"",
-    user:{
-      bandName:""
-    }
+    link: ""
   })
 
-  const [ postBox, setPostBox ]=useState(false)
-  const [ modal, setModal ]=useState(false)
-  //functions for organizing mongoDB date into readable strings
-  const prevDate = useRef(new Date("January 1, 1970"));
+  const [ singlePost, setSinglePost ] = useState(null);
 
-  const getDate = (date) => {
-    const newDate = new Date(date);
-    if (prevDate.current.getDate() === newDate.getDate()) return null;
-    const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
-    prevDate.current = newDate;
-    return (<div key={date} className="datestamp"><p>{newDateStr}</p></div>)
-  }
+  const [ postBox, setPostBox ]=useState(false)
+  const [ isEdit, setIsEdit ]=useState(false)
+
   //rendering out each fetch GET index with title, body, and bandName alongside either edit and delete or navigation buttons depending on the current user
   const renderResult=()=>{
     return fetchResult.length===0||!fetchResult
       ?<p>Loading Posts...</p>
       :<div className='renderContainer'>
         {fetchResult.map((result)=>(
-          <div className="eventWrapper" key={result._id}>
-
-            <div id="dateDiv">
-            <h6 className='dateHeader'>{getDate(result.createdAt)}</h6>
-            </div>
-
-            <div className="messageBodyDiv">
-            <h2 className='titleHeader'>{result.title}</h2>
-            <h4 className='bandNameHeader'>{result.user.bandName}</h4>
-            <h5 className='messageBodyHeader'>{result.body}</h5>
-            </div>
-
-            {result.user._id===getUserId()
-              ?<div className='options'>
-                <button className='newsButton' onClick={e=>{setIdUrl(result._id);setModal(!modal); setPostBody({title:"",body:"",user:{bandName:""}})}}>Edit</button>
-                <button className='newsButton' onClick={e=>{fetchDelete(result._id)}}>Delete</button>
+          <div className={`postWrapper`} key={result._id}>
+            <div className="post-content">
+                <h6 className='dateHeader'>{dayjs(result.createdAt).format("MM/DD/YYYY")}</h6>
+              <div id="dateDiv">
+                <h2 className='titleHeader'>{result.title}</h2>
+                <p className='bandNameHeader'>{`by: ${result.user.bandName}`}</p>
+              </div>
+              <div>
+                <p className='messageBodyHeader' onClick={e=> setSinglePost(result)}>{result.body}</p>
+              </div>
+              { result.linkPreview
+              ?<Link to={result.link} target="_blank" rel="noopener noreferrer">
+                <div class="link-preview">
+                  <img src={result.linkPreview.image} />
+                  <h2>{result.linkPreview.title}</h2>
+                </div>
+              </Link>
+              : null
+              }
+              {result.user._id===getUserId()
+              ?<div className='externalNav'>
+                <button onClick={e=>{editPostForm(result)}}>Edit</button>
+                <button onClick={e=>{fetchDelete(result._id)}}>Delete</button>
               </div>
               :<div className='externalNav'>
-                <button className='newsButton' onClick={e=>profileNav(result.user._id)}>Profile</button>
-                <button className='newsButton' onClick={e=>messageNav(result.user._id)}>Message</button>
+                <button onClick={e=>profileNav(result.user._id)}>Profile</button>
+                <button onClick={e=>messageNav(result.user._id)}>Message</button>
               </div>}
+            </div>
           </div>
         ))}
       </div>
@@ -84,37 +86,75 @@ function News() {
     navigate(`/messaging/${_id}`)
   }
 //fetch POST 
-  const handleNewPost=(e)=>{
+  const updatePostBody=(e)=>{
     const {name, value} = e.target;
     setPostBody(prevData => ({
       ...prevData,
       [name]: value
     }));
   }
-  function fetchPost(){
-    fetch(`http://localhost:4000/post/create`,{
-      method:"POST",
+
+  async function submitForm(){
+    const url = isEdit
+      ? `http://localhost:4000/post/update/${idUrl}`
+      : `http://localhost:4000/post/create`
+    
+    const options = {
+      method: isEdit ? "PUT" : "POST",
       body:JSON.stringify(postBody),
-      headers:new Headers({
+      headers: new Headers({
         "Content-Type":"application/json",
         "authorization":sessionToken
       })
-    })
-    .then(res=>res.json())
-    .catch(err=>console.log(err))
+    }
+
+    console.log(isEdit);
+
+    fetch(url, options)
+      .then(res=>res.json())
+      .then(data=> {
+        if (isEdit) {
+          const updatedIndex = fetchResult.findIndex(post => post._id == data.postUpdates._id);
+          let editedPost = fetchResult[updatedIndex];
+          data.postUpdates.title ? editedPost.title = data.postUpdates.title : null;
+          data.postUpdates.body ? editedPost.body = data.postUpdates.body : null;
+          data.postUpdates.link ? editedPost.link = data.postUpdates.link : null;
+          data.postUpdates.linkPreview ? editedPost.linkPreview = data.postUpdates.linkPreview : null;
+          console.log(editedPost);
+          setFetchResult([ ...fetchResult ]);
+        }
+        else {
+          setFetchResult([ data.newPost, ...fetchResult ]);
+        }
+      })
+      .catch(err=>console.log(err))
+
     closePostBox()
   }
+
+  //Setup for PUT
+  function editPostForm(post) {
+    setIsEdit(true);
+    setPostBox(true);
+    setIdUrl(post._id);
+    setPostBody({
+      title: post.title,
+      body: post.body,
+      link: post.link
+    })
+  }
+
   const closePostBox=()=>{
+    setIsEdit(false)
     setPostBox(false)
     setPostBody({
       title:"",
       body:"",
-      user:{
-        bandName:""
-      }
+      link:""
     })
   }
-//fetch DELETE
+
+  //fetch DELETE
   function fetchDelete(id){
     fetch(`http://localhost:4000/post/delete/${id}`,{
       method:"DELETE",
@@ -124,29 +164,11 @@ function News() {
       })
     })
     .then(res=>res.json())
+    .then(data=> setFetchResult(fetchResult.filter(post => post._id !== id)))
     .catch(err=>console.log(err))
   }
-//fetch PUT
-  function fetchUpdate(){
-    fetch(`http://localhost:4000/post/update/${idUrl}`,{
-      method:"PUT",
-      body:JSON.stringify(postBody),
-      headers: new Headers({
-        "Content-Type":"application/json",
-        "authorization":sessionToken
-      })
-    })
-    .then(res=>res.json())
-    .catch(err=>console.log(err))
-    setPostBody({
-      title:"",
-      body:"",
-      user:{
-        bandName:""
-      }
-    })
-  }
-//fetch on repeat to ensure timely loading of all posts
+
+  //fetch on repeat to ensure timely loading of all posts
   useEffect(()=>{
     fetch(`http://localhost:4000/post/`,{
       method: "GET",
@@ -159,75 +181,94 @@ function News() {
     .then(data=>setFetchResult(data))
     .catch(err=>console.log(err))
   },[])
+
   return (
-    <>
-      <div id='eventBtnWrapper'>
-        <button className='newsButton' onClick={()=>setPostBox(!postBox)} id='newPostBtn'>
-          Add a post!</button>
+    <div id="posts-page">
+      { singlePost
+      ? <div className='postWrapper fullscreen'>
+        <div className="post-content">
+          <CloseIcon
+            htmlColor='#7E12B3'
+            fontSize='large'
+            onClick={()=>setSinglePost(null)}
+          />
+          <div id="dateDiv">
+            <h6 className='dateHeader'>{dayjs(singlePost.createdAt).format("MM/DD/YYYY")}</h6>
+            <h2 className='titleHeader'>{singlePost.title}</h2>
+            <p className='bandNameHeader'>{`by: ${singlePost.user.bandName}`}</p>
+          </div>
+          <div>
+            <p className='messageBodyHeader'>{singlePost.body}</p>
+          </div>
+          { singlePost.linkPreview
+            ?<Link to={singlePost.link} target="_blank" rel="noopener noreferrer">
+              <div class="link-preview">
+                <img src={singlePost.linkPreview.image} />
+                <h2>{singlePost.linkPreview.title}</h2>
+              </div>
+            </Link>
+            : null
+          }
+          {singlePost.user._id===getUserId()
+          ?<div className='externalNav'>
+            <button onClick={e=>{editPostForm(singlePost)}}>Edit</button>
+            <button onClick={e=>{fetchDelete(singlePost._id)}}>Delete</button>
+          </div>
+          :<div className='externalNav'>
+            <button onClick={e=>profileNav(singlePost.user._id)}>Profile</button>
+            <button onClick={e=>messageNav(singlePost.user._id)}>Message</button>
+          </div>}
+        </div>
       </div>
-      {postBox
-        ?<div className='postBox'>
+      : <><div id='postBtnWrapper'>
+        { postBox
+        ? <CloseIcon
+          htmlColor='#7E12B3'
+          fontSize='large'
+          onClick={()=>setPostBox(!postBox)}
+        />
+        : <AddLinkIcon
+          htmlColor='#7E12B3'
+          fontSize='large'
+          onClick={()=>setPostBox(!postBox)}
+        />
+        }
+      </div>
+      { postBox
+        ? <div className='postBox'>
           <TextField 
             fullWidth={true}
-            style={{marginBottom: "1em"}}
             type="text" 
+            label="Title"
             name='title'
             value={postBody.title}
-            onChange={e=>handleNewPost(e)}
+            onChange={e=>updatePostBody(e)}
             placeholder='Enter post title'/>
           <TextField 
             fullWidth={true}
-            style={{marginBottom: "1em"}}
             type="text" 
+            label="Body"
             name='body' 
             value={postBody.body} 
-            onChange={e=>handleNewPost(e)} 
+            onChange={e=>updatePostBody(e)} 
+            placeholder='Enter post content'/>
+          <TextField 
+            fullWidth={true}
+            type="text"
+            label="Link"
+            name='link'
+            value={postBody.link} 
+            onChange={e=>updatePostBody(e)} 
             placeholder='Enter post content'/>
           <div id="selectBtns">
-            <button className='newsButton' onClick={e=>fetchPost()}>Submit</button>
-            <button className='newsButton' onClick={e=>closePostBox()}>Cancel</button>
+            <button onClick={e=>submitForm()}>Submit</button>
+            <button onClick={e=>closePostBox()}>Cancel</button>
           </div>
         </div>
-        :null
+        : renderResult()
       }
-      {!modal
-        ?null
-        :<div className='modal'>
-          <TextField 
-            style={{marginBottom: "1em"}}
-            fullWidth={true}
-            type="text" 
-            name='title' 
-            value={postBody.title} 
-            onChange={e=>handleNewPost(e)} 
-            placeholder='Enter updated title'/>
-          <TextField 
-            style={{marginBottom: "1em"}}
-            fullWidth={true}
-            type="text" 
-            name='body' 
-            value={postBody.body} 
-            onChange={e=>handleNewPost(e)} 
-            placeholder='Enter updated content'/>
-          <div id="selectBtns">
-            <button className='newsButton' onClick={e=>fetchUpdate()}>Submit</button>
-            <button 
-              className='newsButton'
-              onClick={(e)=>{
-                setModal(!modal)
-                setPostBody({
-                  title:"",
-                  body:"",
-                  user:{bandName:""}
-                })
-              }}>Cancel</button>
-              
-          </div>
-
-        </div>
-      }
-      {renderResult()}
-    </>
+    </>}
+    </div>
   )
 }
 

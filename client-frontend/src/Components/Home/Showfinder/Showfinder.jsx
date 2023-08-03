@@ -60,13 +60,13 @@ function Showfinder() {
   // Custom setLocation fx
   const setFilterLocation = (newLocation) => {
     _setFilterLocation(newLocation);
-    const closeByEvents = sortUsersByDistance(allEvents.current, newLocation);
+    const closeByEvents = getDistanceFromEvent(allEvents.current, newLocation);
     setFilterEvents(closeByEvents.filter(user => convertKmToMiles(user.distance) < mileFilter.current));
   }
 
   //DELETE function
-  const deleteEvent = () => {
-    fetch(`http://localhost:4000/event/${getUserId()}`,{
+  const deleteEvent = event_id => {
+    fetch(`http://localhost:4000/event/${event_id}`,{
       method:"DELETE",
       headers:new Headers({
         "Content-Type":"application/json",
@@ -74,6 +74,7 @@ function Showfinder() {
       })
     })
     .then(res=>res.json())
+    .then(data => setFilterEvents(filterEvents.filter(event => event._id !== event_id)))
     .catch(err=>console.log(err))
   }
 
@@ -113,9 +114,9 @@ function Showfinder() {
     .catch(err => console.log(err))
   },[])
 
-  function sortUsersByDistance(eventArr, coords) {
+  function getDistanceFromEvent(eventArr, coords) {
     // console.log(eventArr);
-    const eventsWithDistance = eventArr.map((event) => {
+    const addDistanceToEvent = eventArr.map((event) => {
         if (event.latitude && event.longitude) {
             const distance = calculateDistance(
                 coords.lat,
@@ -128,18 +129,7 @@ function Showfinder() {
         return event;
     });
 
-    // const sortedEvents = eventsWithDistance.sort((a, b) => {
-    //     if (a.distance === undefined && b.distance === undefined) {
-    //         return 0;
-    //     } else if (a.distance === undefined) {
-    //         return 1;
-    //     } else if (b.distance === undefined) {
-    //         return -1;
-    //     }
-    //     return a.distance - b.distance;
-    // })
-
-    return eventsWithDistance;
+    return addDistanceToEvent;
   }
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -167,7 +157,7 @@ function Showfinder() {
   const changeFilter = () => {
       let sortedEvents = allEvents.current;
       if (isNaN(Number(mileFilter.current))) setFilterEvents(sortedEvents);
-      if (mileFilter.current !== "") sortedEvents = sortedEvents.filter(event => convertKmToMiles(event.distance.toFixed(2)) < Number(mileFilter.current));
+      if (mileFilter.current !== "") sortedEvents = sortedEvents.filter(event => convertKmToMiles(event.distance) < Number(mileFilter.current));
       if (genreFilter.current !== "") sortedEvents = sortedEvents.filter(event => event.genre === genreFilter.current);
       setFilterEvents(sortedEvents);
   }
@@ -214,13 +204,15 @@ function Showfinder() {
           <div className="event-wrapper" key={event._id}>
             <div className="event-title">
               <h2 className='titleEach'>{event.title}</h2>
-              <h4 className='dateEach'>{dayjs(event.eventDate).format('MM-DD-YYYY hh:mm a')}</h4>
+              <div className="event-subtitle">
+                <h4 className='dateEach'>{dayjs(event.eventDate).format('MM/DD/YYYY hh:mm a')}</h4>
+                <h4 className="genreEach">{event.genre}</h4>
+              </div>
             </div>
             <div id='event-texts'>
               <h2 className='userEach'>{event.user.bandName}</h2>
-              <h2 className="genreEach">{event.genre}</h2>
+              <p className='bodyEach'>{event.body}</p>
             </div>
-            <p className='bodyEach'>{event.body}</p>
             <div className='options'>
             { event.user._id === getUserId()
               ? 
