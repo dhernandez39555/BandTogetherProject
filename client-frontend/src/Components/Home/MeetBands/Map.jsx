@@ -15,13 +15,6 @@ function Map({ location, setLocation, mileRadius, filterUsers }) {
             // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            { !userLocation
-                ? null
-                :
-                <Marker id="user-marker" position={userLocation} >
-                    <Popup>Your location</Popup>
-                </Marker>
-            }
             <LocationMarker
                 location={location}
                 setUserLocation={setUserLocation}
