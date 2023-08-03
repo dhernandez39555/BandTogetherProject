@@ -17,6 +17,13 @@ function Direct() {
   const messageInput = useRef("");
   const [ message, setMessage ] = useState("");
   const [ picture, setPicture ] = useState("");
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    if(lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [directs])
 
   useEffect(() => {
     const options = {
@@ -123,7 +130,7 @@ function Direct() {
             { direct.createdAt
               ? getDate(direct.createdAt)
               : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
-            <div className="direct-item" key={i}>
+            <div className="direct-item" key={i} ref={lastMessageRef}>
               <div className="direct-img-container">
                 <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
               </div>
