@@ -12,6 +12,23 @@ const Post = new mongoose.Schema (
             type: String,
             required: true
         },
+        link: {
+            type: String
+        },
+        linkPreview: {
+            title: {
+                type: String
+            },
+            description: {
+                type: String
+            },
+            image: {
+                type: String
+            },
+            url: {
+                type: String
+            }
+        },
         body:{
             type: String,
             required: true

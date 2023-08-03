@@ -34,7 +34,7 @@ function Invite() {
             return res.json();
         })
         .then((data) => {
-            console.log('data response',data);
+            console.log('data response', data);
             alert("Email sent to your fellow musician")
         })
         .catch((error) => {
