@@ -22,7 +22,16 @@
     word-wrap: break-word;
 }
 
-.friendParagraph {
+.addFriendParagraph {
+    display: flex;
+    align-items: center;
+    font: arial;
+    font-size: medium;
+    margin-top: .5em; 
+    margin-bottom: .5em; 
+}
+
+#friendParagraph {
     cursor: pointer;
 }
 

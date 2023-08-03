@@ -104,12 +104,15 @@ function ReadProfile() {
             <h1>{profile.bandName}</h1>
             {params.user_id !== getUserId() && (
               myFriendList.includes(params.user_id) ? (
-                <p>
-                  <CheckCircleOutlineIcon /> You and {profile.bandName} are friends.
+                <p className='addFriendParagraph'>
+                  <CheckCircleOutlineIcon style={{marginRight: ".5em"}}/> 
+                    You and {profile.bandName} are friends.
                 </p>
                 ) : (
-                <p className='friendParagraph' onClick={handleAddFriend}>
-                  <PersonAddIcon />
+                <p className='addFriendParagraph' id='friendParagraph' 
+                    onClick={handleAddFriend}>
+                  <PersonAddIcon style={{marginRight: ".5em"}}/> 
+                    Friend {profile.bandName} ?
                 </p>
                 )
             )}
