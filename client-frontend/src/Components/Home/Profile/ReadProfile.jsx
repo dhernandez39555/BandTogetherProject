@@ -6,18 +6,22 @@ import { useHref, useParams } from 'react-router-dom'
 import YouTubePlayer from 'react-player/youtube'
 import SoundCloudPlayer from 'react-player/soundcloud'
 import jwtDecode from 'jwt-decode' 
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function ReadProfile() {
   const navigate = useNavigate()
 
   const [ profile, setProfile ] = useState({})
+  const [ myFriendList, setMyFriendList ] = useState([])
+  // const [ newContact, setNewContact] = useState("")
 
   const sessionToken = localStorage.getItem('token');
 
   const getUserId = () => {
         try {
             const decodedToken = jwtDecode(sessionToken)
-            return decodedToken._id 
+            return decodedToken._id
         } catch (error) {
             console.log(`error decoding`,error)
         }
@@ -25,7 +29,23 @@ function ReadProfile() {
     
   const params = useParams();
 
-  const fetchProfile = () => {
+  const fetchFriendList = async (e) => {
+      const currentUserId = getUserId()
+
+      const url = `http://127.0.0.1:4000/user/${currentUserId}`
+
+      fetch(url, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application.json",
+          "authorization": sessionToken,
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {setMyFriendList(data.foundUser.friendList)})
+  }
+  
+  const fetchProfile = async (e) => {
     const url = `http://127.0.0.1:4000/user/${params.user_id}`
 
     fetch(url, {
@@ -41,20 +61,27 @@ function ReadProfile() {
   }
 
   useEffect(() => {
+    fetchFriendList()
     fetchProfile()
   }, [params])
-  
-  function addNewContact(emailIn){
-    fetch(`http://localhost:4000/user/addcontact`,{
-      method:"PUT",
-      headers:new Headers({
-      "Content-Type":"application/json",
-      "authorization":localStorage.getItem('token')
-      }),
-      body:JSON.stringify({ email: emailIn})
-    }).then(res=>res.json())
-      .then(console.log("we have made an update"))
-      .catch(err=>console.log(err))
+
+  const handleAddFriend = async (e) => {
+    const currentUser = await getUserId()
+    const newContact = params.user_id 
+
+    const url =`http://127.0.0.1:4000/user/addFriend/`
+
+    fetch(url, {
+      method: "PUT", 
+      body: JSON.stringify({currentUser: currentUser, newContact: newContact}),
+      headers: new Headers({
+          "Content-Type": "application/json",
+          "authorization": sessionToken, 
+      })
+    })
+    .then(res => res.json())
+    .then(data => setMyFriendList(data.updatedFriendList))
+    .catch(err => console.log(err))
   }
 
   const renderProfile = () => {
@@ -75,8 +102,24 @@ function ReadProfile() {
 
           <div id='bandNameBioDiv'>
             <h1>{profile.bandName}</h1>
+            {params.user_id !== getUserId() && (
+              myFriendList.includes(params.user_id) ? (
+                <p className='addFriendParagraph'>
+                  <CheckCircleOutlineIcon style={{marginRight: ".5em"}}/> 
+                    You and {profile.bandName} are friends.
+                </p>
+                ) : (
+                <p className='addFriendParagraph' id='friendParagraph' 
+                    onClick={handleAddFriend}>
+                  <PersonAddIcon style={{marginRight: ".5em"}}/> 
+                    Friend {profile.bandName} ?
+                </p>
+                )
+            )}
+            
             <p>{profile.bio}</p>
           </div>
+              
 
             {params.user_id===getUserId()
               ? <div id='editProfileDiv'>
@@ -87,8 +130,6 @@ function ReadProfile() {
                   <button type='button' id='messageButton'
                   onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
                   </button>
-                  <button type='button' id='addContactButton' 
-                  onClick={() => console.log("To get this to work, replace it with addNewContact(profile.email) and add a ref for current user friend list, compare them and then conditionally render the button ")}>Add to Contacts</button>
                 </div>
             }
 

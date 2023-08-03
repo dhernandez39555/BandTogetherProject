@@ -14,8 +14,8 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/send-email', async (req,res) => {
-    const { to, text } = req.body
-console.log('req',req.body)
+    const { to, text } = req.body;
+    console.log('req', req.body)
     const subject = "Let's Band Together!!"
     try {
         console.log('cheese')
@@ -27,7 +27,6 @@ console.log('req',req.body)
         });
         console.log('email sent successfuly')
         res.json({ success: true, message: 'email sent' });
-
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false, message: 'Message Failed to send'})
