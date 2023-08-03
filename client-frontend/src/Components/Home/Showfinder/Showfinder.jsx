@@ -167,7 +167,7 @@ function Showfinder() {
   const changeFilter = () => {
       let sortedEvents = allEvents.current;
       if (isNaN(Number(mileFilter.current))) setFilterEvents(sortedEvents);
-      if (mileFilter.current !== "") sortedEvents = sortedEvents.filter(event => convertKmToMiles(event.distance.toFixed(2)) < Number(mileFilter.current));
+      if (mileFilter.current !== "") sortedEvents = sortedEvents.filter(event => convertKmToMiles(event.distance) < Number(mileFilter.current));
       if (genreFilter.current !== "") sortedEvents = sortedEvents.filter(event => event.genre === genreFilter.current);
       setFilterEvents(sortedEvents);
   }
@@ -274,8 +274,8 @@ function Showfinder() {
     closePostForm();
   }
 
-  const setupPostForm = (event) => {
-    isEdit ? setEditID(event._id) : null;
+  function setupPostForm(event){
+    if(isEdit){setEditID(event._id)};
     setPostBody({
       title: isEdit ? event.title : "",
       body: isEdit ? event.body : "",

@@ -198,7 +198,7 @@ function MeetBands() {
                                 <img src={ user.profilePicture || "/blank.png" } alt="cover-photo" />
                             </div>
                             <div className="meet-header">
-                                <p className="meet-band-name">{user.bandName}</p>
+                                <p className="meet-band-name">{user.coverPhoto?user.bandName:user.contactName}</p>
                                 <p className="meet-genre">{user.genre}</p>
                             </div>
                             <p className="meet-bio">{user.bio}</p>

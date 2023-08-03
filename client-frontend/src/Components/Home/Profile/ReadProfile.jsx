@@ -43,7 +43,20 @@ function ReadProfile() {
   useEffect(() => {
     fetchProfile()
   }, [params])
-   
+  
+  function addNewContact(emailIn){
+    fetch(`http://localhost:4000/user/addcontact`,{
+      method:"PUT",
+      headers:new Headers({
+      "Content-Type":"application/json",
+      "authorization":localStorage.getItem('token')
+      }),
+      body:JSON.stringify({ email: emailIn})
+    }).then(res=>res.json())
+      .then(console.log("we have made an update"))
+      .catch(err=>console.log(err))
+  }
+
   const renderProfile = () => {
 
     if (profile.socials) {
@@ -67,13 +80,15 @@ function ReadProfile() {
 
             {params.user_id===getUserId()
               ? <div id='editProfileDiv'>
-                <button type='button' id='editProfileButton' 
-                onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
+                  <button type='button' id='editProfileButton' 
+                  onClick={() => navigate(`/profile/edit`)}> Edit Profile</button>
                 </div> 
-              : <div id='editProfileDiv'> 
-                <button type='button' id='messageButton'
-                onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
-                </button>
+              : <div id='editProfileDiv'>
+                  <button type='button' id='messageButton'
+                  onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
+                  </button>
+                  <button type='button' id='addContactButton' 
+                  onClick={() => console.log("To get this to work, replace it with addNewContact(profile.email) and add a ref for current user friend list, compare them and then conditionally render the button ")}>Add to Contacts</button>
                 </div>
             }
 
