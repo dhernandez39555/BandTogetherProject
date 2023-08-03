@@ -33,7 +33,7 @@ const Event = new mongoose.Schema (
         },
         longitude: {
             type: Number
-        },
+        }
     },
     {timestamps: true }
 )

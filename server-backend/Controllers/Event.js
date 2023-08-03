@@ -4,7 +4,8 @@ const Event = require("../Models/Event");
 
 router.post("/", async (req,res) => {
     try {
-        const { eventDate, title, body, genre } = req.body;
+        const { eventDate, title, body, genre, location, latitude, longitude } = req.body;
+        
         const newEvent = await new Event({
             user: req.user,
             eventDate,
@@ -15,9 +16,8 @@ router.post("/", async (req,res) => {
             latitude,
             longitude
         }).populate("user", { coverPhoto: 0, profilePicture: 0 })
-        console.log(newEvent)
-        // console.log(await newEvent)
         await newEvent.save();
+
         res.status(201).json({
             message: `Event Created`,
             newEvent
@@ -30,7 +30,7 @@ router.post("/", async (req,res) => {
 })
 router.get("/all", async (req,res)=>{
     try{
-        const allEvents=await Event.find({}).populate("user",{password:0})
+        const allEvents = await Event.find({eventDate: { $gte: Date.now() } }).populate("user",{password:0}).sort({ eventDate: "ascending" })
         allEvents.length===0||!allEvents?Error("no events found"):null
         res.status(200).json(allEvents)
     } catch(err){

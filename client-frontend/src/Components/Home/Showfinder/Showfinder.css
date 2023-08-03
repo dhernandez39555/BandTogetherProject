@@ -53,6 +53,7 @@
 #selectBtns{
     display: flex;
     justify-content: space-around;
+    gap: 1em;
 }
 
 #post-form-wrapper {
@@ -63,6 +64,27 @@
 #post-form {
     display: flex;
     flex-direction: column;
-    padding: 1em;
     gap: 1em;
+}
+
+#event-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+#post-form > button {
+    align-self: center;
+}
+
+#close-map-btn {
+    margin: 0 auto;
+}
+
+.MuiDateTimePickerToolbar-ampmSelection > button,
+.MuiDateTimePickerToolbar-timeDigitsContainer > button,
+.MuiPickersCalendarHeader-labelContainer > button,
+.MuiPickersArrowSwitcher-root > button,
+.MuiInputAdornment-root > button {
+    height: inherit;
+    width: inherit;
 }
