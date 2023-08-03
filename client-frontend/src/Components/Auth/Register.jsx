@@ -299,7 +299,6 @@ function Register({ updateLocalStorage }) {
                     onChange={handleAddGenreChange}
                 >
                     <MenuItem value=""></MenuItem>
-                    <MenuItem value=""></MenuItem>
                     <MenuItem value={"Rock"}>Rock</MenuItem>
                     <MenuItem value={"Country"}>Country</MenuItem>
                     <MenuItem value={"Folk"}>Folk</MenuItem>
