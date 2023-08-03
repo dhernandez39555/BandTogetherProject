@@ -101,12 +101,16 @@ router.put("/:event_id", async (req, res) => {
         const findEvent = await Event.findOne({ _id: event_id });
         if (!findEvent) throw Error("no event found");
 
-        const updateStatus = await Event.updateOne({_id: event_id}, { $set: { eventDate, title, body, genre, location, latitude, longitude } });
+        const eventUpdates = { eventDate, title, body, genre, location, latitude, longitude };
+
+        const updateStatus = await Event.updateOne({_id: event_id}, { $set: eventUpdates });
         if (updateStatus.matchedCount == 0) throw Error(`${event_id} does not exist`)
+
+        eventUpdates["_id"] = event_id;
 
         res.status(201).json({
             message: `${event_id} updated`,
-            updateStatus
+            eventUpdates
         })
     } catch (err) {
         res.status(500).json({
