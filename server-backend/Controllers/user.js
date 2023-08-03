@@ -76,16 +76,16 @@ router.get("/:user_id", async (req, res) => {
 // * UPDATE add contact to current user * //
 router.put("/addcontact", async (req, res) => {
     try {
+        console.log(req.body)
         const { email } = req.body;
         const popFriends = await req.user.populate("friendList");
+        // console.log(popFriends)
         const currentFriends = popFriends.friendList;
-        
+        console.log(currentFriends)
         const foundEmail = currentFriends.filter(friend => friend.email === email)[0];
         if (foundEmail) throw Error(`${email} is already added`);
-        
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) throw Error(`${email} does not have an account`);
-
         const updateStatus = await User.updateOne(
                 { _id: req.user._id }, 
                 { $push: { friendList: foundUser._id } }

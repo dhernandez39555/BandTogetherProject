@@ -25,7 +25,6 @@ function Direct() {
         "authorization": localStorage.getItem("token")
       })
     }
-    console.log("before");
     fetch(`http://127.0.0.1:4000/message/readAllFrom/${otherUser_id}`, options)
       .then(res => res.json())
       .then(data => {
