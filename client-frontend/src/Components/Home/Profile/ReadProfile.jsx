@@ -106,9 +106,10 @@ function ReadProfile() {
             {myFriendList.includes(params.user_id) ? 
                 <p> <CheckCircleOutlineIcon/> You and {profile.bandName} are friends.</p> : 
                 <p className='friendParagraph' onClick={handleAddFriend}> <PersonAddIcon/> </p>}
-
+                
             <p>{profile.bio}</p>
           </div>
+              
 
             {params.user_id===getUserId()
               ? <div id='editProfileDiv'>
