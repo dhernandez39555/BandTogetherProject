@@ -51,7 +51,7 @@ function Showfinder() {
       ?<p>Loading Events...</p>
       : <div className="renderContainer">
         {fetchResult.map((result)=>(
-          <div className="eventWrapper" key={result._id}>
+          <div className="event-wrapper" key={result._id}>
             <h2 className='titleEach'>{result.title}</h2>
             <div id='bandDateGenreWrapper'>
               <h4 className='userEach'>{result.user.bandName}</h4>
