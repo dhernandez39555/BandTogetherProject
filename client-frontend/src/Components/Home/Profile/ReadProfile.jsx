@@ -119,10 +119,7 @@ function ReadProfile() {
                   <button type='button' id='messageButton'
                   onClick={() => navigate(`/messaging/${params.user_id}`)}> Message
                   </button>
-                  <button type='button' id='addContactButton' 
-                  onClick={() => console.log("To get this to work, replace it with addNewContact(profile.email) and add a ref for current user friend list, compare them and then conditionally render the button ")}>Add to Contacts</button>
                 </div>
-                
             }
 
         <div id='socialMediaDiv'>
