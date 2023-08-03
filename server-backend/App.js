@@ -5,7 +5,7 @@ const mongoose=require("mongoose")
 const bcrypt=require("bcrypt")
 const { dbConnect } = require("./DBConn")
 const JWT=require("jsonwebtoken")
-const cors=require("cors")
+const cors = require("cors")
 
 const JWT_KEY=process.env.JWT_KEY
 const HOST=process.env.HOST||"127.0.0.1"
