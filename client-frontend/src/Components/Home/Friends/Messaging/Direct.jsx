@@ -8,6 +8,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
+import dayjs from 'dayjs';
 
 function Direct() {
 
@@ -64,21 +65,9 @@ function Direct() {
     prevDate.current = new Date("January 1, 1970");
   }
 
-  const getDate = (date) => {
-    const newDate = new Date(date);
-    if (prevDate.current.getDate() === newDate.getDate()) return null;
-    const newDateStr = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
-    prevDate.current = newDate;
-    return (<div key={date} className="datestamp"><div className="line"></div><p>{newDateStr}</p><div className="line"></div></div>)
-  }
-
-  const getTime = date => {
-    const newDate = new Date(date);
-    const militaryHour = newDate.getHours()
-    const hours = militaryHour < 12 ? militaryHour + 1 : (militaryHour % 12) || 12;
-    const minutes = newDate.getMinutes();
-    const amOrPm = militaryHour >= 12 ? 'pm' : 'am';
-    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${amOrPm}`
+  const addDateLine = (date) => {
+    const newDate = dayjs(date).format("MM/DD/YYYY");
+    return (<div key={date} className="datestamp"><div className="line"></div><p className="normal-text">{newDate}</p><div className="line"></div></div>)
   }
 
   const convertToBase64 = file => {
@@ -125,26 +114,28 @@ function Direct() {
         : directs.length === 0
         ? null
         : <div id="direct-list">
-            {directs.map((direct, i) =>
-            <>
-            { direct.createdAt
-              ? getDate(direct.createdAt)
-              : <div className="datestamp" key={i}><div className="line"></div><p>new conversation</p><div className="line"></div></div>}
-            <div className="direct-item" key={i} ref={lastMessageRef}>
-              <div className="direct-img-container">
-                <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
-              </div>
-              <div className="direct-text">
-                <div className="direct-top">
-                  <h3>{direct.sender.bandName}</h3>
-                  <p>{ direct.createdAt ? getTime(direct.createdAt) : null }</p>
+            { directs.map((direct, i) =>
+              <div key={i}>
+              { addDateLine(direct.createdAt ? direct.createdAt : new Date())}
+              <div className="direct-item">
+                
+                <div className="direct-img-container">
+                  <img src={direct.sender.profilePicture ? direct.sender.profilePicture : "/blank.png" } alt="profile pic" />
                 </div>
-                { direct.body.split(":")[0] === "data" && direct.body.split(":")[1].slice(0, 5) === "image"
-                    ? <img src={direct.body} alt="message image" />
-                    : <p>{direct.body}</p> }
+
+                <div className="direct-text">
+                  <div className="direct-top">
+                    <h3>{direct.sender.bandName}</h3>
+                    <p className="normal-text">{ direct.createdAt ? dayjs(direct.createdAt).format("h:m a") : null }</p>
+                  </div>
+
+                  { direct.body.split(":")[0] === "data"
+                    && direct.body.split(":")[1].slice(0, 5) === "image"
+                      ? <img src={direct.body} alt="message image" />
+                      : <p className="normal-text">{direct.body}</p> }
+                </div>
               </div>
             </div>
-            </>
         )}</div>
       }
       <div id="footer-textbox">

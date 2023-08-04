@@ -3,6 +3,7 @@
     padding: 1em;
     /* overflow: hidden; */
     background-color: #EEEDED;
+    border-radius: 5px;
 }
 
 #user-marker {
