@@ -62,3 +62,9 @@
     margin-bottom: 3.2vh;
     height: 22vh;
 }
+
+@media only screen and (orientation: landscape) {
+    #banner {
+        
+    }
+}
