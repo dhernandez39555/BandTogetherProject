@@ -339,7 +339,7 @@ function Register({ updateLocalStorage }) {
                     fullWidth={true}
                     multiline
                     rows={4}
-                    // inputProps={{ maxLength: 120 }}
+                    inputProps={{ maxLength: 120 }}
                     type="text"
                     label="Bio"
                     className="signUpInput" 
