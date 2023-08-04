@@ -18,6 +18,13 @@ function Direct() {
   const messageInput = useRef("");
   const [ message, setMessage ] = useState("");
   const [ picture, setPicture ] = useState("");
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    if(lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [directs])
 
   useEffect(() => {
     const options = {
@@ -126,7 +133,6 @@ function Direct() {
                     && direct.body.split(":")[1].slice(0, 5) === "image"
                       ? <img src={direct.body} alt="message image" />
                       : <p className="normal-text">{direct.body}</p> }
-
                 </div>
               </div>
             </div>
