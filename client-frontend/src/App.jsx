@@ -18,7 +18,6 @@ import EditProfile from './Components/Home/Profile/EditProfile';
 import Showfinder from './Components/Home/Showfinder/Showfinder';
 import Inbox from './Components/Home/Friends/Inbox';
 import Contacts from './Components/Home/Friends/Contacts';
-import NewMessage from './Components/Home/Friends/Messaging/NewMessage';
 import Direct from './Components/Home/Friends/Messaging/Direct';
 import MeetBands from './Components/Home/MeetBands/MeetBands';
 import News from './Components/Home/News/News';
