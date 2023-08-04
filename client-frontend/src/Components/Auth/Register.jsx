@@ -332,6 +332,7 @@ function Register({ updateLocalStorage }) {
                 </TextField>
                 </div>
 
+                
                 <div>
                 {/* <label htmlFor="bioInput">Bio:</label> */}
                 <TextField
@@ -345,10 +346,11 @@ function Register({ updateLocalStorage }) {
                     className="signUpInput" 
                     id="bioInput"
                     placeholder="Enter your short bio here."
-                    style={{marginBottom: "1em"}}
+                    style={{marginBottom: "1em" }}
                     InputProps={{
                         endAdornment: <InputAdornment position="end">{bioLength}/120</InputAdornment>,
                     }}
+                    sx={{ borderColor: 'error.main' }}
                     onChange={handleBio}/>
                 </div>
 
