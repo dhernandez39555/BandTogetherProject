@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import "./login.css"
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'; 
-import note from "../assets/8thnote.png"
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
@@ -57,7 +56,7 @@ function Login({ updateLocalStorage }) {
 
             <div id="logo-container">
                 <h1>BandTogether</h1>
-                <img id="title-icon" src={note} alt="note" />
+                <img id="title-icon" src={'/assets/8thnote.png'} alt="note" />
                 <div id="title-underline"></div>
                 <h2>Build relationships.<br/>Book shows.</h2>
             </div> 
