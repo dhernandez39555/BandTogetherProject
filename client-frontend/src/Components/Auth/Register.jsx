@@ -26,6 +26,7 @@ function Register({ updateLocalStorage }) {
     const [ genre, setGenre ] = useState("")
     const [ additionGenre, setAdditionGenre ] = useState("")
     const [ bio, setBio ] = useState("")
+    const [ bioLength, setBioLength ] = useState("0")
     const [ youtube, setYoutube ] = useState("")
     const [ spotify, setSpotify ]= useState("")
     const [ soundCloud, setSoundCloud ] = useState("")
@@ -121,6 +122,11 @@ function Register({ updateLocalStorage }) {
                 {visible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
             </IconButton>
         </InputAdornment>
+    }
+
+    const handleBio = (e) => {
+        setBio(e.target.value)
+        setBioLength(e.target.value.length)
     }
 
   return (
@@ -333,14 +339,18 @@ function Register({ updateLocalStorage }) {
                     fullWidth={true}
                     multiline
                     rows={4}
-                    // inputProps={{ maxLength: 120 }}
+                    inputProps={{ maxLength: 120 }}
                     type="text"
                     label="Bio"
                     className="signUpInput" 
                     id="bioInput"
                     placeholder="Enter your short bio here."
-                    style={{marginBottom: "1em"}}
-                    onChange={e => setBio(e.target.value)}/>
+                    style={{marginBottom: "1em" }}
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">{bioLength}/120</InputAdornment>,
+                    }}
+                    sx={{ borderColor: 'error.main' }}
+                    onChange={handleBio}/>
                 </div>
 
                 <div>

@@ -110,24 +110,26 @@ function News() {
       })
     }
 
-    console.log(isEdit);
+    const resolveData=(data)=>{
+      if (isEdit) {
+        const updatedIndex = fetchResult.findIndex(post => post._id == data.postUpdates._id);
+        let editedPost = fetchResult[updatedIndex];
+        if(data.postUpdates.title){editedPost.title = data.postUpdates.title};
+        if(data.postUpdates.body){editedPost.body = data.postUpdates.body};
+        if(data.postUpdates.link){editedPost.link = data.postUpdates.link};
+        if(data.postUpdates.linkPreview){editedPost.linkPreview = data.postUpdates.linkPreview};
+        console.log(editedPost);
+        setFetchResult([ ...fetchResult ]);
+      }
+      else {
+        setFetchResult([ data.newPost, ...fetchResult ]);
+      }
+    }
 
     fetch(url, options)
       .then(res=>res.json())
       .then(data=> {
-        if (isEdit) {
-          const updatedIndex = fetchResult.findIndex(post => post._id == data.postUpdates._id);
-          let editedPost = fetchResult[updatedIndex];
-          data.postUpdates.title ? editedPost.title = data.postUpdates.title : null;
-          data.postUpdates.body ? editedPost.body = data.postUpdates.body : null;
-          data.postUpdates.link ? editedPost.link = data.postUpdates.link : null;
-          data.postUpdates.linkPreview ? editedPost.linkPreview = data.postUpdates.linkPreview : null;
-          console.log(editedPost);
-          setFetchResult([ ...fetchResult ]);
-        }
-        else {
-          setFetchResult([ data.newPost, ...fetchResult ]);
-        }
+        resolveData(data)
       })
       .catch(err=>console.log(err))
 
