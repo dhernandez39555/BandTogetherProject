@@ -58,9 +58,11 @@ function News() {
               </div>
               { result.linkPreview
               ?<Link to={result.link} target="_blank" rel="noopener noreferrer">
-                <div class="link-preview">
+                <div className="link-preview">
                   <img src={result.linkPreview.image} />
-                  <h2>{result.linkPreview.title}</h2>
+                  <div className="link-text">
+                    <p>{result.linkPreview.title}</p>
+                  </div>
                 </div>
               </Link>
               : null
@@ -202,9 +204,9 @@ function News() {
           </div>
           { singlePost.linkPreview
             ?<Link to={singlePost.link} target="_blank" rel="noopener noreferrer">
-              <div class="link-preview">
+              <div className="link-preview">
                 <img src={singlePost.linkPreview.image} />
-                <h2>{singlePost.linkPreview.title}</h2>
+                <p>{singlePost.linkPreview.title}</p>
               </div>
             </Link>
             : null
@@ -236,7 +238,8 @@ function News() {
       </div>
       { postBox
         ? <div className='postBox'>
-          <TextField 
+          <TextField
+            className="filter-input"
             fullWidth={true}
             type="text" 
             label="Title"
@@ -244,7 +247,8 @@ function News() {
             value={postBody.title}
             onChange={e=>updatePostBody(e)}
             placeholder='Enter post title'/>
-          <TextField 
+          <TextField
+            className="filter-input"
             fullWidth={true}
             type="text" 
             label="Body"
@@ -252,7 +256,8 @@ function News() {
             value={postBody.body} 
             onChange={e=>updatePostBody(e)} 
             placeholder='Enter post content'/>
-          <TextField 
+          <TextField
+            className="filter-input"
             fullWidth={true}
             type="text"
             label="Link"

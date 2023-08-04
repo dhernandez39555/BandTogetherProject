@@ -77,14 +77,21 @@
     width: 100%;
     vertical-align: middle;
     max-height: 250px;
+    object-fit: cover;
 }
 
-.link-preview > h2 {
-    font-size: 1em;
-    padding: 0.5em;
+.link-text {
     position: absolute;
     bottom: 0;
+    right: 0;
+    left: 0;
     background-color: rgba(255, 255, 255, 0.8);
+}
+
+.link-text > p {
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 0.5em;
 }
 
 .fullscreen {

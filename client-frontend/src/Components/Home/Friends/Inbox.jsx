@@ -5,6 +5,7 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import CloseIcon from '@mui/icons-material/Close';
 import DriveFileRenameOutlineSharpIcon from '@mui/icons-material/DriveFileRenameOutlineSharp';
 import { IconButton, TextField } from '@mui/material';
+import dayjs from 'dayjs';
 
 function Inbox() {
   const navigate = useNavigate();
@@ -55,11 +56,6 @@ function Inbox() {
     navigate(`/messaging/${otherUser_id}`);
   }
 
-  const getDate = date => {
-    const newDate = new Date(date);
-    return `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
-  }
-
   return (
     <div id="inbox-page">
       <div id="message-header">
@@ -81,7 +77,7 @@ function Inbox() {
                       autoFocus={true}
                       variant="outlined"
                       type={"email"}
-                      label="new email"
+                      label="New Email"
                       onChange={e => setNewEmail(e.target.value)}
                   />
                   <IconButton
@@ -102,7 +98,7 @@ function Inbox() {
             <div className="message-text" onClick={ e => openDirect(item) }>
               <div className='message-top'>
                 <h3>{messages[item][0].sender._id === item ? messages[item][0].sender.bandName : messages[item][0].receiver.bandName}</h3>
-                <h3>{getDate(messages[item][0].createdAt)}</h3>
+                <h3>{dayjs(messages[item][0].createdAt).format("M/D/YY")}</h3>
               </div>
               <p>{messages[item][0].body.split(":")[0] === "data" && messages[item][0].body.split(":")[1].slice(0, 5) === "image"
                   ? "image" : messages[item][0].body
