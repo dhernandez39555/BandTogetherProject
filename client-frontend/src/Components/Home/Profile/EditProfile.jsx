@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import './EditProfile.css'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import EditIcon from '@mui/icons-material/Edit';
 import { TextField, MenuItem } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -267,8 +266,6 @@ const handleBackArrow = async (e) => {
         />
         </div>
 
-        
-
         <div>
         {/* <label htmlFor="contactNameInput">Contact Name:</label> */}
         <TextField
@@ -284,7 +281,6 @@ const handleBackArrow = async (e) => {
           onChange={handleUpdate}
         />
         </div> 
-
 
         <div>
         {/* <label htmlFor="locationInput">Location:</label> */}
