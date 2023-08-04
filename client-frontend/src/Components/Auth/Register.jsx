@@ -69,15 +69,51 @@ function Register({ updateLocalStorage }) {
         setAdditionGenre(e.target.value)
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
 
         const url = "http://127.0.0.1:4000/auth/register"
+        const s3Url = "http://127.0.0.1:4000/utilities/s3-url"
+
+        let profilePictureUrl = "";
+        let coverPhotoUrl = "";
+
+        if (profilePicture) {
+            const uploadUrl = await fetch(s3Url).then(res => res.json());
+    
+            await fetch(uploadUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                body: profilePicture
+            }).then(res => console.log(res));
+    
+            const imgUrl = uploadUrl.split("?")[0];
+            profilePictureUrl = imgUrl;
+        }
+    
+        if (coverPhoto) {
+            const uploadUrl = await fetch(s3Url).then(res => res.json());
+
+            await fetch(uploadUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                body: coverPhoto
+            }).then(res => console.log(res));
+    
+            const imgUrl = uploadUrl.split("?")[0];
+            coverPhotoUrl = imgUrl;
+        }
 
         const socials = { youtube, spotify, soundCloud, instagram }
 
-        const body = { profilePicture, coverPhoto, email, password, bandName, contactName, 
-        location, latitude, longitude, genre, additionGenre, bio, socials} 
+        const body = { profilePicture: profilePictureUrl, coverPhoto: coverPhotoUrl, email, password, bandName, contactName, 
+        location, latitude, longitude, genre, additionGenre, bio, socials}
+
+        console.log(body);
         
         fetch(url, {
             method: "POST", 
@@ -91,29 +127,14 @@ function Register({ updateLocalStorage }) {
         .catch(err => console.log(err))
     }
     
-    function convertToBase64(file) {
-        return new Promise((resolve, reject) => {
-        const fileReader = new FileReader()
-        fileReader.readAsDataURL(file)
-        fileReader.onload = () => {
-            resolve(fileReader.result)
-        }
-        fileReader.onerror = (error) => {
-            reject(error) 
-        }
-        })
-    }
-    
-    const handleFileUpload = async (e) => {
+    const stageProfilePicture = async (e) => {
         const file = e.target.files[0];
-        const base64 = await  convertToBase64(file)
-        setProfilePicture(base64)
+        setProfilePicture(file)
     }
 
-    const handleCoverUpload = async (e) => {
+    const stageCoverPhoto = async (e) => {
         const file = e.target.files[0];
-        const coverBase64 = await convertToBase64(file)
-        setCoverPhoto(coverBase64) 
+        setCoverPhoto(file)
     }
 
     const EndAdornment = ({visible, setVisible}) => {
@@ -145,27 +166,26 @@ function Register({ updateLocalStorage }) {
                                 <AddPhotoAlternateIcon id="addCoverIcon" fontSize='medium'/>
                             </label>
                             :
-                            <img src={coverPhoto} alt="cover-photo" />
+                            <img src={URL.createObjectURL(coverPhoto)} alt="cover-photo" />
                         }
                     </div>
                     
                     <input type="file" name="myFile" id="cover-upload" accept='.jpeg, .jpg, .png'
-                        onChange={(e) => handleCoverUpload(e)} />
+                        onChange={(e) => stageCoverPhoto(e)} />
                 
                     <div id="preview-profile-pic">
                         {profilePicture === "" ?
                             <label htmlFor="file-upload">
                                 <AddAPhotoOutlinedIcon id="AddProfileIcon" fontSize='large'/>
                                 </label>
-                        : <img src={profilePicture} alt="profile-picture" />
+                        : <img src={URL.createObjectURL(profilePicture)} alt="profile-picture" />
                         }
                 </div>
 
                 <input type="file" name="myFile" id="file-upload" accept='.jpeg, .jpg, .png'
-                    onChange={(e) => handleFileUpload(e)} />
+                    onChange={(e) => stageProfilePicture(e)} />
                
                 <div id="emailDiv">
-                {/* <label htmlFor="emailInput">Email Address:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -180,7 +200,6 @@ function Register({ updateLocalStorage }) {
                 </div>
                 
                 <div>
-                {/* <label htmlFor="passwordInput">Password:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -198,7 +217,6 @@ function Register({ updateLocalStorage }) {
                     />
                 </div>
                 <div>
-                {/* <label htmlFor="bandNameInput">Band Name:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -212,7 +230,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="contactNameInput">Contact Name:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -226,7 +243,6 @@ function Register({ updateLocalStorage }) {
                 </div> 
 
                 <div>
-                {/* <label htmlFor="locationInput">Location:</label> */}
                     {location ? (
                         <TextField 
                         fullWidth={true}
@@ -252,7 +268,6 @@ function Register({ updateLocalStorage }) {
                 </div>
         
                 <div id='genreDropdown'>
-                {/* <label htmlFor="genreInput">Genre:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -293,7 +308,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div id='additionGenreDropdown'>
-                {/* <label htmlFor="additionalGenreInput">Genre:</label> */}
                 <TextField
                     fullWidth={true}
                     select={true}
@@ -333,7 +347,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="bioInput">Bio:</label> */}
                 <TextField
                     required={true}
                     fullWidth={true}
@@ -354,7 +367,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="youtubeInput">YouTube Link:</label> */}
                 <TextField
                     fullWidth={true}
                     type="text"
@@ -367,7 +379,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="spotifyInput">Spotify Link:</label> */}
                 <TextField
                     fullWidth={true}
                     type="text"
@@ -380,7 +391,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="soundCloudInput">SoundCloud Link:</label> */}
                 <TextField
                     fullWidth={true}
                     type="text"
@@ -393,7 +403,6 @@ function Register({ updateLocalStorage }) {
                 </div>
 
                 <div>
-                {/* <label htmlFor="instagramInput">Instagram Link:</label> */}
                 <TextField
                     fullWidth={true}
                     type="text"

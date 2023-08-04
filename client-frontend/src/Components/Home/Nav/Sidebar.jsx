@@ -95,7 +95,7 @@ function Sidebar() {
           <div id="side-wrap">
             <div id="side-img-container">
               {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
-              <img src={"/blank.png"} alt="profile-pic" />
+              <img src={"/assets/blank.png"} alt="profile-pic" />
             </div>
             <h1>{ loggedInUser.bandName ? loggedInUser.bandName : "Loading" }</h1>
             <div className="line"></div>

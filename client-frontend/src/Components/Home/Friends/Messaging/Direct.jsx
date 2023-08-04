@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './direct.css';
 import { useParams, Link } from 'react-router-dom';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import { IconButton, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -42,15 +41,35 @@ function Direct() {
       .catch(err => err.message)
   }, [])
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!(message !== "" || picture !== "")) return;
+
+    const s3Url = "http://127.0.0.1:4000/utilities/s3-url"
+    let pictureUrl = "";
+
+    if (picture) {
+        const uploadUrl = await fetch(s3Url).then(res => res.json());
+        console.log(uploadUrl);
+
+        await fetch(uploadUrl, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            body: picture
+        }).then(res => console.log(res));
+
+        const imgUrl = uploadUrl.split("?")[0];
+        pictureUrl = `data-image:::${imgUrl}`;
+    }
+
     const options = {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json",
         "authorization": localStorage.getItem("token")
       }),
-      body: JSON.stringify({ body: message === "" ? picture : message })
+      body: JSON.stringify({ body: message === "" ? pictureUrl : message })
     }
 
     fetch(`http://127.0.0.1:4000/message/makePostTo/${otherUser_id}`, options)
@@ -70,24 +89,9 @@ function Direct() {
     return (<div key={date} className="datestamp"><div className="line"></div><p className="normal-text">{newDate}</p><div className="line"></div></div>)
   }
 
-  const convertToBase64 = file => {
-    return new Promise((resolve, reject) => {
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(file)
-    fileReader.onload = () => {
-        resolve(fileReader.result)
-    }
-    fileReader.onerror = (error) => {
-        reject(error) 
-    }
-    })
-  }
-
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setMessage("");
-    setPicture(base64);
+    setPicture(file);
     prevDate.current = new Date("January 1, 1970");
   }
 
@@ -126,12 +130,11 @@ function Direct() {
                 <div className="direct-text">
                   <div className="direct-top">
                     <h3>{direct.sender.bandName}</h3>
-                    <p className="normal-text">{ direct.createdAt ? dayjs(direct.createdAt).format("h:m a") : null }</p>
+                    <p className="normal-text">{ direct.createdAt ? dayjs(direct.createdAt).format("h:mm a") : null }</p>
                   </div>
 
-                  { direct.body.split(":")[0] === "data"
-                    && direct.body.split(":")[1].slice(0, 5) === "image"
-                      ? <img src={direct.body} alt="message image" />
+                  { direct.body.split(":::")[0] === "data-image"
+                      ? <img src={direct.body.split(":::")[1]} alt="message image" />
                       : <p className="normal-text">{direct.body}</p> }
                 </div>
               </div>
@@ -141,7 +144,7 @@ function Direct() {
       <div id="footer-textbox">
         { picture !== ""
           ? <div id="direct-preview-photo">
-              <img src={picture} alt="preview-photo" />
+              <img src={URL.createObjectURL(picture)} alt="preview-photo" />
             </div>
           : null
         }
