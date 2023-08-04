@@ -2,6 +2,7 @@ const router = require("express").Router()
 const User = require("../Models/User")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
+const generateUrl = require("../Utilities/s3")
 const SALT = Number(process.env.SALT)
 const JWT_KEY = process.env.JWT_KEY
 
@@ -25,6 +26,8 @@ router.post("/register", async (req, res) => {
         JWT_KEY,
         { expiresIn: 60 * 60 * 24}
     )
+
+    console.log(newUser);
 
     res.status(201).json({
         message: `User created`,

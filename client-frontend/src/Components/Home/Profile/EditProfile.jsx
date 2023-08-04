@@ -14,8 +14,6 @@ function EditProfile() {
   const [ updatedUser, setUpdatedUser ] = useState({
     profilePicture:"",
     coverPhoto:"",
-    email:"",
-    password:"",
     bandName:"",
     contactName:"",
     location:"",
@@ -30,7 +28,6 @@ function EditProfile() {
     },
     
   });
-  const [redirectToProfile, setRedirectToProfile] = useState(false);
   const [ message, setMessage ] = useState('');
   const navigate = useNavigate();
   
@@ -47,11 +44,9 @@ function EditProfile() {
         }
         return res.json();
       })
-      .then((data) => {
-        console.log('User data received:', data);
+      .then((data) => {;
         if (data.foundUser) {
             setUser(data.foundUser);
-            setUpdatedUser(data.foundUser)
             setUserData(true);
         } else {
           throw new Error('User not found');
@@ -66,9 +61,9 @@ function EditProfile() {
     const { name, value } = e.target;
     if(['youtube','spotify','soundCloud','instagram'].includes(name)) {
       setUpdatedUser({
-        ...updatedUser,
-        socials: {
-          ...updatedUser.socials,
+          ...updatedUser,
+          socials: {
+            ...updatedUser.socials,
           [name]: value,
         }
       })
@@ -76,26 +71,92 @@ function EditProfile() {
     setUpdatedUser({
       ...updatedUser,
       [name]: value,
-    })
-  }
-};
+      })
+    }
 
-  const handleSubmit = e => {
+    if(['youtube','spotify','soundCloud','instagram'].includes(name)) {
+      setUser({
+          ...user,
+          socials: {
+            ...user.socials,
+            [name]: value,
+          }
+        })
+        } else {
+        setUser({
+          ...user,
+          [name]: value,
+        })
+      }
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
+
+    const s3Url = "http://127.0.0.1:4000/utilities/s3-url"
+
+    let putBody = {}
+
+    if (updatedUser.bandName !== "") putBody.bandName = updatedUser.bandName;
+    if (updatedUser.contactName !== "") putBody.contactName = updatedUser.contactName;
+    if (updatedUser.location !== "") putBody.location = updatedUser.location;
+    if (updatedUser.genre !== "") putBody.genre = updatedUser.genre;
+    if (updatedUser.additionGenre !== "") putBody.additionGenre = updatedUser.additionGenre;
+    if (updatedUser.bio !== "") putBody.bio = updatedUser.bio;
+
+    putBody.socials = {};
+    if (updatedUser.socials.youtube !== "") putBody.socials.youtube = updatedUser.socials.youtube;
+    if (updatedUser.socials.spotify !== "") putBody.socials.spotify = updatedUser.socials.spotify;
+    if (updatedUser.socials.soundCloud !== "") putBody.socials.soundCloud = updatedUser.socials.soundCloud;
+    if (updatedUser.socials.instagram !== "") putBody.socials.instagram = updatedUser.socials.instagram;
+
+    if (updatedUser.profilePicture !== "") {
+      const uploadUrl = await fetch(s3Url).then(res => res.json());
+
+      await fetch(uploadUrl, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        body: updatedUser.profilePicture
+      }).then(res => console.log(res.status));
+
+      const imgUrl = uploadUrl.split("?")[0];
+      putBody.profilePicture = imgUrl;
+    }
+
+    if (updatedUser.coverPhoto !== "") {
+      const uploadUrl = await fetch(s3Url).then(res => res.json());
+
+      await fetch(uploadUrl, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        body: updatedUser.coverPhoto
+      }).then(res => console.log(res.status));
+
+      const imgUrl = uploadUrl.split("?")[0];
+      putBody.coverPhoto = imgUrl;
+    }
+
+    console.log(putBody);
+
     fetch('http://127.0.0.1:4000/user/', {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
         'authorization': localStorage.getItem('token')
       },
-      body: JSON.stringify(updatedUser),
+      body: JSON.stringify(putBody),
     })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       setMessage('Profile Updated successfully')
       setUser(data.updatedUser);
       const userId = getUserId();
-      setRedirectToProfile(true)
+      navigate(`/profile/${userId}`);
     })
     .catch((err) => {
       setMessage('Error updating profile')
@@ -103,41 +164,22 @@ function EditProfile() {
     })
   };
 
-  function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(file)
-    fileReader.onload = () => {
-        resolve(fileReader.result)
-    }
-    fileReader.onerror = (error) => {
-        reject(error) 
-    }
-    })
-}
-
 const handleUpdateFile = async (e) => {
   const file = e.target.files[0];
-  const base64 = await convertToBase64(file);
 
-    const name = e.target.name;
-    setUpdatedUser({
-      ...updatedUser,
-      [name]: base64,
-    });
-    if(name === 'profilePicture') {
-      setUser({
-        ...user,
-        profilePicture: base64,
-      })
-    } else if(name === 'coverPhoto') {
-      setUser({
-        ...user,
-        coverPhoto: base64,
-      })
-    }
+  const name = e.target.name;
+  setUpdatedUser({
+    ...updatedUser,
+    [name]: file,
+  });
+
+  setUser({
+    ...user,
+    [name]: file,
+  });
 };
-const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
+
+const [sessionToken, setSessionToken] = useState(localStorage.getItem('token'))
 
 const getUserId = () => {
   if (!sessionToken) return null;
@@ -148,13 +190,6 @@ const getUserId = () => {
       console.log(`err decoding`, err);
   }
 } 
-
-useEffect(() => {
-  if (redirectToProfile) {
-    const userId = getUserId();
-    navigate(`/profile/${userId}`)
-  }
-}, [redirectToProfile, navigate])
 
 const handleBackArrow = async (e) => {
   const userId = getUserId();
@@ -183,11 +218,11 @@ const handleBackArrow = async (e) => {
         onChange={handleUpdateFile}
       />
 
-      {user.coverPhoto ? (
+      { user.coverPhoto ? (
         <div>
           <label htmlFor='cover-upload'>
           <img  
-            src={user.coverPhoto}
+            src={ !updatedUser.coverPhoto ?  user.coverPhoto : URL.createObjectURL(user.coverPhoto)}
             alt='Cover'
             loading='lazy'
             id='updated-cover-preview'
@@ -210,13 +245,13 @@ const handleBackArrow = async (e) => {
         id='profile-upload'
         accept='.jpeg, .jpg, .png'
         onChange={handleUpdateFile}
-        />
+      />
 
       {user.profilePicture ? (
         <div>
           <label htmlFor='profile-upload'>
             <img 
-              src={user.profilePicture}
+              src={ !updatedUser.profilePicture ? user.profilePicture : URL.createObjectURL(user.profilePicture)}
               alt='Profile'
               loading='lazy'
               id='updated-profile-preview'
@@ -233,7 +268,7 @@ const handleBackArrow = async (e) => {
       )
       }
 
-        <div id="emailDiv">
+      <div id="emailDiv">
         {/* <label htmlFor="emailInput">Email Address:</label> */}
         <TextField 
           required={true} 
@@ -245,7 +280,7 @@ const handleBackArrow = async (e) => {
           label="Email"
           placeholder="Enter your email here." 
           style={{marginBottom: "1em"}}
-          value={updatedUser.email}
+          value={user.email}
           onChange={handleUpdate}
         />
         </div>
@@ -260,7 +295,7 @@ const handleBackArrow = async (e) => {
           id="bandNameInput" 
           label="Band Name"
           placeholder="Enter your band's name here." 
-          value={updatedUser.bandName}
+          value={user.bandName}
           style={{marginBottom: "1em"}} 
           onChange={handleUpdate}
         />
@@ -277,7 +312,7 @@ const handleBackArrow = async (e) => {
           label="Contact Name"
           placeholder="Enter your main contact's name here."
           style={{marginBottom: "1em"}}
-          value={updatedUser.contactName}
+          value={user.contactName}
           onChange={handleUpdate}
         />
         </div> 
@@ -291,7 +326,7 @@ const handleBackArrow = async (e) => {
           id="locationInput" placeholder="Enter your location here."
           label="Location"
           style={{marginBottom: "1em"}}
-          value={updatedUser.location}
+          value={user.location}
           onChange={handleUpdate}
         />
         </div>
@@ -305,7 +340,7 @@ const handleBackArrow = async (e) => {
           className="editProfileInput"
           id="genreInput"
           name='genre'
-          value={updatedUser.genre} 
+          value={user.genre} 
           onChange={handleUpdate} 
           label="Genre"
           style={{marginBottom: "1em"}}>
@@ -343,7 +378,7 @@ const handleBackArrow = async (e) => {
           fullWidth={true}
           select={true}
           className="editProfileInput"
-          value={updatedUser.additionGenre} 
+          value={user.additionGenre} 
           name='additionGenre'
           onChange={handleUpdate} 
           id="additionGenreInput"
@@ -389,7 +424,7 @@ const handleBackArrow = async (e) => {
           id="bioInput" placeholder="Enter your short bio here."
           label="Bio"
           style={{marginBottom: "1em"}}
-          value={updatedUser.bio}
+          value={user.bio}
           onChange={handleUpdate}
         />
         </div>
@@ -403,7 +438,7 @@ const handleBackArrow = async (e) => {
           id="youtubeInput" placeholder="Link to a YouTube channel/video here."
           label="YouTube"
           style={{marginBottom: "1em"}}
-          value={updatedUser.socials.youtube}
+          value={user.socials.youtube}
           onChange={handleUpdate}
         />
         </div>
@@ -417,7 +452,7 @@ const handleBackArrow = async (e) => {
           id="spotifyInput" placeholder="Link to your Spotify page here."
           label="Spotify"
           style={{marginBottom: "1em"}}
-          value={updatedUser.socials.spotify}
+          value={user.socials.spotify}
           onChange={handleUpdate}
         />
         </div>
@@ -431,7 +466,7 @@ const handleBackArrow = async (e) => {
           id="soundCloudInput" placeholder="Link to your SoundCloud here."
           label="SoundCloud"
           style={{marginBottom: "1em"}}
-          value={updatedUser.socials.soundCloud}
+          value={user.socials.soundCloud}
           onChange={handleUpdate}
         />
         </div>
@@ -444,7 +479,7 @@ const handleBackArrow = async (e) => {
           name="instagram" 
           id="instagramInput" placeholder="Link to your Instagram here."
           label="Instagram"
-          value={updatedUser.socials.instagram}
+          value={user.socials.instagram}
           onChange={handleUpdate}
         />
         </div>
@@ -463,4 +498,4 @@ const handleBackArrow = async (e) => {
   )
 }
 
-export default EditProfile
+export default EditProfile;
