@@ -19,6 +19,11 @@ function LocationMarker({ location, setLocation, mileRadius }) {
         })
     }, []);
 
+    const validateRadius = useMemo(() => {
+        const radiusValue = parseFloat(mileRadius);
+        return isNaN(radiusValue) || radiusValue <=0 ? 0 : radiusValue;
+    }, [mileRadius])
+
     return (
         <LayersControl position="topright">
             <Marker
@@ -32,7 +37,7 @@ function LocationMarker({ location, setLocation, mileRadius }) {
                 </Popup>
             </Marker>
             <LayersControl.Overlay name="Miles Radius">
-                <Circle center={location} radius={Number(mileRadius) * 1609.34} />
+                <Circle center={location} radius={Number(validateRadius) * 1609.34} />
             </LayersControl.Overlay>
         </LayersControl>
     )

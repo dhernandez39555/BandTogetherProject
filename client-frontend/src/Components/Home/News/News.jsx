@@ -51,7 +51,7 @@ function News() {
                 <h6 className='dateHeader'>{dayjs(result.createdAt).format("MM/DD/YYYY")}</h6>
               <div id="dateDiv">
                 <h2 className='titleHeader'>{result.title}</h2>
-                <p className='bandNameHeader'>{`by: ${result.user.bandName}`}</p>
+                <p className='bandNameHeader'>{`Posted by: ${result.user.bandName}`}</p>
               </div>
               <div>
                 <p className='messageBodyHeader' onClick={e=> setSinglePost(result)}>{result.body}</p>
