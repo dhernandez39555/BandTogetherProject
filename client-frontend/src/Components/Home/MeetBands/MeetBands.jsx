@@ -226,8 +226,8 @@ function MeetBands() {
                             <p>{user.location}</p>
                             <p>{user.distance !== undefined ? `${convertKmToMiles(user.distance).toFixed(2)} miles away` : "Distance: N/A"}</p>
                             <div id="meet-btns">
-                                <Link to={`/profile/${user._id}`}><span>Profile</span></Link>
-                                <Link to={`/messaging/${user._id}`}><span>Message</span></Link>
+                                <Link to={`/profile/${user._id}`}><button>Profile</button></Link>
+                                <Link to={`/messaging/${user._id}`}><button>Message</button></Link>
                             </div>
                         </div>
                     </div>

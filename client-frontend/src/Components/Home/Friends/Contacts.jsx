@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './contacts.css';
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,7 +7,7 @@ import { IconButton, TextField } from '@mui/material';
 
 function Contacts() {
     const navigate = useNavigate();
-    const [ contacts, setContacts ] = useState([]);
+    const allContacts = useRef([]);
     const [ filteredContacts, setFilteredContacts ] = useState([]);
     const [ openForm, setOpenForm] = useState(false);
 
@@ -25,8 +25,8 @@ function Contacts() {
         fetch("http://127.0.0.1:4000/user", options)
             .then(res => res.json())
             .then(data => {
-                setContacts(data.foundUser.friendList)
-                setFilteredContacts(data.foundUser.friendList)
+                allContacts.current = data.foundUser.friendList;
+                setFilteredContacts(allContacts.current)
             })
             .catch(err => console.log(err));
     }, []);
@@ -50,19 +50,18 @@ function Contacts() {
             .then(data => {
                 if (data.error) throw Error (data.error);
                 console.log(data.newContact);
-                setContacts([...contacts, data.newContact]);
-                setFilteredContacts([...contacts, data.newContact]);
+                allContacts.current.push(data.newContact);
+                setFilteredContacts([...data.newContact]);
                 setOpenForm(false);
             })
-            .then(console.log(filteredContacts))
             .catch(err => console.log(err.message));
     }
 
     const filterContacts = e => {
         setNewContact(e.target.value);
-        const names = contacts.map(b => b.bandName.toLowerCase());
+        const names = allContacts.current.map(b => b.bandName.toLowerCase());
         const filteredNames = names.filter(b => b.includes(e.target.value.toLowerCase()));
-        const newNames = contacts.filter(contact => filteredNames.includes(contact.bandName.toLowerCase()));
+        const newNames = allContacts.current.filter(contact => filteredNames.includes(contact.bandName.toLowerCase()));
         setFilteredContacts(newNames);
     }
 

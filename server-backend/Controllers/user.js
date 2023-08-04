@@ -23,7 +23,8 @@ router.get("/all", async (req, res) => {
 // * GET Current Logged In User by sessionValidation * //
 router.get("/", async (req, res) => {
     try {
-        const foundUser = await User.findOne({ _id: req.user }).populate("friendList");
+        const foundUser = await User.findOne({ _id: req.user }, "friendList").populate("friendList", "bandName profilePicture");
+
         if (!foundUser) throw Error("User not signed in.");
 
         res.status(200).json({

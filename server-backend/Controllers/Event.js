@@ -28,9 +28,10 @@ router.post("/", async (req,res) => {
         });
     }
 })
+
 router.get("/all", async (req,res)=>{
     try{
-        const allEvents = await Event.find({eventDate: { $gte: Date.now() } }).populate("user",{password:0}).sort({ eventDate: "ascending" })
+        const allEvents = await Event.find({eventDate: { $gte: Date.now() } }).populate("user", "bandName").sort({ eventDate: "ascending" })
         allEvents.length===0||!allEvents?Error("no events found"):null
         res.status(200).json(allEvents)
     } catch(err){
@@ -40,44 +41,44 @@ router.get("/all", async (req,res)=>{
     }
 })
 
-router.get("/all", async (req,res)=>{
-    try{
-        const allEvents=await Event.find({}).populate("user",{password:0})
-        res.status(200).json({
-            allEvents
-        })
-    } catch(err){
-        res.status(500).json({
-            message:err.message
-        })
-    }
-})
+// router.get("/all", async (req,res)=>{
+//     try{
+//         const allEvents=await Event.find({}).populate("user", "bandName")
+//         res.status(200).json({
+//             allEvents
+//         })
+//     } catch(err){
+//         res.status(500).json({
+//             message:err.message
+//         })
+//     }
+// })
 
-router.get("/all", async (req,res)=>{
-    try{
-        const allEvents=await Event.find({}).populate("user",{password:0})
-        res.status(200).json({
-            allEvents
-        })
-    } catch(err){
-        res.status(500).json({
-            message:err.message
-        })
-    }
-})
+// router.get("/all", async (req,res)=>{
+//     try{
+//         const allEvents=await Event.find({}).populate("user",{password:0})
+//         res.status(200).json({
+//             allEvents
+//         })
+//     } catch(err){
+//         res.status(500).json({
+//             message:err.message
+//         })
+//     }
+// })
 
-router.get("/all", async (req,res)=>{
-    try{
-        const allEvents=await Event.find({}).populate("user",{password:0})
-        res.status(200).json({
-            allEvents
-        })
-    } catch(err){
-        res.status(500).json({
-            message:err.message
-        })
-    }
-})
+// router.get("/all", async (req,res)=>{
+//     try{
+//         const allEvents=await Event.find({}).populate("user",{password:0})
+//         res.status(200).json({
+//             allEvents
+//         })
+//     } catch(err){
+//         res.status(500).json({
+//             message:err.message
+//         })
+//     }
+// })
 
 router.get("/:event_id", async (req, res) => {
     try {
