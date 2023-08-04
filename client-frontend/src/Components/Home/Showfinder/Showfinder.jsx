@@ -60,9 +60,9 @@ function Showfinder() {
   // Custom setLocation fx
   const setFilterLocation = (newLocation) => {
     _setFilterLocation(newLocation);
-    const closeByEvents = getDistanceFromEvent(allEvents.current, newLocation);
-    allEvents.current = closeByEvents;
-    setFilterEvents(closeByEvents.filter(event => convertKmToMiles(event.distance) < mileFilter.current));
+    const allEventsWithDistance = getDistanceFromEvent(allEvents.current, newLocation);
+    allEvents.current = allEventsWithDistance;
+    setFilterEvents(allEvents.current.filter(event => convertKmToMiles(event.distance) < mileFilter.current));
   }
 
   //DELETE function
@@ -223,7 +223,7 @@ function Showfinder() {
             { event.user._id === getUserId()
               ? 
               <>
-                <button className='editBtn' onClick={e => {setupEditForm(event)}}>Edit</button>
+                <button className='editBtn' onClick={e =>{setupEditForm(event);setIsMap(false)}}>Edit</button>
                 <button className='deleteBtn' onClick={e=>{deleteEvent(event._id)}}>Delete</button>
               </>
               :
@@ -268,18 +268,17 @@ function Showfinder() {
         if (isEdit) {
           const updatedIndex = allEvents.current.findIndex(event => event._id == editID);
           let editedEvent = allEvents.current[updatedIndex];
-          data.eventUpdates.title ? editedEvent.title = data.postUpdates.title : null;
-          data.eventUpdates.body ? editedEvent.body = data.postUpdates.body : null;
-          data.eventUpdates.eventDate ? editedEvent.eventDate = data.postUpdates.eventDate : null;
-          data.eventUpdates.genre ? editedEvent.genre = data.postUpdates.genre : null;
-          data.eventUpdates.user  ? editedEvent.user = data.postUpdates.user : null;
-          data.eventUpdates.location  ? editedEvent.location = data.postUpdates.location : null;
-          data.eventUpdates.latitude ? editedEvent.latitude = data.postUpdates.latitude : null;
-          data.eventUpdates.longitude ? editedEvent.longitude = data.postUpdates.longitude : null;
-          console.log(editedEvent);
+          if (data.eventUpdates.title) editedEvent.title = data.eventUpdates.title;
+          if (data.eventUpdates.body) editedEvent.body = data.eventUpdates.body;
+          if (data.eventUpdates.genre) editedEvent.genre = data.eventUpdates.genre;
+          if (data.eventUpdates.user)  editedEvent.user = data.eventUpdates.user;
+          if (data.eventUpdates.location)  editedEvent.location = data.eventUpdates.location;
+          if (data.eventUpdates.latitude) editedEvent.latitude = data.eventUpdates.latitude;
+          if (data.eventUpdates.longitude) editedEvent.longitude = data.eventUpdates.longitude;
+          if (data.eventUpdates.eventDate) editedEvent.eventDate = dayjs(data.eventUpdates.eventDate);
           setFilterLocation(filterLocation);
         } else {
-          allEvents.current = [ data.newEvent, allEvents.current ];
+          allEvents.current = [ data.newEvent, ...allEvents.current ];
           setFilterLocation(filterLocation);
         }
       })
@@ -295,7 +294,7 @@ function Showfinder() {
     setPostBody({
       title: event.title,
       body: event.body,
-      eventDate: event.eventDate,
+      eventDate: dayjs(event.eventDate),
       genre: event.genre,
       user: event.user,
       location: event.location,
@@ -440,6 +439,7 @@ function Showfinder() {
             <div id="post-form-wrapper">
               <div id="post-form">
                 <TextField
+                  className="filter-input"
                   type="text"
                   name="title"
                   label="Event Title"
@@ -448,14 +448,42 @@ function Showfinder() {
                   placeholder='Event title'
                 />
                 <TextField
-                  type="text"
+                  className="filter-input"
+                  select={true}
                   name="genre"
                   label="Event Genre"
                   value={ postBody.genre }
                   onChange={ e => updatePostBody(e) }
-                  placeholder='Event genre'
-                />
+                  fullWidth={true}
+              >
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value={"Country"}>Country</MenuItem>
+                  <MenuItem value={"Rock"}>Rock</MenuItem>
+                  <MenuItem value={"Folk"}>Folk</MenuItem>
+                  <MenuItem value={"Indie"}>Indie</MenuItem>
+                  <MenuItem value={"Jazz"}>Jazz</MenuItem>
+                  <MenuItem value={"Blues"}>Blues</MenuItem>
+                  <MenuItem value={"Bluegrass"}>Bluegrass</MenuItem>
+                  <MenuItem value={"Metal"}>Metal</MenuItem>
+                  <MenuItem value={"Punk"}>Punk</MenuItem>
+                  <MenuItem value={"Hip Hop"}>Hip Hop</MenuItem>
+                  <MenuItem value={"R&B"}>R&B</MenuItem>
+                  <MenuItem value={"Latin"}>Latin</MenuItem>
+                  <MenuItem value={"Electronic"}>Electronic</MenuItem>
+                  <MenuItem value={"Experimental"}>Experimental</MenuItem>
+                  <MenuItem value={"Reggae"}>Reggae</MenuItem>
+                  <MenuItem value={"Alternative"}>Alternative</MenuItem>
+                  <MenuItem value={"Dance"}>Dance</MenuItem>
+                  <MenuItem value={"Ambient"}>Ambient</MenuItem>
+                  <MenuItem value={"Gospel"}>Gospel</MenuItem>
+                  <MenuItem value={"Ska"}>Ska</MenuItem>
+                  <MenuItem value={"Pop"}>Pop</MenuItem>
+                  <MenuItem value={"Orchestral"}>Orchestral</MenuItem>
+                  <MenuItem value={"Psychedelic"}>Psychedelic</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
+              </TextField>
                 <DateTimePicker
+                  className="filter-input"
                   id="datePicker"
                   disablePast={true}
                   name="eventDate"
@@ -464,6 +492,7 @@ function Showfinder() {
                   onChange={ e => updatePostBody(e) }
                 />
                 <TextField
+                  className="filter-input"
                   type="text"
                   name="body"
                   multiline
@@ -474,6 +503,7 @@ function Showfinder() {
                   placeholder='Event description'
                 />
                 <TextField
+                  className="filter-input"
                   type="text"
                   name="location"
                   label="Event Location"
