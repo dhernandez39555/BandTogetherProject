@@ -346,8 +346,10 @@ function Register({ updateLocalStorage }) {
                     id="bioInput"
                     placeholder="Enter your short bio here."
                     style={{marginBottom: "1em"}}
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">{bioLength}/120</InputAdornment>,
+                    }}
                     onChange={handleBio}/>
-                    <p>{bioLength}/120</p>
                 </div>
 
                 <div>
