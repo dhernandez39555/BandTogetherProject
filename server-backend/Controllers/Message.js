@@ -20,9 +20,7 @@ router.get("/all", async (req, res) => {
             ]
         })
         .sort({ createdAt: -1 })
-        .populate("sender receiver")
-        .exec();
-
+        .populate("sender receiver", "bandName profilePicture")
         
         const sortedMessages = allMessages.reduce((groupMessages, message) => {
             const otherUser = message.sender._id.equals(user_id) ? message.receiver : message.sender;
@@ -30,6 +28,7 @@ router.get("/all", async (req, res) => {
             groupMessages[otherUser._id].push(message);
             return groupMessages
         }, {});
+
 
         res.status(200).json({
             message: "all messages",
@@ -46,27 +45,25 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
     try{
         const { _id }=req.params
         const findAll=await Message.find({ 
-            $or: 
-            [{sender: req.user._id}, 
-            {receiver: req.user._id}]
+            $and: [
+                { $or: [{ sender: req.user._id}, { receiver: req.user._id }] },
+                { $or: [{ sender: _id }, { receiver: _id }] }
+            ]
         })
         .sort({ createdAt: 1 })
-        .populate("sender receiver", { password: 0 })
+        .populate("sender receiver", "bandName" );
 
-        const filteredMessages = findAll.filter(find => find.sender._id.equals(_id) || find.receiver._id.equals(_id))
-        // filteredMessages===0?Error("You do not have any messages from that user"):null
-
-        if (filteredMessages.length === 0) {
+        if (findAll.length === 0) {
             const newMessage = await new Message({
                 sender: req.user._id,
                 receiver: _id,
-                body: "started conversation"
-            }).populate("sender receiver", { password: 0 });
-            filteredMessages.push(newMessage);
+                body: "start conversation"
+            }).populate("sender receiver", "bandName" );
+            findAll.push(newMessage);
         }
         
-        res.status(200).json(filteredMessages)
-    } catch (err){
+        res.status(200).json(findAll)
+    } catch (err) {
         res.status(500).json({
             message: err.message
         })
@@ -83,7 +80,7 @@ router.post("/makePostTo/:_id", async (req,res)=>{
         !findOne?Error("No users by that name exist"):null
 
         const newMessage=await new Message({sender: req.user._id, receiver: _id, body})
-            .populate("sender receiver", { password: 0 });
+            .populate("sender receiver", "bandName profilePicture" );
         
         await newMessage.save()
 
