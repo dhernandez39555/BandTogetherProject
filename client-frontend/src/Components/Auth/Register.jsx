@@ -332,7 +332,6 @@ function Register({ updateLocalStorage }) {
                 </TextField>
                 </div>
 
-                
                 <div>
                 {/* <label htmlFor="bioInput">Bio:</label> */}
                 <TextField
