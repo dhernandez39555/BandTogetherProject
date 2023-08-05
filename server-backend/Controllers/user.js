@@ -4,7 +4,7 @@ const User = require("../Models/User");
 // * GET all users except own * //
 router.get("/all", async (req, res) => {
     try {
-        const foundUsers = await User.find({ _id: { $ne: req.user._id } }).select("-coverPhoto -profilePicture");
+        const foundUsers = await User.find({ _id: { $ne: req.user._id } });
         console.log(foundUsers);
         
         if (foundUsers.length === 0) throw Error("Not users found");

@@ -65,6 +65,7 @@ function Sidebar() {
     fetch("http://localhost:4000/user", options)
       .then(res => res.json())
       .then(data => setLoggedInUser(data.foundUser));
+      
   }, []);
 
   useEffect(()=>{
