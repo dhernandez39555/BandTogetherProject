@@ -1,0 +1,68 @@
+#coverPhotoImage {
+    width: 100%;
+    max-height: 10em;
+    object-fit: cover;
+}
+
+#profilePhotoImage {
+    max-height: 7em;
+    max-width: 7em;
+    height: 7em;
+    width: 7em;
+    border-radius: 100%; 
+    position: relative;
+    bottom: 4em;
+    left: 3em;
+}
+
+#bandNameBioDiv {
+    position: relative; 
+    bottom: 4em; 
+    left: 3em; 
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+.addFriendParagraph {
+    display: flex;
+    align-items: center;
+    font: arial;
+    font-size: medium;
+    margin-top: .5em; 
+    margin-bottom: .5em; 
+}
+
+#friendParagraph {
+    cursor: pointer;
+}
+
+#editProfileDiv {
+    background-color: #7E12b3;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#editProfileButton {
+    width: 70%; 
+    height: 3em;
+    border: 2px solid black; 
+}
+
+#messageButton {
+    width: 70%;
+    height: 3em; 
+    border: 2px solid black;
+}
+
+#socialMediaDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.socialIcons {
+    height: 4em;
+    width: 4em; 
+    margin: .8em
+}

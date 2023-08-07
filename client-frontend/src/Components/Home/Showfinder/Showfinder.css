@@ -1,0 +1,95 @@
+#event-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+}
+
+#event-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+}
+
+.event-post {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.event-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    border-radius: 5px;
+    background-color:white;
+}
+
+#event-texts > p {
+    font-size: 1em;
+}
+
+.titleEach{
+    color: #7E12B3;
+}
+
+.bodyEach{
+    flex-wrap: wrap;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+#selectBtns{
+    display: flex;
+    justify-content: space-around;
+    gap: 1em;
+}
+
+#post-form-wrapper {
+    width: 100%;
+    background-color: #EEEDED;
+}
+
+#post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#event-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+#post-form > button {
+    align-self: center;
+}
+
+#close-map-btn {
+    margin: 0 auto;
+}
+
+.meet-preview-profile {
+    overflow: hidden;
+}
+
+.event-subtitle {
+    display: flex;
+    color: #888;
+    justify-content: space-between;
+}
+
+.MuiDateTimePickerToolbar-ampmSelection > button,
+.MuiDateTimePickerToolbar-timeDigitsContainer > button,
+.MuiPickersCalendarHeader-labelContainer > button,
+.MuiPickersArrowSwitcher-root > button,
+.MuiInputAdornment-root > button {
+    height: inherit;
+    width: inherit;
+}

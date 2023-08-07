@@ -1,0 +1,30 @@
+#header,
+#footer {
+    position: sticky;
+    z-index: 2000;
+    background-color: #7E12b3;
+    height: 70px;
+}
+#footer{
+    position: fixed;
+    bottom: 0;
+}
+
+.nav-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1em;
+    height: 100%;
+}
+
+#header {
+    top: 0;
+}
+
+#footer {
+    z-index: 900;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

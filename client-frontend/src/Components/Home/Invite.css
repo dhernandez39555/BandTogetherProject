@@ -1,0 +1,41 @@
+#invite-component {
+    display: flex;
+    flex-direction: column;
+    margin: 2vh 10vw;
+    padding: 0;
+}
+#invite-banner {
+    font-family: inherit;
+    align-self: center;
+    font-size: 9vw;
+    margin-bottom: 5vh;
+    margin-top: 3vh;
+}
+.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root {
+    padding: 0;
+    margin: 0;
+}
+
+
+#email-text {
+    font-size: 5vw;
+    background-color: lightgray;
+}
+.email-message-invite{
+    font-size: 5vw;
+    background-color: lightgray;
+    
+}
+
+
+#invite-spacer {
+    height: 3vh;
+}
+#button-parent {
+    margin-top: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#invite-button {
+}

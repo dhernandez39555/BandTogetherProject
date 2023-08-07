@@ -1,0 +1,112 @@
+#posts-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+}
+
+.postWrapper {
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.renderContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.externalNav {
+    display: flex;
+    gap: 1em;
+}
+
+.dateHeader {
+    color: #888;
+    font-family: arial;
+    font-size: 1em;
+    text-align: left;
+}
+
+.post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 1em;
+}
+
+.bandNameHeader {
+    font-size: 1em;
+    color:#7E12B3;
+    font-weight: 500;
+}
+
+.postBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.titleHeader {
+    color: #7E12B3;
+    font-family: arial;
+    font-size: 2em;
+    word-wrap: normal;
+}
+
+.messageBodyHeader {
+    font-size: 1em;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+}
+
+.link-preview {
+    width: 100%;
+    background-color: lightgray;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.link-preview > img {
+    width: 100%;
+    vertical-align: middle;
+    max-height: 250px;
+    object-fit: cover;
+}
+
+.link-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.link-text > p {
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.fullscreen > .post-content > div > .messageBodyHeader {
+    text-overflow: inherit;
+    white-space: inherit;
+    display: -webkit-box;
+    /* overflow: hidden; */
+    -webkit-line-clamp: inherit;
+    -webkit-box-orient: inherit;
+}
