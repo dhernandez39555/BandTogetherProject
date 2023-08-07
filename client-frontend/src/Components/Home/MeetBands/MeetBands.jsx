@@ -18,7 +18,7 @@ function MeetBands() {
         _setLocation(newLocation);
         const closeByUsers = sortUsersByDistance(users.current, newLocation);
         users.current = closeByUsers;
-        setFilterUsers(closeByUsers.slice(0, 4).filter(user => convertKmToMiles(user.distance) < mileFilter.current));
+        setFilterUsers(closeByUsers.slice(0, 10).filter(user => convertKmToMiles(user.distance) < mileFilter.current));
     }
 
     useEffect(() => {
@@ -112,10 +112,10 @@ function MeetBands() {
     }
 
     const changeFilter = () => {
-        let sortedUsers = users.current.slice(0, 4);
+        let sortedUsers = users.current.slice(0, 10);
         if (isNaN(Number(mileFilter.current))) setFilterUsers(sortedUsers);
-        if (mileFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(mileFilter.current)).slice(0, 4);
-        if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 4);
+        if (mileFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(mileFilter.current)).slice(0, 10);
+        if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 10);
         setFilterUsers(sortedUsers);
     }
 
