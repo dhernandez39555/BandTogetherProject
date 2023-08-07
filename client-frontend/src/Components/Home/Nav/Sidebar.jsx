@@ -14,26 +14,26 @@ function Sidebar() {
 
   const navigate=useNavigate()
 
-    const handleIsOpen=(e)=>{
-      if (e.target.id === "side-wrap"
-          || e.target.id === "sidebar"
-          || e.target.id === ""
-          && e.target.parentNode.id !== "toggle-side-btn"
-        ) return;
-      setIsOpen(!isOpen)
-    }
+  const handleIsOpen=(e)=>{
+    if (e.target.id === "side-wrap"
+        || e.target.id === "sidebar"
+        || e.target.id === ""
+        && e.target.parentNode.id !== "toggle-side-btn"
+      ) return;
+    setIsOpen(!isOpen)
+  }
 
-    const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
+  const [sessionToken, setSessionToken] =useState(localStorage.getItem('token'))
 
-    const getUserId = () => {
-      if (!sessionToken) return null;
-      try {
-          const decodedToken = jwtDecode(sessionToken);
-          return decodedToken._id;
-      } catch (err) {
-          console.log(`err decoding`, err);
-      }
+  const getUserId = () => {
+    if (!sessionToken) return null;
+    try {
+        const decodedToken = jwtDecode(sessionToken);
+        return decodedToken._id;
+    } catch (err) {
+        console.log(`err decoding`, err);
     }
+  }
 
   function deleteAccount(){
     const resp=window.confirm("Are you sure you wish to delete your account?")
@@ -53,19 +53,20 @@ function Sidebar() {
     }
   }
 
-  // useEffect(() => {
-  //   const options = {
-  //     method: "GET",
-  //     headers: new Headers({
-  //       "Content-Type": "application/json",
-  //       "authorization": sessionToken
-  //     })
-  //   }
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "authorization": sessionToken
+      })
+    }
 
-  //   fetch("http://localhost:4000/user", options)
-  //     .then(res => res.json())
-  //     .then(data => setLoggedInUser(data.foundUser));
-  // }, []);
+    fetch("http://localhost:4000/user", options)
+      .then(res => res.json())
+      .then(data => setLoggedInUser(data.foundUser));
+      
+  }, []);
 
   useEffect(()=>{
     if(!sessionToken){setTimeout(navigate("/welcome"),1000)}
@@ -94,8 +95,7 @@ function Sidebar() {
         <div id="sidebar" className={isOpen ? "slide-out" : "slide-in"}>
           <div id="side-wrap">
             <div id="side-img-container">
-              {/* <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" /> */}
-              <img src={"/assets/blank.png"} alt="profile-pic" />
+              <img src={loggedInUser.profilePicture ? loggedInUser.profilePicture : "/blank.png"} alt="profile-pic" />
             </div>
             <h1>{ loggedInUser.bandName ? loggedInUser.bandName : "Loading" }</h1>
             <div className="line"></div>
