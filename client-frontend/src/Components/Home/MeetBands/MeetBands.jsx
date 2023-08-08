@@ -113,11 +113,9 @@ function MeetBands() {
 
     const changeFilter = () => {
         let sortedUsers = users.current.slice(0, 10);
-        console.log(genreFilter);
         if (isNaN(Number(mileFilter.current))) setFilterUsers(sortedUsers);
         if (mileFilter.current !== "") sortedUsers = sortedUsers.filter(user => convertKmToMiles(user.distance.toFixed(2)) < Number(mileFilter.current)).slice(0, 10);
         if (genreFilter.current !== "") sortedUsers = sortedUsers.filter(user => user.genre === genreFilter.current).slice(0, 10);
-        console.log(sortedUsers);
         setFilterUsers(sortedUsers);
     }
 
