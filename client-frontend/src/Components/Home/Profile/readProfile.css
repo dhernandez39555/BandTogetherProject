@@ -9,6 +9,7 @@
     max-width: 7em;
     height: 7em;
     width: 7em;
+    object-fit: cover;
     border-radius: 100%; 
     position: relative;
     bottom: 4em;
