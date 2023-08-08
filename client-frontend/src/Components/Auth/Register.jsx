@@ -88,7 +88,6 @@ function Register({ updateLocalStorage }) {
                 },
                 body: profilePicture
             }).then(res => console.log(res));
-    
             const imgUrl = uploadUrl.split("?")[0];
             profilePictureUrl = imgUrl;
         }
