@@ -51,14 +51,14 @@ router.get("/readAllFrom/:_id", async (req,res)=>{
             ]
         })
         .sort({ createdAt: 1 })
-        .populate("sender receiver", "bandName" );
+        .populate("sender receiver", "bandName profilePicture" );
 
         if (findAll.length === 0) {
             const newMessage = await new Message({
                 sender: req.user._id,
                 receiver: _id,
                 body: "start conversation"
-            }).populate("sender receiver", "bandName" );
+            }).populate("sender receiver", "bandName profilePicture" );
             findAll.push(newMessage);
         }
         

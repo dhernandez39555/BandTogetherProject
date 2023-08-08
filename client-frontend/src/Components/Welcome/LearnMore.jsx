@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from "@mui/material"
 import "./LearnMore.css"
 import { useNavigate } from 'react-router-dom'
-import note from "../assets/8thnote.png";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'; 
 
 function LearnMore() {
@@ -15,7 +14,7 @@ function LearnMore() {
             onClick={() => navigate(`/welcome`)}/>
         <div id="title-container">
                 <h1 id='title-headline'>BandTogether</h1>
-                <img id="title-icon" src={note} alt="note" />
+                <img id="title-icon" src={'/assets/8thnote.png'} alt="note" />
                 <div id="title-underline">
                   <h2>Build relationships.<br/>Book shows.</h2>
                 </div>

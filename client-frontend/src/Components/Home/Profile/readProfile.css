@@ -1,6 +1,7 @@
 #coverPhotoImage {
     width: 100%;
     max-height: 10em;
+    object-fit: cover;
 }
 
 #profilePhotoImage {

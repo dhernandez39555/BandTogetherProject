@@ -223,7 +223,7 @@ function Showfinder() {
             { event.user._id === getUserId()
               ? 
               <>
-                <button className='editBtn' onClick={e =>{setupEditForm(event);setIsMap(false)}}>Edit</button>
+                <button className='editBtn' onClick={e =>{setupEditForm(event);setOpenFilter(false)}}>Edit</button>
                 <button className='deleteBtn' onClick={e=>{deleteEvent(event._id)}}>Delete</button>
               </>
               :

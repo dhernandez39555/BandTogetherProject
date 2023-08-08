@@ -75,6 +75,10 @@
     margin: 0 auto;
 }
 
+.meet-preview-profile {
+    overflow: hidden;
+}
+
 .event-subtitle {
     display: flex;
     color: #888;
