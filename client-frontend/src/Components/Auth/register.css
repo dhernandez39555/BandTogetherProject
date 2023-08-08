@@ -47,8 +47,8 @@
     border: 1px solid black;
     border-radius: 100%;
     overflow: hidden;
-    height: 80px;
-    width: 80px;
+    height: 160px;
+    width: 160px;
     background-color: lightgray;
     margin: 0 auto;
     position: relative;
@@ -61,6 +61,8 @@
 
 #preview-profile-pic > img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 #addAPhotoDiv {

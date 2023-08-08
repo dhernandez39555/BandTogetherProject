@@ -18,7 +18,7 @@ function MeetBands() {
         _setLocation(newLocation);
         const closeByUsers = sortUsersByDistance(users.current, newLocation);
         users.current = closeByUsers;
-        setFilterUsers(closeByUsers.slice(0, 10).filter(user => convertKmToMiles(user.distance) < mileFilter.current));
+        changeFilter();
     }
 
     useEffect(() => {
