@@ -12,7 +12,7 @@ const s3 = new aws.S3({
     AWS_SECRET_ACCESS_KEY,
     signatureVersion: "v4"
 });
-
+console.log(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 const generateUrl = async () => {
     const rawBytes = await crypto.randomBytes(16);
     const imgName = rawBytes.toString("hex");
@@ -20,7 +20,7 @@ const generateUrl = async () => {
     const params = {
         Bucket: bucketName,
         Key: imgName,
-        Expires: 15
+        Expires: 600
     }
 
     return await s3.getSignedUrlPromise("putObject", params);
