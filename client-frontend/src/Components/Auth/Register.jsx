@@ -107,7 +107,7 @@ function Register({ updateLocalStorage }) {
             const imgUrl = uploadUrl.split("?")[0];
             coverPhotoUrl = imgUrl;
         }
-
+        
         const socials = { youtube, spotify, soundCloud, instagram }
 
         const body = { profilePicture: profilePictureUrl, coverPhoto: coverPhotoUrl, email, password, bandName, contactName, 
