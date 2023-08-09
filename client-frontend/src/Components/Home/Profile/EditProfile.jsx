@@ -106,9 +106,13 @@ function EditProfile() {
 
     putBody.socials = {};
     if (updatedUser.socials.youtube !== "") putBody.socials.youtube = updatedUser.socials.youtube;
+    else putBody.socials.youtube = user.socials.youtube;
     if (updatedUser.socials.spotify !== "") putBody.socials.spotify = updatedUser.socials.spotify;
+    else putBody.socials.spotify = user.socials.spotify;
     if (updatedUser.socials.soundCloud !== "") putBody.socials.soundCloud = updatedUser.socials.soundCloud;
+    else putBody.socials.soundCloud = user.socials.soundCloud;
     if (updatedUser.socials.instagram !== "") putBody.socials.instagram = updatedUser.socials.instagram;
+    else putBody.socials.instagram = user.socials.instagram;
 
     if (updatedUser.profilePicture !== "") {
       const uploadUrl = await fetch(s3Url).then(res => res.json());

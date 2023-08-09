@@ -439,6 +439,7 @@ function Showfinder() {
             <div id="post-form-wrapper">
               <div id="post-form">
                 <TextField
+                  id="event-title"
                   className="filter-input"
                   type="text"
                   name="title"
@@ -448,6 +449,7 @@ function Showfinder() {
                   placeholder='Event title'
                 />
                 <TextField
+                  id="event-genre"
                   className="filter-input"
                   select={true}
                   name="genre"
@@ -492,6 +494,7 @@ function Showfinder() {
                   onChange={ e => updatePostBody(e) }
                 />
                 <TextField
+                  id="event-body"
                   className="filter-input"
                   type="text"
                   name="body"
