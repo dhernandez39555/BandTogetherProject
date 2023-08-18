@@ -36,7 +36,6 @@ function News() {
   })
 
   const [ singlePost, setSinglePost ] = useState(null);
-
   const [ postBox, setPostBox ]=useState(false)
   const [ isEdit, setIsEdit ]=useState(false)
 

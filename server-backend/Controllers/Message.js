@@ -131,6 +131,9 @@ router.put("/deleteAt/:message_id/", async (req,res)=>{
         })
     }
 })
+
+//TODO delete all msg by deleted user
+
 module.exports = router;
 
 

@@ -187,7 +187,7 @@ router.put("/", async (req, res) => {
     }
 });
 
-// * DELETE Current User by sessionValidation * //
+// * DELETE Current User (and anywhere they are added) by sessionValidation * //
 router.delete("/", async (req, res) => {
     try {
         const deleteUser = await User.deleteOne(req.user._id);
