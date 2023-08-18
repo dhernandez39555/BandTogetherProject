@@ -19,7 +19,7 @@ const generateUrl = async () => {
     const params = {
         Bucket: bucketName,
         Key: imgName,
-        Expires: 600
+        Expires: 60
     }
 
     return await s3.getSignedUrlPromise("putObject", params);
